@@ -1,0 +1,28 @@
+:host /deep/ .mat-chip-list-wrapper {
+	margin: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+    margin-bottom: 1.5em;
+
+    .mat-chip {
+    	cursor: pointer;
+    }
+}
+
+.collections {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+
+
+@media (max-width: 1280px) {
+
+	.collections {
+		width: 100%;		
+		flex-direction: column;
+	}
+}

@@ -1,0 +1,26 @@
+.example-fill-remaining-space {  
+  flex: 1 1 auto;
+}
+
+img {
+	margin: 0 4px 3px 0;
+}
+
+@media (max-width: 768px) {
+	.top-nav {
+		padding: 0 8px;
+	}
+	.logo {
+		padding: 0 8px;
+	}
+	.user {
+		padding: 0 8px;
+	 	min-width: 0;
+	 	img {
+	 		margin: 0;
+	 	}
+	 	span {
+	 		display: none;
+	 	}
+	 }
+}

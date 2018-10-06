@@ -1,0 +1,8 @@
+
+
+<div [ngClass]="{'dark': theme == 'dark', 'candy': theme == 'candy'}">
+  <app-top-nav (changedTheme)="onChanged($event)"></app-top-nav>  
+  <div class="mat-app-background">
+    <router-outlet *ngIf="initialized$ | async"></router-outlet>    
+  </div>
+</div>

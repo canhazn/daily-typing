@@ -1,0 +1,18 @@
+<div class="dialog">
+	<div mat-dialog-content>
+		<mat-form-field class="example-full-width">
+			<input #name matInput (keyup.enter)="changeName(name.value)" [value]="collection.name">
+		</mat-form-field>
+	</div>
+	<div mat-dialog-actions>
+		<!-- <button mat-button [mat-dialog-close]="collection">No thank</button> -->
+		<button (click)="deleteCollection()" mat-icon-button matTooltip="delete this collection" matTooltipPosition="right">
+			<mat-icon>delete_sweep</mat-icon>
+		</button>
+		
+		<span style="flex: 1 1 auto"></span>
+		<button mat-button (click)="changeName(name.value)" cdkFocusInitial>Ok</button>
+	</div>
+</div>
+<!--
+nên chuyển hai cái này riêng ra rồi làm auto focus cho new collection nữa, nút NO THANK nữa -->

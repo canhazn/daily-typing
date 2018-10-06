@@ -1,0 +1,11 @@
+<div mat-dialog-content>	
+  <mat-selection-list #shoes>
+	  <mat-list-option 
+	  	*ngFor="let collection of collections | async" 
+	  	[selected]="note.collections && note.collections.includes(collection.collectionId)" 
+	  	(click)="collect(collection)">
+	    {{ collection.name }}	
+	  </mat-list-option>
+	</mat-selection-list>
+
+</div>

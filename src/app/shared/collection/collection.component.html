@@ -1,0 +1,25 @@
+
+  <mat-card *ngIf="collection.collectionId; else newCollection" (click)="navigate($event)" class="collection">
+      <div class="collection-header">
+        <div class="number">
+          <span *ngIf="collection.numberOfNote != 0"></span>       
+        </div>
+        <div class="text">
+          <p class="name">{{ collection.name }}</p>
+          <p class="time">{{ collection.edittedAt.toDate() | date:'mediumDate' }}</p>
+        </div>
+      </div>
+      <mat-card-actions>
+        <button (click)="openEditCollectionDialog()" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-card-actions>
+  </mat-card>
+  
+  <ng-template #newCollection>  
+      <button (click)="openCreateCollectionDialog()" mat-raised-button class="collection">
+          New collection
+          <mat-icon>edit</mat-icon>
+      </button>   
+  </ng-template>
+

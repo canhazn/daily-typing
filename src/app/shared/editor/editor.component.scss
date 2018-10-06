@@ -1,0 +1,67 @@
+.mat-card {
+	padding: 24px 24px 8px 24px;	 		
+	margin-bottom: 1.5em;
+}
+
+:host /deep/ .mat-form-field {	
+	width: 100%;	
+	textarea {		
+		line-height: 1.6;		
+		font-weight: 400;		
+		padding: 0 8px;		
+		font-family: 'Quicksand', sans-serif;	
+		box-sizing: border-box;
+	}
+		.mat-input-element {
+			overflow: hidden !important;
+		}
+	.mat-form-field-label{
+		left: 8px;
+		top: 1em;
+	}
+
+	.mat-form-field-wrapper {
+		padding-bottom: 0;
+	}
+
+	.mat-form-field-underline, .mat-form-field-subscript-wrapper {
+	  display: none !important;
+	  height: 0 !important;
+	}
+
+	.mat-form-field-infix {
+		border: 0;
+		padding: 0;
+	}
+	
+}
+
+.bar {
+	// padding: 0px 12px 0px 12px;
+	display: flex;
+	justify-content: space-between;
+	
+	.typing {
+		animation: spin 1.2s linear infinite;
+	}
+	
+	.count-like {
+		vertical-align: middle;			
+	}	
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+@media (max-width: 1280px) {
+	.mat-card {
+		padding: 16px 12px 8px 12px;	 
+	}
+}

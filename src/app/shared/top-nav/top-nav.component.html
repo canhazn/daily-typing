@@ -1,0 +1,24 @@
+<mat-toolbar class="top-nav" color="primary">
+
+  <button mat-button class="logo" routerLink="/">Daily Typing</button>
+  <!-- This fills the remaining space of the current row -->
+  <span class="example-fill-remaining-space"></span>
+
+  <button mat-icon-button matTooltip="Change theme!" (click)="changeTheme()">
+    <mat-icon>format_color_fill</mat-icon>
+  </button>
+
+  <button *ngIf="user | async as user" mat-button class="user" [matMenuTriggerFor]="menu">
+    <img *ngIf="user.photoURL" [src]="user.photoURL" alt="" width="26">
+    <span> {{ user.displayName }}</span>
+  </button>
+
+  <mat-menu #menu="matMenu">    
+    <button mat-menu-item (click)="logout()"> 
+      <mat-icon>exit_to_app</mat-icon>      
+      <span>LogOut</span>
+    </button>    
+  </mat-menu>
+
+</mat-toolbar>
+

@@ -1,0 +1,15 @@
+
+<app-editor [note]="todayNote | async"></app-editor>	
+
+<mat-chip-list>
+	<mat-chip routerLink="/review/yesterday">Yesterday</mat-chip>
+	<!-- <mat-chip>The day last weak</mat-chip> -->
+	<!-- <mat-chip>the day last month</mat-chip> -->
+	<mat-chip routerLink="/review/this-week" >Review this weak</mat-chip>
+	<mat-chip routerLink="/review/this-month" >This month</mat-chip>
+</mat-chip-list>	
+<div class="collections">
+	<app-collection *ngFor="let collection of collections | async" [collection]="collection"></app-collection>
+	<app-collection [collection]="{}"></app-collection>		
+</div>
+

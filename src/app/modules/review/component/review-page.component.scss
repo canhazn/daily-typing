@@ -1,0 +1,11 @@
+:host /deep/ .mat-chip-list-wrapper {
+	margin: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+    margin-bottom: 1.5em;
+
+    .mat-chip {
+    	cursor: pointer;
+    }
+}

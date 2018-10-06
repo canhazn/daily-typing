@@ -1,0 +1,42 @@
+.collection {
+	width: 600px;	
+	height: 140px;
+	box-sizing: border-box;
+	display: inline-table;
+	margin-bottom: 1.5em;
+	cursor: pointer;
+	.collection-header {
+		display: flex;
+		cursor: pointer;
+		outline: none;
+		.number {
+			height: 45px;
+			width: 45px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.text {
+			p {
+				font-size: 14px;
+				margin: 0 0 10px 10px;
+			}
+		}
+	}
+	.mat-card-actions {
+		// overflow: auto;
+		button {
+			float: right;
+		}
+	}
+}
+
+@media (max-width: 1280px) {
+	.collection {
+		width: 100%;
+		// width: 1204px;
+		// flex: 1;
+		// background-color: red;
+		// flex: 1 1 auto;
+	}
+}
