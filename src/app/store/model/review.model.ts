@@ -13,7 +13,7 @@ export interface ReviewStateModel {
 
 	thisWeek: {
 		initialized?: boolean,
-		entity?: Note[]
+		entity?: any,
 	}
 
 	thisMonth?: {

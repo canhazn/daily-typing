@@ -65,7 +65,7 @@ export class CollectionState {
 
 
 	@Action(AddedCollection)
-	patchCollection(ctx: StateContext<CollectionStateModel>, event: AddedCollection) {
+	addedCollection(ctx: StateContext<CollectionStateModel>, event: AddedCollection) {
 		let state = ctx.getState();
 	
 		ctx.patchState({ entity: [
@@ -77,7 +77,7 @@ export class CollectionState {
 	}
 
 	@Action(ModifiedCollection)
-	updateCollection(ctx: StateContext<CollectionStateModel>, event: ModifiedCollection) {
+	modifiedCollection(ctx: StateContext<CollectionStateModel>, event: ModifiedCollection) {
 
 		let modified = event.collection;
 
@@ -92,7 +92,7 @@ export class CollectionState {
 	}
 
 	@Action(RemovedCollection)
-	removeCollection(ctx: StateContext<CollectionStateModel>, event: RemovedCollection) {
+	removedCollection(ctx: StateContext<CollectionStateModel>, event: RemovedCollection) {
 		let newState = ctx.getState().entity.filter( collection => collection.collectionId != event.collectionId)
 
 		ctx.patchState({

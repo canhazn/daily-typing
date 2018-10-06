@@ -7,7 +7,9 @@ import { ReviewStateModel } from '@store/model/review.model';
 
 import {
 	FetchThisWeek,
-	AddedNote
+	AddedThisWeekNote,
+	ModifiedThisWeekNote,
+	RemovedThisWeekNote
 } from '@store/action/review.action';
 
 import { of, from } from 'rxjs';
@@ -44,21 +46,21 @@ export class ReviewState {
 			tap(action => {
 				// console.log(action);
 				if (action.type == 'added') 
-				ctx.dispatch( new AddedNote(action.payload.doc.data() as Note))
+				ctx.dispatch( new AddedThisWeekNote(action.payload.doc.data() as Note))
 			}),
-			// tap(action => {
-			// 	if (action.type == 'modified') 
-			// 	ctx.dispatch(new ModifiedCollection(action.payload.doc.data() as Collection))
-			// }),
-			// tap(action => {
-			// 	if (action.type == 'removed')
-			// 	ctx.dispatch(new RemovedCollection(action.payload.doc.id))
-			// })
+			tap(action => {
+				if (action.type == 'modified') 
+				ctx.dispatch(new ModifiedThisWeekNote(action.payload.doc.data() as Note))
+			}),
+			tap(action => {
+				if (action.type == 'removed')
+				ctx.dispatch(new RemovedThisWeekNote(action.payload.doc.id))
+			})
 		)
 	}
 
-	@Action(AddedNote)
-	addedNote(ctx: StateContext<ReviewStateModel>, event: AddedNote) {
+	@Action(AddedThisWeekNote)
+	addedThisWeekNote(ctx: StateContext<ReviewStateModel>, event: AddedThisWeekNote) {
 
 		let state = ctx.getState();
 	
@@ -69,6 +71,38 @@ export class ReviewState {
 					...state.thisWeek.entity,
 					event.note
 				]
+			}
+		})
+	}
+
+	@Action(ModifiedThisWeekNote)
+	modifiedThisWeekNote(ctx: StateContext<ReviewStateModel>, event: ModifiedThisWeekNote) {
+
+		let modified = event.note;
+
+		let newState = ctx.getState().thisWeek.entity.map(note => { 
+			if (note.noteId == modified.noteId) return modified; 
+			return note;
+		})
+		console.log(modified);
+		console.log(newState);
+
+		ctx.patchState({
+			thisWeek: {
+				initialized: true,
+				entity: newState,				
+			}
+		})
+	}
+
+	@Action(RemovedThisWeekNote)
+	removedThisWeekNote(ctx: StateContext<ReviewStateModel>, event: RemovedThisWeekNote) {
+		let newState = ctx.getState().thisWeek.entity.filter( note => note.noteId != event.noteId)
+
+		ctx.patchState({
+			thisWeek: {
+				initialized: true,
+				entity: newState,				
 			}
 		})
 	}

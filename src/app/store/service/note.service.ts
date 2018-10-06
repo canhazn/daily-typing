@@ -94,7 +94,22 @@ export class NoteService {
 
 
   // return an observable of today type: Note. IF today note isn't exsist create one
-  getTodayNote(): Observable<Note> {
+  // getTodayNote(): Observable<Note> {
+
+  //   let today = new Date();       
+  //   let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
+    
+  //   return this.getUser().pipe(      
+  //     map(user => `/user/${user.uid}/note`),
+  //     map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).limit(1))),
+  //     switchMap(noteCollection => noteCollection.valueChanges().pipe(map(([note]) => note as Note))),
+  //     tap((note) => {
+  //       if (!note) this.setNewNote().subscribe() 
+  //     })
+  //   )
+  // }
+
+    getTodayNote() {
 
     let today = new Date();       
     let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
@@ -102,9 +117,11 @@ export class NoteService {
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/note`),
       map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).limit(1))),
-      switchMap(noteCollection => noteCollection.valueChanges().pipe(map(([note]) => note as Note))),
-      tap((note) => {
-        if (!note) this.setNewNote().subscribe() 
+      switchMap(noteCollection => noteCollection.snapshotChanges()),
+      tap(actions => {
+
+        console.log(actions);
+        if (actions.length == 0) this.setNewNote().subscribe() 
       })
     )
   }

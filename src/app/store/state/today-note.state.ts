@@ -5,21 +5,16 @@ import { NoteService } from '@store/service/note.service';
 import { Note } from '@store/model/note.model';
 
 
-// import {
-// 	FetchTodayNote,
-// 	PatchToday
-// } from '@store/action/todayNote.action';
+import {
+	FetchTodayNote,
+	AddedTodayNote,
+	ModifiedTodayNote,
+	RemovedTodayNote,
+
+} from '@store/action/today-note.action';
 import { of, from } from 'rxjs';
 import { take, tap, map, timeout, switchMap } from 'rxjs/operators';
 
-export class FetchTodayNote {
-	static type = '[Today Note] Fetch Today Note' ;
-}
-
-export class PatchTodayNote {
-	static type = '[Today Note] Patch Today Note'
-	constructor(public note: Note) {}
-}
 
 export interface TodayNoteStateModel {
 	initialized: boolean,
@@ -47,15 +42,43 @@ export class TodayNoteState {
 	@Action(FetchTodayNote)
 	fetchTodayNote(ctx: StateContext<TodayNoteStateModel>) {
 		return this.noteService.getTodayNote().pipe(
-			tap(note => ctx.dispatch(new PatchTodayNote(note)))
+			// tap(note => ctx.dispatch(new PatchTodayNote(note)))
+			switchMap(actions => from(actions)),
+			tap(action => {
+				if (action.type == 'added') 
+				ctx.dispatch(new AddedTodayNote(action.payload.doc.data() as Note))
+			}),
+			tap(action => {
+				if (action.type == 'modified') 
+				ctx.dispatch(new ModifiedTodayNote(action.payload.doc.data() as Note))
+			}),
+			tap(action => {
+				if (action.type == 'removed')
+				ctx.dispatch(new RemovedTodayNote(action.payload.doc.id))
+			})
 		)
 	}
 
-	@Action(PatchTodayNote)
-	patchTodayNote(ctx: StateContext<TodayNoteStateModel>, event: PatchTodayNote) {
+	@Action(AddedTodayNote)
+	patchTodayNote(ctx: StateContext<TodayNoteStateModel>, event: AddedTodayNote) {
 		ctx.patchState({
 			initialized: true,
 			entity: event.note
 		});
+	}
+
+	@Action(ModifiedTodayNote)
+	modifiedCollection(ctx: StateContext<TodayNoteStateModel>, event: ModifiedTodayNote) {
+
+		let modified = event.note;
+
+		// let newState = ctx.getState().entity.map(note => { 
+		// 	if (note.noteId == modified.noteId) return modified; 
+		// 	return note;
+		// })
+
+		ctx.patchState({
+			entity: modified
+		})
 	}
 }

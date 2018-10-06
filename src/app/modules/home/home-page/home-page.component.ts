@@ -7,8 +7,8 @@ import { Store }        from '@ngxs/store';
 import { FetchCollection } from '@store/action/collection.action';
 import { CollectionState } from '@store/state/collection.state';
 
-import { TodayNoteState, FetchTodayNote } from '@store/state/today-note.state';
-// import { FetchTodayNote } from '@store/state/tod'
+import { TodayNoteState } from '@store/state/today-note.state';
+import { FetchTodayNote } from '@store/action/today-note.action'
 
 import { Observable, Subject, of } from 'rxjs';
 import { finalize, take, tap, filter, distinctUntilChanged } from 'rxjs/operators';
