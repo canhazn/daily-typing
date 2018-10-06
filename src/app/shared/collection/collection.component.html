@@ -2,7 +2,7 @@
   <mat-card *ngIf="collection.collectionId; else newCollection" (click)="navigate($event)" class="collection">
       <div class="collection-header">
         <div class="number">
-          <span *ngIf="collection.numberOfNote != 0"></span>       
+          <span *ngIf="collection.arrayNoteId.length != 0">{{ collection.arrayNoteId.length }}</span>       
         </div>
         <div class="text">
           <p class="name">{{ collection.name }}</p>

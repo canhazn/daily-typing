@@ -9,7 +9,7 @@ export interface Note {
   createdAt?: firestore.Timestamp; 
   content?: string; 
   edittedAt?: firestore.Timestamp;
-  collections?: string[];
+  arrayCollectionId?: string[];
   name?: string; 
   like?: number;  
 };

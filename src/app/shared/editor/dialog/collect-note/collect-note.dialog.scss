@@ -1,10 +1,8 @@
-.collection {
-	width: 100%;
-	display: flex;
-	.mat-button-wrapper{
-		display: flex;
-	}
-	.mat-button-ripple {
-		display: flex;	
-	}
+.mat-list-option {
+	height: auto !important;	
+	margin: 4px 0;
+}
+
+:host /deep/ .mat-list-item-content {
+	padding: 16px !important;
 }

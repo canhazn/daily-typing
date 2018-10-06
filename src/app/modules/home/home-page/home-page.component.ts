@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
-import { HomeService } from '../home.service';
 import { Note } from '@store/model/note.model';
 
 import { Store }        from '@ngxs/store';
@@ -25,20 +23,10 @@ export class HomePageComponent implements OnInit {
     yesterdayNote: Observable<any>;  
     collections: Observable<any>;
 
-    constructor(private store: Store, private homeServie: HomeService) { }
+    constructor(private store: Store) { }
     
     ngOnInit() {
-        // this.todayNote = this.homeServie.getTodayNote().pipe(                              
-        //     tap((note) => {
-        //         if (!note) this.homeServie.setNewNote().subscribe() 
-        //     })
-        // )        
-
-     //    this.yesterdayNote = this.homeServie.getYesterdayNote(yesterday, startTime);
-        // this.collections = this.homeServie.getCollection();
-
-        
-
+      
         this.store.select( CollectionState.getInitialized ).pipe(
             filter(initialized => !initialized),
             tap(() => this.store.dispatch(new FetchCollection()))
