@@ -1,8 +1,8 @@
-import { Collected } from '../model/collected.model';
-
+import { Note } from '@store/model/note.model';
+ 
 export interface PatchData {
 	collectionId: string,
-	arrayCollected: Collected[]
+	array: Note[]
 }
 
 export class FetchCollected {
@@ -12,16 +12,25 @@ export class FetchCollected {
 
 export class PatchCollected {
 	static type = '[Collected] Patch Collected'
-	constructor(public patchData: PatchData) {}
+	constructor(public note: Note, public collectionId: string) {}
 }
 
-
-export class CreateCollected {
-	static type = '[Collected] Create Collected';
-	constructor(public collected: Collected) {}
+export class AddedNote {
+	static type = '[Collected] Added Collected Note'
+	constructor(public note: Note, public collectionId: string) {}
 }
 
-export class UpdateCollected {
-	static type = '[Collected] Update Collected';
-	constructor(public collected: Collected) {}
+export class ModifiedNote {
+	static type = '[Collected] Modified Collected Note'
+	constructor(public note: Note, public collectionId: string) {}
+}
+
+export class RemovedNote {
+	static type = '[Collected] Removed Collected Note';
+	constructor(public note: Note, public collectionId: string) {}
+}
+
+export class ResetCollected {
+	static type = '[Collected] Reset/create array note';
+	constructor(public collectionId: string) {}
 }

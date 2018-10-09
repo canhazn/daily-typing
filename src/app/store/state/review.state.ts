@@ -9,7 +9,7 @@ import {
 	FetchThisWeek,
 	AddedThisWeekNote,
 	ModifiedThisWeekNote,
-	RemovedThisWeekNote
+	RemovedThisWeekNote,
 } from '@store/action/review.action';
 
 import { of, from } from 'rxjs';

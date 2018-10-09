@@ -39,7 +39,7 @@ export class CollectionState {
     	return state.initialized;
   	}
 	@Selector()
-	static getCollection(state: CollectionStateModel) {
+	static getCollection(state: CollectionStateModel, store: Store) {
 		return state.entity;
 	}
 

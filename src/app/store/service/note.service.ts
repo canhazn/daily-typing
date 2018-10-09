@@ -60,56 +60,7 @@ export class NoteService {
     )
   }
   
-  // updateContent(content: string, noteId: string): Observable<any> {
-    // let note: Note = {
-    //   noteId: noteId,
-    //   content: content,
-    //   edittedAt: firestore.Timestamp.now(),      
-    // }
-
-  //   return this.updateNote(note);
-  // }
-
-  // // delete collectionId from  this note
-  // removeCollection(collection: Collection, note: Note) {
-  //   note.collections = note.collections.filter(id => id != collection.collectionId);    
-  //   let newNote : Note = {
-  //     noteId: note.noteId,
-  //     collections: note.collections
-  //   }
-
-  //   return this.updateNote(newNote);
-  // }
-
-  // // save collectionId into this note
-  // addCollection(collection: Collection,  note: Note) {    
-  //   note.collections.push(collection.collectionId);
-  //   let newNote: Note = {
-  //     noteId: note.noteId,
-  //     collections: note.collections
-  //   }
-
-  //   return this.updateNote(newNote);
-  // }
-
-
-  // return an observable of today type: Note. IF today note isn't exsist create one
-  // getTodayNote(): Observable<Note> {
-
-  //   let today = new Date();       
-  //   let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
-    
-  //   return this.getUser().pipe(      
-  //     map(user => `/user/${user.uid}/note`),
-  //     map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).limit(1))),
-  //     switchMap(noteCollection => noteCollection.valueChanges().pipe(map(([note]) => note as Note))),
-  //     tap((note) => {
-  //       if (!note) this.setNewNote().subscribe() 
-  //     })
-  //   )
-  // }
-
-    getTodayNote() {
+  getTodayNote() {
 
     let today = new Date();       
     let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
@@ -119,10 +70,31 @@ export class NoteService {
       map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).limit(1))),
       switchMap(noteCollection => noteCollection.snapshotChanges()),
       tap(actions => {
-
-        console.log(actions);
         if (actions.length == 0) this.setNewNote().subscribe() 
       })
+    )
+  }
+
+  getNoteById(noteId: string) {
+    return this.getUser().pipe(      
+      map(user => `/user/${user.uid}/note`),
+      map(path => this.afs.collection(path, ref => ref.where("noteId", "==", noteId))),
+      switchMap(note => note.snapshotChanges()),
+    )
+  }
+
+  getCollected(arrayNoteId: string[]) {
+    return this.getUser().pipe(      
+      map(user => `user/${user.uid}/note`),
+      map(path => this.afs.collection(path, ref => {
+        let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        arrayNoteId.forEach(noteId => {
+          query = query.where("noteId",  "==", noteId);
+          console.log(query);
+        })
+        return query;
+      })),
+      switchMap(collection => collection.valueChanges()),
     )
   }
 
@@ -133,7 +105,7 @@ export class NoteService {
     let monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (day == 0?-6:1)-day );
     let sunday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (day == 0?0:7)-day + 1);
 
-     return this.getUser().pipe(      
+    return this.getUser().pipe(      
       map(user => `user/${user.uid}/note`),
       map(path => this.afs.collection(path, ref => {
         let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;

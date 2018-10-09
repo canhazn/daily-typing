@@ -29,7 +29,7 @@ import { AuthState } from '@store/state/auth.state';
 import { CollectionState } from '@store/state/collection.state';
 import { TodayNoteState } from '@store/state/today-note.state'; 
 import { ReviewState } from '@store/state/review.state';
-// import { CollectedState } from '@store/state/collected.state';
+import { CollectedState } from '@store/state/collected.state';
 
 
 // End -------------Store-------------------------
@@ -50,7 +50,7 @@ import { filter, take, tap, skip } from 'rxjs/operators';
 
 const ngxs = [
    NgxsModule.forRoot([ AuthState ]),
-   NgxsModule.forFeature([ CollectionState, TodayNoteState, ReviewState ]),
+   NgxsModule.forFeature([ CollectionState, TodayNoteState, ReviewState, CollectedState ]),
    NgxsReduxDevtoolsPluginModule.forRoot(),
    NgxsLoggerPluginModule.forRoot(),
    NgxsRouterPluginModule.forRoot()

@@ -34,10 +34,6 @@ export class ThisWeekComponent implements OnInit {
           }
 
           if (this.notes.length > arrayNotes.length) {
-            // this.notes.push(arrayNotes[arrayNotes.length - 1])
-            // let arrayNoteId = arrayNotes.map(note => note.noteId);
-            // let changedNote = this.notes.filter(note => !arrayNoteId.include(note.noteId));
-
             this.notes = arrayNotes;
             return;
           }

@@ -29,8 +29,7 @@ export class CollectNoteDialog implements OnInit {
                @Inject(MAT_DIALOG_DATA) public note: Note) {}
 
 
-  collect(collection: Collection) {  
-  console.log("colle");      
+  collect(collection: Collection) {    
     if (!this.note.arrayCollectionId) this.note.arrayCollectionId = [];    
 
     let collectionId = collection.collectionId;
@@ -70,7 +69,7 @@ export class CollectNoteDialog implements OnInit {
     this.store.select( CollectionState.getCollection ).pipe(
         // map(objectNotes =>  Object.values(objectNotes))
         tap( arrayCollection => {
-          console.log(arrayCollection);
+          // console.log(arrayCollection);
 
           if (this.collections.length < arrayCollection.length) {
             this.collections = arrayCollection;

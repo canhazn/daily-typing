@@ -5,65 +5,93 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Action, Selector, State, StateContext, Store, NgxsOnInit } from '@ngxs/store';
 import { Navigate } from '@ngxs/router-plugin';
 
-import { AuthState } from '@store/state/auth.state';
+import { CollectionState } from '@store/state/collection.state';
+import { NoteService } from '@store/service/note.service';
+import { Note } from '@store/model/note.model';
 import {
 	FetchCollected,
 	PatchCollected,
-	CreateCollected,
-	UpdateCollected,
+	ResetCollected,
+	AddedNote,
+	ModifiedNote,
+	RemovedNote,
 } from '@store/action/collected.action';
 
-import { CollectedStateModel, Collected } from '@store/model/collected.model';
-import { from } from 'rxjs';
-import { take, tap, map, timeout, switchMap } from 'rxjs/operators';
+import { CollectedStateModel } from '@store/model/collected.model';
+import { Observable, Subject, of, from } from 'rxjs';
+import { map, take, tap, filter, switchMap, last, distinctUntilChanged, flatMap } from 'rxjs/operators';
 
 
 @State<CollectedStateModel> ({
 	name: 'collected',	
-	// defaults: {
-	// 	// collecteds: []
-	// }
+	defaults: {
+		// collecteds: []
+	}
 })
 export class CollectedState{
-	constructor(private store: Store, private afs: AngularFirestore) {}
+	constructor(private store: Store, private noteService: NoteService) {}
+
+
 
 	@Action(FetchCollected) 
 	fetchCollected(ctx: StateContext<CollectedStateModel>, event: FetchCollected) {
-		let path = `/user/4WqM66LHaLWQ8O4TIlF58mUonj62/collection/${event.collectionId}/collected`;
 
-		// this.afs.collection(path).valueChanges().pipe(
-	 //  		tap(data => console.log(data)),
-	 //  		switchMap(collecteds => from(collecteds)),
-	 //      tap(note => console.log(note)),
-	 //      map((collected: Collected) => this.collectedService.getNote(collected.noteId)), 
-	 //      tap(data => console.log(data)),
-	 //      tap(note => this.notes.push(note)),
-	 //  	).subscribe();
+		// this.noteService.getNoteById('by12oEWzLuVG4ahlVQ19').subscribe(data => console.log(data));
 
-		return this.afs.collection(path).stateChanges(['added']).pipe(			
-			// take(1),
-			map(actions => actions.map(a => {
-		      let product = a.payload.doc.data() as Collected;
-		      return product;		      
-		    })),
-			// tap(data => console.log(data)),
-			tap(data => ctx.dispatch( 
-				new PatchCollected({ 
-					collectionId : event.collectionId, 
-					arrayCollected: data 
-				})
-			)),			
+		return this.store.select(CollectionState.getCollection).pipe(
+			// last(),
+			switchMap(arrayCollection => from(arrayCollection)),
+			filter(collection => collection.collectionId == event.collectionId),
+			map(collection => collection.arrayNoteId),
+			distinctUntilChanged(),
+			tap(() => ctx.dispatch(new ResetCollected(event.collectionId) )),
+			switchMap(arrayNoteId => from(arrayNoteId)),
+			flatMap(noteId => this.noteService.getNoteById(noteId).pipe(
+					map(([action]) => action),
+					tap(actions => console.log(actions)),
+					tap(action => {
+						if (action.type == 'added') 
+						ctx.dispatch( new AddedNote(action.payload.doc.data() as Note, event.collectionId))
+					}),
+					tap(action => {
+						if (action.type == 'modified') 
+						ctx.dispatch(new ModifiedNote(action.payload.doc.data() as Note, event.collectionId))
+					}),
+					// tap(action => {
+					// 	if (action.type == 'removed')
+					// 	ctx.dispatch(new RemovedNote(action.payload.doc.id, event.collectionId))
+					// })
+				)
+			),
 		)
 	}
 
-	@Action(PatchCollected)
-	PatchCollected(ctx: StateContext<CollectedStateModel>, event: PatchCollected) {
-		console.log(event)
-		let collected = {
-			// collectionId : event.patchData.collectionId,
-			[event.patchData.collectionId]: event.patchData.arrayCollected
-		}
-		ctx.patchState(collected)
+	@Action(AddedNote)
+	addedNote(ctx: StateContext<CollectedStateModel>, event: AddedNote) {
+		let state = ctx.getState();
+		if (!state[event.collectionId]) state[event.collectionId] = [];
+		state[event.collectionId] = [...state[event.collectionId], event.note]
+
+		// console.log("collected: " );
 	}
 
+	@Action(ModifiedNote)
+	modifiedNote(ctx: StateContext<CollectedStateModel>, event: ModifiedNote) {
+		let state = ctx.getState();
+		// if (!state[event.collectionId]) state[event.collectionId] = [];
+		state[event.collectionId] = state[event.collectionId].map(note => { 
+			if (note.noteId == event.note.noteId) return event.note; 
+			return note;
+		})
+
+		// console.log("collected: " );
+	}
+
+	@Action(ResetCollected)
+	resetCollected(ctx: StateContext<CollectedStateModel>, event: ResetCollected) {
+		let state = ctx.getState();
+		// if (!state[event.collectionId]) state[event.collectionId] = [];
+		// console.log("reset");
+		state[event.collectionId] = []
+	}
 }
