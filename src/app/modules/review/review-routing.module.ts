@@ -1,7 +1,7 @@
 import { NgModule }             from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ReviewPageComponent } from './component/review-page.component';
+import { ReviewPageComponent } from './review-page.component';
 import { YesterdayComponent } from './component/yesterday/yesterday.component';
 import { ThisWeekComponent } from './component/this-week/this-week.component';
 import { ThisMonthComponent } from './component/this-month/this-month.component';

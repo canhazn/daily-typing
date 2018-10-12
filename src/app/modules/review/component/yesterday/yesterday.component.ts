@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ReviewService } from '../../review.service';
+
 import { Observable } from 'rxjs';
 @Component({
   selector: 'app-yesterday',
@@ -10,10 +10,10 @@ import { Observable } from 'rxjs';
 export class YesterdayComponent implements OnInit {
 
 	yesterday: Observable<any>;	
-  constructor(private reviewService: ReviewService) { }
+  constructor() { }
 
   ngOnInit() {
-  	this.yesterday = this.reviewService.getYesterdayNote();
+  	// this.yesterday = this.reviewService.getYesterdayNote();
   }
 
 }

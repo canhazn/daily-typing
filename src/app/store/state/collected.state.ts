@@ -6,6 +6,7 @@ import { Action, Selector, State, StateContext, Store, NgxsOnInit } from '@ngxs/
 import { Navigate } from '@ngxs/router-plugin';
 
 import { CollectionState } from '@store/state/collection.state';
+import { CollectionService } from '@store/service/collection.service';
 import { NoteService } from '@store/service/note.service';
 import { Note } from '@store/model/note.model';
 import {
@@ -19,7 +20,7 @@ import {
 
 import { CollectedStateModel } from '@store/model/collected.model';
 import { Observable, Subject, of, from } from 'rxjs';
-import { map, take, tap, filter, switchMap, last, distinctUntilChanged, flatMap } from 'rxjs/operators';
+import { map, pairwise, take, tap, filter, switchMap, skip, distinctUntilChanged, flatMap, scan, pluck } from 'rxjs/operators';
 
 
 @State<CollectedStateModel> ({
@@ -29,69 +30,95 @@ import { map, take, tap, filter, switchMap, last, distinctUntilChanged, flatMap 
 	}
 })
 export class CollectedState{
-	constructor(private store: Store, private noteService: NoteService) {}
-
-
+	constructor(private store: Store, private noteService: NoteService, private collectionService: CollectionService) {}
 
 	@Action(FetchCollected) 
 	fetchCollected(ctx: StateContext<CollectedStateModel>, event: FetchCollected) {
 
-		// this.noteService.getNoteById('by12oEWzLuVG4ahlVQ19').subscribe(data => console.log(data));
+		let state = ctx.getState();
 
-		return this.store.select(CollectionState.getCollection).pipe(
-			// last(),
-			switchMap(arrayCollection => from(arrayCollection)),
-			filter(collection => collection.collectionId == event.collectionId),
-			map(collection => collection.arrayNoteId),
-			distinctUntilChanged(),
-			tap(() => ctx.dispatch(new ResetCollected(event.collectionId) )),
-			switchMap(arrayNoteId => from(arrayNoteId)),
-			flatMap(noteId => this.noteService.getNoteById(noteId).pipe(
-					map(([action]) => action),
-					tap(actions => console.log(actions)),
-					tap(action => {
-						if (action.type == 'added') 
-						ctx.dispatch( new AddedNote(action.payload.doc.data() as Note, event.collectionId))
-					}),
-					tap(action => {
-						if (action.type == 'modified') 
-						ctx.dispatch(new ModifiedNote(action.payload.doc.data() as Note, event.collectionId))
-					}),
-					// tap(action => {
-					// 	if (action.type == 'removed')
-					// 	ctx.dispatch(new RemovedNote(action.payload.doc.id, event.collectionId))
-					// })
-				)
-			),
+		ctx.patchState({		
+			[event.collectionId] : {
+				// initialized: false,
+				entity : []
+			}
+		});
+
+		// if(!state[event.collectionId]) state[event.collectionId] = [];
+		
+		return this.collectionService.getCollectionById(event.collectionId).pipe(
+			map(collection => collection.arrayNoteId.map( noteId => this.noteService.getNoteById(noteId))),						
+			tap(observableNote => ctx.dispatch(new PatchCollected(observableNote, event.collectionId))),
+			// distinctUntilChanged(),
+			// tap(() => ctx.dispatch(new ResetCollected(event.collectionId) )),
+			// switchMap(arrayNoteId => from(arrayNoteId)),
+			// flatMap(noteId => this.noteService.getNoteById(noteId).pipe(
+			// 		map(([action]) => action),
+			// 		tap(action => {
+			// 			if (action.type == 'added') 
+			// 			ctx.dispatch( new AddedNote(action.payload.doc.data() as Note, event.collectionId))
+			// 		}),
+			// 		tap(action => {
+			// 			if (action.type == 'modified') 
+			// 			ctx.dispatch(new ModifiedNote(action.payload.doc.data() as Note, event.collectionId))
+			// 		}),
+			// 		// tap(action => {
+			// 		// 	if (action.type == 'removed')
+			// 		// 	ctx.dispatch(new RemovedNote(action.payload.doc.id, event.collectionId))
+			// 		// })
+			// 	)
+			// ),
 		)
 	}
 
-	@Action(AddedNote)
-	addedNote(ctx: StateContext<CollectedStateModel>, event: AddedNote) {
-		let state = ctx.getState();
-		if (!state[event.collectionId]) state[event.collectionId] = [];
-		state[event.collectionId] = [...state[event.collectionId], event.note]
-
-		// console.log("collected: " );
-	}
-
-	@Action(ModifiedNote)
-	modifiedNote(ctx: StateContext<CollectedStateModel>, event: ModifiedNote) {
+	@Action(PatchCollected)
+	patchCollected(ctx: StateContext<CollectedStateModel>, event: PatchCollected) {
 		let state = ctx.getState();
 		// if (!state[event.collectionId]) state[event.collectionId] = [];
-		state[event.collectionId] = state[event.collectionId].map(note => { 
-			if (note.noteId == event.note.noteId) return event.note; 
-			return note;
-		})
+		// state[event.collectionId] = event.arrayObservableNote
 
-		// console.log("collected: " );
+		// state[event.collectionId] = {
+		// 	entity: ['dsa', 'mcxz', 100]
+		// }
+
+		// let curr = {
+		// 	[event.collectionId] : {
+		// 		entity : event.arrayObservableNote
+		// 	}
+		// }
+
+		ctx.patchState({		
+			[event.collectionId] : {
+				// initialized: true,
+				entity : event.arrayObservableNote
+			}
+		});
 	}
 
-	@Action(ResetCollected)
-	resetCollected(ctx: StateContext<CollectedStateModel>, event: ResetCollected) {
-		let state = ctx.getState();
-		// if (!state[event.collectionId]) state[event.collectionId] = [];
-		// console.log("reset");
-		state[event.collectionId] = []
-	}
+	// @Action(AddedNote)
+	// addedNote(ctx: StateContext<CollectedStateModel>, event: AddedNote) {
+	// 	let state = ctx.getState();
+	// 	// state[event.collectionId] = [...state[event.collectionId], event.note]
+	// 	// console.log("collected: " );
+	// }
+
+	// @Action(ModifiedNote)
+	// modifiedNote(ctx: StateContext<CollectedStateModel>, event: ModifiedNote) {
+	// 	let state = ctx.getState();
+	// 	// if (!state[event.collectionId]) state[event.collectionId] = [];
+	// 	state[event.collectionId] = state[event.collectionId].map(note => { 
+	// 		if (note.noteId == event.note.noteId) return event.note; 
+	// 		return note;
+	// 	})
+
+	// 	// console.log("collected: " );
+	// }
+
+	// @Action(ResetCollected)
+	// resetCollected(ctx: StateContext<CollectedStateModel>, event: ResetCollected) {
+	// 	let state = ctx.getState();
+	// 	// if (!state[event.collectionId]) state[event.collectionId] = [];
+	// 	// console.log("reset");
+	// 	state[event.collectionId] = []
+	// }
 }

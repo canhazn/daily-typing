@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ReviewService } from '../../review.service';
+
 import { Observable } from 'rxjs';
 
 @Component({
@@ -12,10 +12,10 @@ export class ThisMonthComponent implements OnInit {
 
 	notes: Observable<any>;
 
-  constructor(private reviewService: ReviewService) { }
+  constructor() { }
 
   ngOnInit() {
-  	this.notes = this.reviewService.getThisMonth();
+  	
   }
 
 }

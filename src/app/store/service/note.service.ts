@@ -75,11 +75,11 @@ export class NoteService {
     )
   }
 
-  getNoteById(noteId: string) {
+  getNoteById(noteId: string): Observable<Note> {
     return this.getUser().pipe(      
-      map(user => `/user/${user.uid}/note`),
-      map(path => this.afs.collection(path, ref => ref.where("noteId", "==", noteId))),
-      switchMap(note => note.snapshotChanges()),
+      map(user => `/user/${user.uid}/note/${noteId}`),
+      map(path => this.afs.doc<Note>(path)),
+      switchMap(note => note.valueChanges()),
     )
   }
 

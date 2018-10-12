@@ -1,5 +1,6 @@
 import { Note } from '@store/model/note.model';
- 
+import { Observable } from 'rxjs';
+
 export interface PatchData {
 	collectionId: string,
 	array: Note[]
@@ -11,8 +12,8 @@ export class FetchCollected {
 }
 
 export class PatchCollected {
-	static type = '[Collected] Patch Collected'
-	constructor(public note: Note, public collectionId: string) {}
+	static type = '[Collected] Patch Note Collected'
+	constructor(public arrayObservableNote: Observable<Note>[], public collectionId: string) {}
 }
 
 export class AddedNote {

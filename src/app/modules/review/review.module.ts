@@ -11,9 +11,8 @@ import { ThisWeekComponent } from './component/this-week/this-week.component';
 import { ThisMonthComponent } from './component/this-month/this-month.component';
 
 import { ReviewRoutingModule } from './review-routing.module';
-import { ReviewPageComponent } from './component/review-page.component';
+import { ReviewPageComponent } from './review-page.component';
 
-import { ReviewService } from './review.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,9 +21,6 @@ import { ReviewService } from './review.service';
     MaterialModule,
     EditorModule
   ],
-  providers: [ ReviewService ],
   declarations: [ ReviewPageComponent, YesterdayComponent, ThisWeekComponent, ThisMonthComponent],
-  // exports: [LoginPageComponent],
-  // declarations: [LoginPageComponent]
 })
 export class ReviewModule { }

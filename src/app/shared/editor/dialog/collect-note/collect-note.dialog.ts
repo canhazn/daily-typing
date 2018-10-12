@@ -67,33 +67,25 @@ export class CollectNoteDialog implements OnInit {
     // this.collections = this.store.select( CollectionState.getCollection )
 
     this.store.select( CollectionState.getCollection ).pipe(
-        // map(objectNotes =>  Object.values(objectNotes))
-        tap( arrayCollection => {
-          // console.log(arrayCollection);
-
-          if (this.collections.length < arrayCollection.length) {
-            this.collections = arrayCollection;
-            return;
-          }
-
-          if (this.collections.length > arrayCollection.length) {
-            // this.collections.push(arrayCollection[arrayCollection.length - 1])
-            // let arrayNoteId = arrayCollection.map(note => note.noteId);
-            // let changedNote = this.collections.filter(note => !arrayNoteId.include(note.noteId));
-
-            this.collections = arrayCollection;
-            return;
-          }
-
-          for(let i = 0; i <= this.collections.length - 1; i++) {
-            if (Object.is(this.collections[i], arrayCollection[i])) {
-              this.collections[i] = arrayCollection[i];
-              return;
+        tap(curr => {
+            if (this.collections.length < curr.length) {
+              let index = curr.length -1;                                     
+              for( index; index >= 0; index--) 
+                  if (!this.collections.includes(curr[index]) ) this.collections.push(curr[index]);                
             }
-          }
 
+            if (this.collections.length > curr.length) {
+              for ( let index = 0; index <= this.collections.length -1; index++) {
+                if (!curr.includes(this.collections[index])) this.collections.splice(index, 1);
+              }
+            }
+
+            if (this.collections.length == curr.length) {
+              for(let i = 0; i <= this.collections.length - 1; i++) 
+                if (this.collections[i] == curr[i]) this.collections[i] = curr[i];                              
+            }
         })
-      ).subscribe();
+    ).subscribe();
   }
 
 

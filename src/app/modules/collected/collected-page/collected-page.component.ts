@@ -10,7 +10,7 @@ import { FetchCollected } from '@store/action/collected.action';
 
 
 import { Observable, Subject, of } from 'rxjs';
-import { finalize, take, tap, filter, distinctUntilChanged } from 'rxjs/operators';
+import { finalize, take, tap, filter, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-collected-page',
@@ -20,20 +20,22 @@ import { finalize, take, tap, filter, distinctUntilChanged } from 'rxjs/operator
 export class CollectedPageComponent implements OnInit {
 
 	collectionId: string;
-	notes: any;
+	notes: Observable<any>;
 
   constructor( private store: Store, private route: ActivatedRoute ) { }
 
   ngOnInit() {
   	this.collectionId = this.route.snapshot.params.id;
-    this.store.select(state => state.collected[this.collectionId]).subscribe(data => console.log(data));
+  // this.store.select(state => state.collected[this.collectionId]).subscribe(data => console.log(data));
 
-  	this.store.select( CollectionState.getInitialized ).pipe(
-        filter(initialized => !initialized),
-        tap(() => this.store.dispatch(new FetchCollection()))
+    this.store.select( state => state.collected[this.collectionId] ).pipe(
+      filter(initialized => !initialized),
+      tap(() => this.store.dispatch( new FetchCollected(this.collectionId) ))
     ).subscribe()
 
-    this.store.dispatch( new FetchCollected(this.collectionId) )
+    
+    this.notes = this.store.select(state => state.collected[this.collectionId].entity);    
+    this.notes.subscribe(data => console.log("notes compontent", data))
   }
 
 }

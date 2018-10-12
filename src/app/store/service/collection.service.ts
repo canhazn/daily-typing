@@ -39,16 +39,6 @@ export class CollectionService {
     )  
   }
 
-
-  // query all of collections, return an observable with array of collections
-  // getCollection() {
-  //   return this.getUser().pipe(      
-  //     map(user => `/user/${user.uid}/collection`),
-  //     map(path => this.afs.collection(path)),
-  //     switchMap(collection => collection.valueChanges())
-  //   )
-  // }
-
   deleteCollection(collection: Collection): Observable<any> {
     return this.getUser().pipe(      
       map(user => `user/${user.uid}/collection/${collection.collectionId}`),
@@ -82,6 +72,14 @@ export class CollectionService {
      return this.getUser().pipe(      
       map(user => this.afs.collection(`user/${user.uid}/collection`)),
       switchMap(collection => collection.stateChanges()),
+    )
+  }
+
+  getCollectionById(collectionId: string): Observable<Collection> {
+    return this.getUser().pipe(      
+      map(user => `/user/${user.uid}/collection/${collectionId}`),
+      map(path => this.afs.doc<Collection>(path)),
+      switchMap(collection => collection.valueChanges())
     )
   }   
 }

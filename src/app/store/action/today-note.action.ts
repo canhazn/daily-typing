@@ -6,16 +6,16 @@ export class FetchTodayNote {
 }
 
 export class AddedTodayNote {
-	static type = '[This Weak] Added Today Note'
+	static type = '[Today Note] Added Today Note'
 	constructor(public note: Note) {}
 }
 
 export class ModifiedTodayNote {
-	static type = '[This Weak] Modified Today Note'
+	static type = '[Today Note] Modified Today Note'
 	constructor(public note: Note) {}
 }
 
 export class RemovedTodayNote {
-	static type = '[This Weak] Removed Today Note';
+	static type = '[Today Note] Removed Today Note';
 	constructor(public noteId: string) {}
 }

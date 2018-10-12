@@ -8,6 +8,17 @@
     .mat-chip {
     	cursor: pointer;
     }
+
+   	.memorize {
+   		.mat-icon {
+   			margin: 0 0 0 10px;
+   		}
+   	}
+   	.week, .month {
+   		.mat-icon {
+   			margin: 0 10px 0 0;
+   		}
+   	}
 }
 
 .collections {
@@ -20,9 +31,32 @@
 
 
 @media (max-width: 1280px) {
-
 	.collections {
 		width: 100%;		
 		flex-direction: column;
+	}
+}
+
+@media (max-width: 500px) {
+	.month {
+		span {
+			display: none;
+		}
+
+		.mat-icon {
+			margin: 0;
+		}
+	}
+}
+
+@media (max-width: 400px) {
+	.week {
+		span {
+			display: none;
+		}
+
+		.mat-icon {
+			margin: 0;
+		}
 	}
 }
