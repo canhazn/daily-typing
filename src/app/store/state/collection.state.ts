@@ -42,9 +42,12 @@ export class CollectionState {
 	static getCollection(state: CollectionStateModel, store: Store) {
 		return state.entity;
 	}
+	// sort by createdAt property
+	private sortArrayCollection(a : Collection, b : Collection) { return a.createdAt.seconds - b.createdAt.seconds }
 
 	@Action(FetchCollection)
 	fetchCollection(ctx: StateContext<CollectionStateModel>) {
+		ctx.patchState({ initialized: true });
 		return this.collectionService.fetchCollection().pipe(			
 			// tap(actions => console.log(actions)),
 			switchMap(actions => from(actions)),
@@ -67,36 +70,36 @@ export class CollectionState {
 	@Action(AddedCollection)
 	addedCollection(ctx: StateContext<CollectionStateModel>, event: AddedCollection) {
 		let state = ctx.getState();
-	
-		ctx.patchState({ entity: [
-			...state.entity,
-			event.collection
-		]})
+		state.entity = [ event.collection, ...state.entity ];
+		// console.log(state.entity);
 
-		ctx.patchState({ initialized: true });
+		// ctx.patchState({ entity: [
+		// 	...state.entity,
+		// 	event.collection
+		// ]})
+
+		ctx.patchState({});
 	}
 
 	@Action(ModifiedCollection)
 	modifiedCollection(ctx: StateContext<CollectionStateModel>, event: ModifiedCollection) {
 
+		let state = ctx.getState();
 		let modified = event.collection;
 
-		let newState = ctx.getState().entity.map(collection => { 
-			if (collection.collectionId == modified.collectionId) return modified; 
-			return collection;
-		})
-
-		ctx.patchState({
-			entity: newState
-		})
+		state.entity = state.entity
+			.map(collection => { 
+				if (collection.collectionId == modified.collectionId) return modified; 
+				return collection;
+			})
+		ctx.patchState({});		
 	}
 
 	@Action(RemovedCollection)
 	removedCollection(ctx: StateContext<CollectionStateModel>, event: RemovedCollection) {
-		let newState = ctx.getState().entity.filter( collection => collection.collectionId != event.collectionId)
+		let state = ctx.getState();
 
-		ctx.patchState({
-			entity: newState
-		})
+		state.entity = state.entity.filter( collection => collection.collectionId != event.collectionId)
+		ctx.patchState({});
 	}
 }

@@ -18,13 +18,14 @@ import { take, tap, map, timeout, switchMap } from 'rxjs/operators';
 
 export interface TodayNoteStateModel {
 	initialized: boolean,
-	entity?: Note,
+	entity?: Note[],
 }
 
 @State<TodayNoteStateModel> ({
 	name: 'todayNote',	
 	defaults: {
 		initialized: false,
+		entity: []
 	},
 })
 export class TodayNoteState {
@@ -41,8 +42,8 @@ export class TodayNoteState {
 
 	@Action(FetchTodayNote)
 	fetchTodayNote(ctx: StateContext<TodayNoteStateModel>) {
-		return this.noteService.getTodayNote().pipe(
-			// tap(note => ctx.dispatch(new PatchTodayNote(note)))
+		return this.noteService.fetchTodayNote().pipe(
+			tap(note => console.log(note)),
 			switchMap(actions => from(actions)),
 			tap(action => {
 				if (action.type == 'added') 
@@ -61,24 +62,33 @@ export class TodayNoteState {
 
 	@Action(AddedTodayNote)
 	patchTodayNote(ctx: StateContext<TodayNoteStateModel>, event: AddedTodayNote) {
-		ctx.patchState({
-			initialized: true,
-			entity: event.note
-		});
+
+		let state = ctx.getState();
+
+		state.entity = [ event.note, ...state.entity ];
+
+		ctx.patchState({ initialized: true });
 	}
 
 	@Action(ModifiedTodayNote)
 	modifiedCollection(ctx: StateContext<TodayNoteStateModel>, event: ModifiedTodayNote) {
 
+		let state = ctx.getState();
 		let modified = event.note;
 
-		// let newState = ctx.getState().entity.map(note => { 
-		// 	if (note.noteId == modified.noteId) return modified; 
-		// 	return note;
-		// })
-
-		ctx.patchState({
-			entity: modified
+		state.entity = state.entity.map(note => { 
+			if (note.noteId == modified.noteId) return modified; 
+			return note;
 		})
+
+		ctx.patchState({})
+	}
+
+	@Action(RemovedTodayNote)
+	removedTodayNote(ctx: StateContext<TodayNoteStateModel>, event: RemovedTodayNote) {
+		let state = ctx.getState();
+
+		state.entity = state.entity.filter( note => note.noteId != event.noteId)
+		ctx.patchState({});
 	}
 }

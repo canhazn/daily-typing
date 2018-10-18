@@ -11,7 +11,7 @@ import { Collection } from '@store/model/collection.model';
 import { AuthState } from '@store/state/auth.state';
 
 import { Observable, Subject, of, from } from 'rxjs';
-import { take, map, tap, switchMap, catchError } from 'rxjs/operators';
+import { take, map, tap, switchMap, catchError, filter } from 'rxjs/operators';
 
 @Injectable()
 export class NoteService {
@@ -23,7 +23,7 @@ export class NoteService {
   }
 
   // set a new Note and return ....
-  private setNewNote() {  
+  setNewNote() {  
     // console.log("new note")   ;
     let note: Note = {
       noteId: this.afs.createId(),
@@ -60,18 +60,16 @@ export class NoteService {
     )
   }
   
-  getTodayNote() {
 
+
+  getYesterdayNote() {
     let today = new Date();       
-    let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
-    
+    let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);    
+    let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/note`),
-      map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).limit(1))),
-      switchMap(noteCollection => noteCollection.snapshotChanges()),
-      tap(actions => {
-        if (actions.length == 0) this.setNewNote().subscribe() 
-      })
+      map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).where("createdAt", "<=", endTime).limit(1))),
+      switchMap(noteCollection => noteCollection.valueChanges().pipe(map(([note]) => note))),      
     )
   }
 
@@ -98,6 +96,22 @@ export class NoteService {
     )
   }
 
+  fetchTodayNote() {
+
+    let today = new Date();       
+    let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
+    
+    return this.getUser().pipe(      
+      map(user => `/user/${user.uid}/note`),
+      map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "asc"))),
+      switchMap(noteCollection => noteCollection.stateChanges()),
+      tap(actions => {
+        console.log(actions)
+        if (actions.length == 0) this.setNewNote().subscribe() 
+      })
+    )
+  }
+
   fetchThisWeek() {
 
     let today =  new Date();
@@ -115,4 +129,30 @@ export class NoteService {
     )
   } 
 
+  fetchThisMonth() {
+
+    let today =  new Date();
+    
+    let startTime = new Date(today.getFullYear(), today.getMonth(), 1)
+    let endTime = new Date(today.getFullYear(), today.getMonth() + 1, 1)
+
+    return this.getUser().pipe(      
+      map(user => `user/${user.uid}/note`),
+      map(path => this.afs.collection(path, ref => {
+        let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        return query.where("createdAt", ">=", startTime).where("createdAt", "<=", endTime).orderBy("createdAt");
+      })),
+      switchMap(collection => collection.valueChanges()),
+    )
+  } 
+
+  getRandomLikedNote() {
+    let like = Math.floor(Math.random() * 50) + 1;
+
+    return this.getUser().pipe(      
+      map(user => `/user/${user.uid}/note`),
+      map(path => this.afs.collection(path, ref => ref.where("like", ">=", like).limit(1))),
+      switchMap(noteCollection => noteCollection.valueChanges().pipe(map(([note]) => note))),
+    )
+  }
 }

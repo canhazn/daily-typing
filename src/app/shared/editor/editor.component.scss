@@ -5,23 +5,18 @@
 
 :host /deep/ .mat-form-field {	
 	width: 100%;	
+	.mat-form-field-wrapper {
+		padding-bottom: 0 !important;
+	}
 	textarea {		
-		line-height: 1.6;		
-		font-weight: 400;		
-		padding: 0 8px;		
-		font-family: 'Quicksand', sans-serif;	
+		// line-height: 1.6;		
+		// font-weight: 450;	
+		// font-size: 16px;	
+		padding: 0;				
 		box-sizing: border-box;
 	}
-		.mat-input-element {
-			overflow: hidden !important;
-		}
-	.mat-form-field-label{
-		left: 8px;
-		top: 1em;
-	}
-
-	.mat-form-field-wrapper {
-		padding-bottom: 0;
+	.mat-input-element {
+		overflow: hidden !important;
 	}
 
 	.mat-form-field-underline, .mat-form-field-subscript-wrapper {

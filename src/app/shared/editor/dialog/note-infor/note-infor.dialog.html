@@ -1,12 +1,44 @@
 
 <div mat-dialog-content>	
-	<p>Created time: {{ note.createdAt.toDate() | date:'EEEE, MMMM d, y, h:mm:ss a'}}</p>
-	<p>Last edited time: {{ note.edittedAt.toDate() | date:'EEEE, MMMM d, y, h:mm:ss a'}}</p>
-	<p>Number of likes: {{ note.like }}</p>
+	<mat-list>
+		<mat-list-item>
+			<span>Created time:</span>
+			<span style="flex: 1 1 auto"></span>
+			<span style="text-align: right"> {{ note.createdAt.toDate() | date:'MMMM d, y, h:mm:ss a'}}</span>
+		</mat-list-item>
+		<mat-divider></mat-divider>
+		<mat-list-item>
+			<span>Last edited time:</span>
+			<span style="flex: 1 1 auto"></span>
+			<span style="text-align: right"> {{ note.edittedAt.toDate() | date:'MMMM d, y, h:mm:ss a'}}</span>
+		</mat-list-item>
+		<mat-divider></mat-divider>
+		<mat-list-item>
+			<span>Number of likes:</span>
+			<span style="flex: 1 1 auto"></span>
+			<span> {{ note.like }}</span>
+			<mat-chip class="clear-like">Clear</mat-chip>
+		</mat-list-item>
+		<mat-divider></mat-divider>
+		<mat-list-item class="collection-wrap">
+			<span>On Collections:</span>
+			<span style="flex: 1 1 auto"></span>
+			<div style="min-height: 48px; line-height: 48px;">
+				<div *ngFor="let collection of collections | async" >
+					<!-- {{ collection.name }} -->					
+					<span *ngIf="note.arrayCollectionId && note.arrayCollectionId.includes(collection.collectionId)">{{ collection.name }}</span> 
+				</div>
+			</div>
+		</mat-list-item>
+		<mat-divider></mat-divider>
+	</mat-list>
 </div>
 
 <div mat-dialog-actions>
   <button (click)="deleteNote()" mat-icon-button matTooltip="delete this day" matTooltipPosition="right"><mat-icon>delete_sweep</mat-icon></button>
   <span style="flex: 1 1 auto"></span>
-  <button mat-button mat-dialog-close cdkFocusInitial>Ok</button>
+  <button mat-button mat-dialog-close cdkFocusInitial>
+  	<mat-icon style="transform: rotate(-90deg);">navigate_before</mat-icon> 
+  	<span>Done</span>
+  </button>
 </div>

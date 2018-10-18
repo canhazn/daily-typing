@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material';
-
+// import { TimeAgoPipe } from 'time-ago-pipe';
+import { TimeAgoPipe } from '@shared/pipe/time-ago.pipe';
 import { EditorComponent } from './editor.component';
 
 import { NoteInforDialog } from './dialog/note-infor/note-infor.dialog';
@@ -12,7 +13,8 @@ import { MaterialModule } from '../material';
 
 @NgModule({
   declarations: [ 
-    NoteInforDialog, 
+    NoteInforDialog,
+    TimeAgoPipe, 
     CollectNoteDialog, 
     EditorComponent 
   ],

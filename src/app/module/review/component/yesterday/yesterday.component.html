@@ -1,0 +1,8 @@
+<app-editor [note]="yesterday | async"></app-editor>	
+
+<div *ngIf="randomNote | async as randomNote">
+	<mat-chip-list>		
+		<mat-chip>This is random day you liked!</mat-chip>		
+	</mat-chip-list>	
+	<app-editor [note]="randomNote"></app-editor>
+</div>

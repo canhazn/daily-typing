@@ -23,7 +23,7 @@ export class CollectionComponent implements OnInit {
 
 
   navigate($event) {
-    console.log($event.target.tagName);
+    // console.log($event.target.tagName);
     if (!($event.target.tagName == 'MAT-ICON' || $event.target.tagName == 'BUTTON'))
       this.router.navigate([`collected/${this.collection.collectionId}`]);
   }

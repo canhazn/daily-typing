@@ -1,11 +1,22 @@
-<div mat-dialog-content>	
-  	<mat-selection-list #collection>
+<mat-dialog-content>	
+  	<mat-form-field color="accent" floatLabel="never" class="new-collection">
+		<input #name matInput (keyup.enter)="createCollection($event)" [(ngModel)]="collectionName" placeholder="New collection ...">
+	</mat-form-field>
+  	<mat-selection-list checkboxPosition="after" >
 	  	<mat-list-option 
-	  		*ngFor="let collection of collections" 
+	  		*ngFor="let collection of collections | async" 
 	  		[selected]="note.arrayCollectionId && note.arrayCollectionId.includes(collection.collectionId)" 
 	  		(click)="collect(collection)">
-	    	{{ collection.name }}	
+	  		<span>{{ collection.name }}</span>
+	    	<span *ngIf="collection.arrayNoteId.length != 0">{{ collection.arrayNoteId.length }}</span>
 	  	</mat-list-option>
-	</mat-selection-list>
+	</mat-selection-list>	
+</mat-dialog-content>
 
-</div>
+<mat-dialog-actions>  
+  <span style="flex: 1 1 auto"></span>
+  <button mat-button mat-dialog-close cdkFocusInitial>
+  	<mat-icon style="transform: rotate(-90deg);">navigate_before</mat-icon> 
+  	<span>Done</span>
+  </button>
+</mat-dialog-actions>

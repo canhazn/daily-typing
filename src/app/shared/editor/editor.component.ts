@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, NgZone, ViewChild } from '@angular/core';
 import {MatDialog } from '@angular/material';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+
 
 import { firestore } from 'firebase';
 import { NoteService } from '@store/service/note.service';
@@ -9,24 +11,27 @@ import { NoteInforDialog }   from './dialog/note-infor/note-infor.dialog';
 import { CollectNoteDialog } from './dialog/collect-note/collect-note.dialog';
 
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, tap, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take } from 'rxjs/operators';
 
 
 @Component({
-  selector: 'app-editor',
+  selector: 'app-editor',  
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
   @Input() note : Note;
-  
+  @Input() timeAgo: boolean;
   private _contentChanged  = new Subject<string | null>();
   private _state = new Subject<string | null>();
 
   contentChanged = this._contentChanged.asObservable();
   state = this._state.asObservable();
 
-  constructor(private noteService: NoteService, public dialog: MatDialog) {}
+  constructor(private noteService: NoteService, public dialog: MatDialog, private ngZone: NgZone) {
+
+  }
+
 
   typing() :void {    
     this._contentChanged.next(this.note.content);    
@@ -46,7 +51,7 @@ export class EditorComponent implements OnInit {
     this.noteService.updateNote(update).subscribe();
   }
 
-  ngOnInit() {    
+  ngOnInit() {   
     this._contentChanged.pipe(
       distinctUntilChanged(),      
       tap(() => this._state.next("typing")),
@@ -73,7 +78,9 @@ export class EditorComponent implements OnInit {
 
   openNoteInforDialog(): void {
     const dialogRef = this.dialog.open(NoteInforDialog, {
-      width: '90%',      
+      width: '95%',
+      maxWidth: '900px',
+      // maxHeight: '100vh',      
       data: this.note,
     });
 
@@ -86,8 +93,10 @@ export class EditorComponent implements OnInit {
 
   openCollectNoteDialog(): void {
     const dialogRef = this.dialog.open(CollectNoteDialog, {
-      width: '90%',      
-      autoFocus: false,      
+      width: '95%',  
+      maxWidth: '900px',
+      // autoFocus: false,    
+      // maxHeight: '100vh',
       data: this.note,
     });
 

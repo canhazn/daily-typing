@@ -1,0 +1,72 @@
+.greet-bar {
+	// background-color: inherit !important;
+	margin-bottom: 16px;
+	display: flex;
+	justify-content: flex-end;
+	.set-new-note-btn {
+		margin: 0 4px;
+	}
+}
+
+:host /deep/ .mat-chip-list-wrapper {
+	margin: 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+    margin-bottom: 1.5em;
+
+    .mat-chip {
+    	cursor: pointer;
+    }
+
+   	.memorize {
+   		.mat-icon {
+   			margin: 0 0 0 10px;
+   		}
+   	}
+   	.week, .month {
+   		.mat-icon {
+   			margin: 0 10px 0 0;
+   		}
+   	}
+}
+
+.collections {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+
+
+@media (max-width: 1280px) {
+	.collections {
+		width: 100%;		
+		flex-direction: column;
+	}
+}
+
+@media (max-width: 500px) {
+	.month {
+		span {
+			display: none;
+		}
+
+		.mat-icon {
+			margin: 0;
+		}
+	}
+}
+
+@media (max-width: 400px) {
+	.week {
+		span {
+			display: none;
+		}
+
+		.mat-icon {
+			margin: 0;
+		}
+	}
+}

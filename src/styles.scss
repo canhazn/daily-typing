@@ -1,14 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/purple-green.css';
+// @import '~@angular/material/prebuilt-themes/purple-green.css';
 * {
-  font-family: 'Quicksand', sans-serif; 
+  // font-family: 'Quicksand', sans-serif; 
+  // font-size: 14px;  
+  // font-weight: 450; 
 }
 
 body{
   border: none; 
   padding: 0;
   margin: 0;
-  box-sizing: border-box; 
   background-color: #303030;
 }
 
@@ -27,11 +28,6 @@ body{
 app-root:empty + .loading {
   opacity: 1;
   z-index: 100;
-  h1 {
-    font-family: "courier", monospace;
-    color: #EEE;
-    margin-bottom: 50px;
-  }
 }
 
 .spinner {

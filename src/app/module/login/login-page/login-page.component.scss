@@ -1,0 +1,140 @@
+.flex-content {  
+  // background-color: #123;
+  display: flex;
+  align-items: baseline;
+  margin: 15vh 0;
+  .greeting {
+    height: 100%;
+    width: 60%;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+        font-size: 45px;
+        margin-bottom: 64px;
+      }
+  }
+
+  .login-form {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+
+.login-form {
+    p {
+      margin-bottom: 15px;
+    }
+    .mat-stroked-button {   
+      width: 300px;   
+      height: 48px;
+      font-size: 18px;
+      border: 2px solid #555;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }   
+    .btn {
+      max-width: 300px;
+      height: 48px;
+      line-height: 48px;  
+      border: 2px solid #555;
+      border-radius: 5px;
+      margin: 10px auto;  
+      display: block;
+      font-size: 18px;
+      cursor: pointer;
+      &:hover {
+        border-color: #fff;
+      }
+    }
+}
+
+.footer {  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  .footer-content {
+
+    display: flex;
+    padding: 16px 32px;  
+    div {
+      width: 50%;    
+    }
+    .infor {
+
+    }
+    .beta-app {
+      // text-align: right;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      // flex-direction: flex-end;
+    }
+  }
+
+}
+
+@media (max-width: 1280px) {
+  .flex-content {
+    flex-direction: column;
+    margin: 16px;
+    .greeting {     
+      width: 100%;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        font-size: 18px;
+        line-height: 18px;
+      }
+
+      .purpose {
+        display: none;
+      }
+    }
+
+    .login-form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .mat-stroked-button {   
+        width: 200px;   
+      }
+    }
+
+  }
+
+  .purpose-mobile {
+    display: block !important;
+    text-align: center;
+    margin-bottom: 34px;
+  }
+
+  .footer {
+    position: static;
+    .footer-content {      
+      flex-direction: column-reverse !important;
+      padding: 8px;
+      div {
+        width: 100%;
+        text-align: left;
+      }
+      .beta-app {
+        display: static;
+      }
+    }
+  }
+}

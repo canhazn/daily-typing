@@ -1,0 +1,31 @@
+
+<div class="greet-bar">
+	<button mat-icon-button (click)="setNewNote()" class="set-new-note-btn">
+			<mat-icon>add</mat-icon>			
+	</button>
+</div>
+
+<app-editor *ngFor="let note of notes" [note]="note"></app-editor>	
+
+<mat-chip-list>
+	<mat-chip routerLink="/review/yesterday" class="memorize">
+		<span>Memorize</span>		
+		<mat-icon>restore</mat-icon>
+	</mat-chip>
+	
+	<mat-chip routerLink="/review/this-week" class="week">
+		<mat-icon>notes</mat-icon>
+		<span>Review this weak</span>		
+	</mat-chip>
+
+	<mat-chip routerLink="/review/this-month" class="month">
+		<mat-icon>import_contacts</mat-icon>
+		<span>This month</span>		
+	</mat-chip>
+</mat-chip-list>	
+
+<div class="collections">
+	<app-collection *ngFor="let collection of collections | async" [collection]="collection"></app-collection>
+	<app-collection [collection]="{}"></app-collection>		
+</div>
+

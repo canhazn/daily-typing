@@ -1,7 +1,7 @@
 @import '~@angular/material/theming';
 
 // mixin name will be used in main style.scss
-@mixin editor-component-theme($theme) {
+@mixin home-page-theme($theme) {
   
   // retrieve variables from theme 
   // (all possible variables, use only what you really need)
@@ -13,10 +13,9 @@
   
   // all of these variables contain many additional variables
 
-  .editor {    
-      // retrieve particular color from variable, rg: text, base, divider, ...
-      // color: mat-color($foreground, text);
-      // background-color: mat-color($background, card);         
+  .mat-chip, .set-new-note-btn {    
+      // retrieve particular color from variable, rg: text, base, divider, ...      
+      background-color: mat-color($foreground, divider) !important;         
   }
 
   .like {

@@ -63,15 +63,25 @@ export class CollectionService {
   updateCollection(collection: Collection):Observable<any> {
     return this.getUser().pipe(      
       map(user => this.afs.doc<any>(`user/${user.uid}/collection/${collection.collectionId}`)),
-      tap(() => delete collection.collectionId),
+      tap(() => {
+        collection.edittedAt = firestore.Timestamp.now();
+        delete collection.collectionId
+      }),
       switchMap(path => from (path.update(collection))),
     )   
   }
 
   fetchCollection() {
      return this.getUser().pipe(      
-      map(user => this.afs.collection(`user/${user.uid}/collection`)),
+      map(user => this.afs.collection(`user/${user.uid}/collection`, ref => ref.orderBy("createdAt", "asc"))),
       switchMap(collection => collection.stateChanges()),
+    )
+  }
+
+  fetchCollect() {
+     return this.getUser().pipe(      
+      map(user => this.afs.collection(`user/${user.uid}/collection`, ref => ref.orderBy("createdAt", "asc"))),
+      switchMap(collection => collection.valueChanges()),
     )
   }
 

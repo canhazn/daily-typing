@@ -1,7 +1,6 @@
-<mat-card *ngIf="note">		
-
+<mat-card *ngIf="note">
 	<mat-form-field floatLabel="never">		
-		<textarea [(ngModel)]="note.content" (ngModelChange)="typing()" matInput cdkTextareaAutosize cdkAutosizeMinRows="2" placeholder="What's need to be typed?"></textarea>
+		<textarea [(ngModel)]="note.content" (ngModelChange)="typing()" matInput cdkTextareaAutosize cdkAutosizeMinRows="2"  placeholder="What's need to be typed?"></textarea>
 	</mat-form-field>
 
 	<div class="bar">
@@ -11,7 +10,8 @@
 		</button>
 		
 		<ng-template #elseDay>
-			<button mat-icon-button disabled>{{ note.createdAt.toDate() | date:'EEEEEE'}}</button>	
+			<button *ngIf="timeAgo" mat-icon-button disabled>{{ note.createdAt.toDate() | timeAgo}}</button>	
+			<button *ngIf="!timeAgo" mat-icon-button disabled>{{ note.createdAt.toDate() | date:'EEEEEE'}}</button>	
 		</ng-template>
 
 		<div [ngClass]="{'liked': note.like >= 1}" class="like">

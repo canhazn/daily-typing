@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { NoteService } from '@store/service/note.service';
@@ -21,13 +21,22 @@ import { finalize, take, tap, filter } from 'rxjs/operators';
 })
 export class CollectNoteDialog implements OnInit {
 
-  collections = [];
+  collections :Observable<any>;
+  collectionName : string = '';
   constructor( public dialogRef: MatDialogRef<CollectNoteDialog>,  
                private store : Store,
                private noteService : NoteService,                 
                private collectionService : CollectionService,  
                @Inject(MAT_DIALOG_DATA) public note: Note) {}
 
+  createCollection($event: any) {    
+    let name = $event.target.value;
+
+    if (name == '') return;
+    this.collectionService.setNewCollection(name).subscribe();        
+    $event.target.value = "";
+    $event.target.blur();
+  }
 
   collect(collection: Collection) {    
     if (!this.note.arrayCollectionId) this.note.arrayCollectionId = [];    
@@ -64,28 +73,31 @@ export class CollectNoteDialog implements OnInit {
       tap(() => this.store.dispatch(new FetchCollection()))
     ).subscribe()
 
-    // this.collections = this.store.select( CollectionState.getCollection )
+    this.collections = this.store.select( CollectionState.getCollection )
 
-    this.store.select( CollectionState.getCollection ).pipe(
-        tap(curr => {
-            if (this.collections.length < curr.length) {
-              let index = curr.length -1;                                     
-              for( index; index >= 0; index--) 
-                  if (!this.collections.includes(curr[index]) ) this.collections.push(curr[index]);                
-            }
+    // this.store.select( CollectionState.getCollection ).pipe(
+    //     tap(curr => {
+    //         console.log(curr);
+    //         if (this.collections.length < curr.length) {
+    //           let index = curr.length -1;                                     
+    //           for( index; index >= 0; index--) 
+    //               if (!this.collections.includes(curr[index]) ) this.collections.unshift(curr[index]);                
+    //         }
 
-            if (this.collections.length > curr.length) {
-              for ( let index = 0; index <= this.collections.length -1; index++) {
-                if (!curr.includes(this.collections[index])) this.collections.splice(index, 1);
-              }
-            }
+    //         if (this.collections.length > curr.length) {
+    //           for ( let index = 0; index <= this.collections.length -1; index++) {
+    //             if (!curr.includes(this.collections[index])) this.collections.splice(index, 1);
+    //           }
+    //         }
 
-            if (this.collections.length == curr.length) {
-              for(let i = 0; i <= this.collections.length - 1; i++) 
-                if (this.collections[i] == curr[i]) this.collections[i] = curr[i];                              
-            }
-        })
-    ).subscribe();
+    //         if (this.collections.length == curr.length) {
+    //           for(let i = 0; i <= this.collections.length - 1; i++) 
+    //             if (this.collections[i] == curr[i]) this.collections[i] = curr[i];                              
+    //         }
+
+    //         this.collections.sort( (a : Collection, b : Collection) => b.edittedAt.seconds - a.edittedAt.seconds);
+    //     })
+    // ).subscribe();
   }
 
 

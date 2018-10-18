@@ -84,8 +84,6 @@ export class ReviewState {
 			if (note.noteId == modified.noteId) return modified; 
 			return note;
 		})
-		console.log(modified);
-		console.log(newState);
 
 		ctx.patchState({
 			thisWeek: {

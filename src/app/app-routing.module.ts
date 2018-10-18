@@ -9,10 +9,10 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/auth.guard';
 
 const routes: Routes = [
-  { path: 'login', loadChildren: './modules/login/login.module#LoginModule' },
-  { path: '', loadChildren: './modules/home/home.module#HomeModule', canActivate: [AuthGuard] },
-  { path: 'review', loadChildren: './modules/review/review.module#ReviewModule', pathMatch: 'prefix', canActivate: [AuthGuard] },
-  { path: 'collected', loadChildren: './modules/collected/collected.module#CollectedModule', canActivate: [AuthGuard] },  
+  { path: 'login', loadChildren: './module/login/login.module#LoginModule' },
+  { path: '', loadChildren: './module/home/home.module#HomeModule', canActivate: [AuthGuard] },
+  { path: 'review', loadChildren: './module/review/review.module#ReviewModule', pathMatch: 'prefix', canActivate: [AuthGuard] },
+  { path: 'collected', loadChildren: './module/collected/collected.module#CollectedModule', canActivate: [AuthGuard] },  
 ];
 
 @NgModule({

@@ -1,8 +1,66 @@
-.mat-list-option {
-	height: auto !important;	
-	margin: 4px 0;
+// mat-dialog-container ng-tns-c12-2 ng-trigger ng-trigger-slideDialog ng-star-inserted
+
+
+
+.mat-dialog-content {
+	max-height: 95vh !important;
+	padding-top: 0; 
+	.mat-list{ 
+		padding-top: 0; 
+	}
+	// padding: 0;
+}
+
+:host /deep/ .mat-form-field {	
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 16px;	
+
+	.mat-input-element {
+		overflow: hidden !important;
+	}	
+	.mat-form-field-wrapper {
+	  padding: 0;
+	
+	}
+	
+	.mat-form-field-infix {
+	  border-top: 0;
+	}
+	
+	.mat-form-field-underline {
+	  bottom: 0 !important;
+	}
+}
+
+
+.mat-list-item-focus {
+	background-color: inherit !important;
 }
 
 :host /deep/ .mat-list-item-content {
 	padding: 16px !important;
+	.mat-list-text {
+		span {
+
+			font-size: 16px !important;
+			font-weight: 450 !important;
+			font-family: 'Quicksand', sans-serif; 
+		}
+		flex-direction: row !important;
+		justify-content: space-between;
+	}
+}
+
+@media (max-width: 600px) {
+	.mat-dialog-content {
+		// max-height: 95vh !important;
+		padding: 0 8px 8px 8px;
+	}
+	.mat-dialog-actions {
+		padding-top: 0; 
+		.mat-button {
+			padding: 0;
+		}
+	}
 }

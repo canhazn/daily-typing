@@ -10,16 +10,17 @@
         </div>
       </div>
       <mat-card-actions>
-        <button (click)="openEditCollectionDialog()" mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
+          <span style="flex: 1 1 auto"></span>
+          <button (click)="openEditCollectionDialog()" mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
       </mat-card-actions>
   </mat-card>
   
   <ng-template #newCollection>  
       <button (click)="openCreateCollectionDialog()" mat-raised-button class="collection">
           New collection
-          <mat-icon>edit</mat-icon>
+          <mat-icon style="margin-left: 20px;">edit</mat-icon>
       </button>   
   </ng-template>
 
