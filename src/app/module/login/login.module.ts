@@ -12,7 +12,11 @@ import { MaterialModule } from '@shared/material';
     LoginRoutingModule,
     MaterialModule,
   ],
-  exports: [LoginPageComponent],
-  declarations: [LoginPageComponent]
+  exports: [ 
+  	// LoginPageComponent,  	
+  ],
+  declarations: [
+  	LoginPageComponent
+  ]
 })
 export class LoginModule { }

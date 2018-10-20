@@ -1,18 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { Store }        from '@ngxs/store';
-import { Navigate } from '@ngxs/router-plugin';
+import { AuthService } from '@store/service/auth.service';
 
 import { Observable }   from 'rxjs';
 import { map, take, tap, filter } from 'rxjs/operators';
 
-import {
-
-  LoginWithFacebook,
-  LoginWithGoogle,
-
-} from '@store/action/auth.action';
-import { AuthState } from '@store/state/auth.state';
 
 @Component({
 	selector: 'app-login',
@@ -23,23 +16,24 @@ export class LoginPageComponent implements OnInit {
 	
 	showSpinner: boolean = false;
 
-	constructor(private store: Store) {
-		store.select(AuthState.getUser).pipe(
-			filter( user => !!user),
-			tap(() => console.log('route from login page')),
-			tap(logged => this.store.dispatch( new Navigate(['/']) ))
-		).subscribe()
+	constructor(private authService: AuthService) {
+
 	}
 
-	ngOnInit() {		
+	ngOnInit() {	
+		this.authService.user.pipe(
+			filter( user => !!user),
+			tap(_ => console.log('route from login page')),
+			tap(logged => this.authService.loggedinRedirect())
+		).subscribe()	
 	}
 
 	googleLogin() {
-		this.store.dispatch(new LoginWithGoogle());
+		this.authService.googleLogin();
 	}
 
 	facebookLogin() {
-		this.store.dispatch(new LoginWithFacebook());
+		
 	}
 
 	tiwtterLogin() {

@@ -14,10 +14,14 @@ export class ThisMonthComponent implements OnInit {
 
 	notes: Observable<any>;
 
-  constructor(private noteService: NoteService) { }
+	constructor(private noteService: NoteService) { }
 
-  ngOnInit() {
-  	this.notes = this.noteService.fetchThisMonth();
-  }
+	trackNote(index: number, element: Note) {
+        return element ? element.noteId : null;
+    }
+    
+	ngOnInit() {
+		this.notes = this.noteService.getThisMonth();
+	}
 
 }

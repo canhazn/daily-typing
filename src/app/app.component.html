@@ -1,6 +1,6 @@
 <div class="mat-typography" [ngClass]="{'dark': (theme | async) == 'dark', 'light': (theme | async) == 'light'}">
   <app-top-nav></app-top-nav>  
   <div class="mat-app-background">
-    <router-outlet *ngIf="initialized$ | async"></router-outlet>    
+    <router-outlet></router-outlet>    
   </div>
 </div>

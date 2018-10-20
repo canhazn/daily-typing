@@ -1,11 +1,9 @@
 .greet-bar {
 	// background-color: inherit !important;
-	margin-bottom: 16px;
+	margin: 0 4px 16px 4px;
 	display: flex;
-	justify-content: flex-end;
-	.set-new-note-btn {
-		margin: 0 4px;
-	}
+	justify-content: space-between;
+	align-items: baseline;
 }
 
 :host /deep/ .mat-chip-list-wrapper {

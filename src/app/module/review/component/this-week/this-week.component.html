@@ -1,1 +1,1 @@
-<app-editor *ngFor="let note of notes" [note]="note"></app-editor>	
+<app-editor *ngFor="let note of notes | async; trackBy: trackNote" [note]="note"></app-editor>	

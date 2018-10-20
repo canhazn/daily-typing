@@ -13,7 +13,7 @@ export class ChangedTheme {
 }
 
 @State<ThemeStateModel> ({
-	name: 'apptheme',	
+	name: 'appTheme',	
 	defaults: {
 		theme: localStorage.getItem("theme") || "dark"
 	}

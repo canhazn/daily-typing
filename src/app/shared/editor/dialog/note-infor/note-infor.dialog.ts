@@ -1,10 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
-import { Store }        from '@ngxs/store';
-import { FetchCollection } from '@store/action/collection.action';
-import { CollectionState } from '@store/state/collection.state';
-
 import { CollectionService } from '@store/service/collection.service';
 import { Collection } from '@store/model/collection.model';
 
@@ -21,28 +17,18 @@ import { finalize, take, tap, filter, switchMap, map } from 'rxjs/operators';
 })
 export class NoteInforDialog implements OnInit {
 
-  collections : Observable<any>
+  collections : Observable<any>;
   constructor(  public dialogRef: MatDialogRef<NoteInforDialog>,
-                private store : Store,  
                 private noteService : NoteService,  
                 private collectionService: CollectionService,
                 @Inject(MAT_DIALOG_DATA) public note: Note) {}
 
   deleteNote() {
     // remove noteId in collection first
-    if(this.note.arrayCollectionId) {
+    if(this.note.arrayCollectionId && this.note.arrayCollectionId.length != 0) {
+      console.log("arrayCollectionId.length != 0");
       this.note.arrayCollectionId.forEach(collectionId => {
-        this.collections.pipe(
-          switchMap(arrayCollection => from(arrayCollection)),
-          filter((collection: Collection) => collection.collectionId == collectionId),
-          map(changedCollection => {  
-            return {
-              collectionId: collectionId,
-              arrayNoteId: changedCollection.arrayNoteId.filter(noteId => noteId != this.note.noteId)
-            }            
-          }),
-          switchMap(update => this.collectionService.updateCollection(update))
-        ).subscribe();
+       this.collectionService.deleteNote(this.note, collectionId);
       })
     }
 
@@ -50,21 +36,15 @@ export class NoteInforDialog implements OnInit {
     this.dialogRef.close("deleted");
 
   }
-
-  private fetchCollection() {
-    this.store.select( CollectionState.getInitialized ).pipe(
-      filter(initialized => !initialized),
-      tap(() => this.store.dispatch(new FetchCollection()))
-    ).subscribe()
-  }
+  
 
   ngOnInit() {    
     
-    if(this.note.arrayCollectionId && this.note.arrayCollectionId.length != 0) this.fetchCollection();
 
-    // this.collections = this.store.select( CollectionState.getCollection )
+    this.collections = this.collectionService.getCollection();
 
-    this.collections = this.store.select( CollectionState.getCollection )
+
+
   }
 
 

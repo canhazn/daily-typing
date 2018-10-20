@@ -9,7 +9,7 @@ import { HomeRoutingModule } from './home-routing.module';
 
 import { EditorModule } from '../../shared/editor/editor.module';
 import { CollectionModule } from '../../shared/collection/collection.module';
-import { MaterialModule } from '../../shared/material';
+import { MaterialModule } from '@shared/material';
 
 @NgModule({
   imports: [
@@ -21,7 +21,10 @@ import { MaterialModule } from '../../shared/material';
     CollectionModule,
     MaterialModule,
   ],
-  exports: [HomePageComponent],
+  exports: [ 
+    // HomePageComponent,
+    // HomeRoutingModule
+  ],
   declarations: [HomePageComponent]
 })
 export class HomeModule { }

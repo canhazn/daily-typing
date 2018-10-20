@@ -11,12 +11,16 @@ import { Observable } from 'rxjs';
 })
 export class YesterdayComponent implements OnInit {
 
-	yesterday: Observable<any>;	
+	yesterdayNotes: Observable<any>;	
 	randomNote: Observable<any>;
 	constructor(private noteService: NoteService) { }
 
+	trackNote(index: number, element: Note) {
+        return element ? element.noteId : null;
+    }
+    
 	ngOnInit() {
-		this.yesterday = this.noteService.getYesterdayNote();
+		this.yesterdayNotes = this.noteService.getYesterdayNote();
 		
 		this.randomNote = this.noteService.getRandomLikedNote();
 	}

@@ -6,4 +6,4 @@
 	<div></div> -->
 </mat-chip-list>	
 
-<app-editor *ngFor="let note of notes | async" [note]="note | async"></app-editor>	
+<app-editor *ngFor="let note of notes | async" [note]="note | async" [timeAgo]='true'></app-editor>	

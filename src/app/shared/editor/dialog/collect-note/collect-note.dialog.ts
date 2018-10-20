@@ -7,10 +7,6 @@ import { Note } from '@store/model/note.model';
 import { CollectionService } from '@store/service/collection.service';
 import { Collection } from '@store/model/collection.model';
 
-import { Store }        from '@ngxs/store';
-import { FetchCollection } from '@store/action/collection.action';
-import { CollectionState } from '@store/state/collection.state';
-
 import { Observable, Subject, of, forkJoin } from 'rxjs';
 import { finalize, take, tap, filter } from 'rxjs/operators';
 
@@ -23,8 +19,7 @@ export class CollectNoteDialog implements OnInit {
 
   collections :Observable<any>;
   collectionName : string = '';
-  constructor( public dialogRef: MatDialogRef<CollectNoteDialog>,  
-               private store : Store,
+  constructor( public dialogRef: MatDialogRef<CollectNoteDialog>,                 
                private noteService : NoteService,                 
                private collectionService : CollectionService,  
                @Inject(MAT_DIALOG_DATA) public note: Note) {}
@@ -39,41 +34,25 @@ export class CollectNoteDialog implements OnInit {
   }
 
   collect(collection: Collection) {    
-    if (!this.note.arrayCollectionId) this.note.arrayCollectionId = [];    
-
-    let collectionId = collection.collectionId;
-
-    if (this.note.arrayCollectionId.includes(collectionId)) {      
-      this.note.arrayCollectionId = this.note.arrayCollectionId.filter(id => id != collectionId);
-      collection.arrayNoteId = collection.arrayNoteId.filter(id => id != this.note.noteId);
-
-    }
-    else {
-      this.note.arrayCollectionId.push(collectionId);
-      collection.arrayNoteId.push(this.note.noteId);
-    }
-
-      let updateNote = this.noteService.updateNote({
-        noteId: this.note.noteId, 
-        arrayCollectionId: this.note.arrayCollectionId
+    if (collection.arrayNoteId.includes(this.note.noteId)) {           
+      this.collectionService.removeNote(this.note, collection).subscribe(_ => {        
+        this.dialogRef.close();
       });
-
-      let updateCollection = this.collectionService.updateCollection({
-        collectionId: collectionId, 
-        arrayNoteId: collection.arrayNoteId
-      }); 
-
-      forkJoin(updateNote, updateCollection).subscribe(() => {
+    }
+    else {      
+      this.collectionService.collectNote(this.note, collection).subscribe(_ => {
+        this.dialogRef.close();
       });
+    }
   }
 
   ngOnInit() {    
-    this.store.select( CollectionState.getInitialized ).pipe(
-      filter(initialized => !initialized),
-      tap(() => this.store.dispatch(new FetchCollection()))
-    ).subscribe()
+    // this.store.selectOnce( CollectionState.getInitialized ).pipe(
+    //   filter(initialized => !initialized),
+    //   tap(() => this.store.dispatch(new FetchCollection()))
+    // ).subscribe()
 
-    this.collections = this.store.select( CollectionState.getCollection )
+    this.collections = this.collectionService.getCollection();
 
     // this.store.select( CollectionState.getCollection ).pipe(
     //     tap(curr => {

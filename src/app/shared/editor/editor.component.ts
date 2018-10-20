@@ -6,6 +6,7 @@ import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import { firestore } from 'firebase';
 import { NoteService } from '@store/service/note.service';
 import { Note } from '@store/model/note.model';
+import { Collection } from '@store/model/collection.model';
 
 import { NoteInforDialog }   from './dialog/note-infor/note-infor.dialog';
 import { CollectNoteDialog } from './dialog/collect-note/collect-note.dialog';
@@ -22,6 +23,7 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take } from
 export class EditorComponent implements OnInit {
   @Input() note : Note;
   @Input() timeAgo: boolean;
+  // @Input() collections: Observable<Collection[]>;
   private _contentChanged  = new Subject<string | null>();
   private _state = new Subject<string | null>();
 

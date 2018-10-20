@@ -5,7 +5,7 @@
   	<mat-selection-list checkboxPosition="after" >
 	  	<mat-list-option 
 	  		*ngFor="let collection of collections | async" 
-	  		[selected]="note.arrayCollectionId && note.arrayCollectionId.includes(collection.collectionId)" 
+	  		[selected]="collection.arrayNoteId.includes(note.noteId)" 
 	  		(click)="collect(collection)">
 	  		<span>{{ collection.name }}</span>
 	    	<span *ngIf="collection.arrayNoteId.length != 0">{{ collection.arrayNoteId.length }}</span>

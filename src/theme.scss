@@ -15,12 +15,12 @@ $custom-typography: mat-typography-config(
   $title:         mat-typography-level(20px, 32px, 500),
   $subheading-2:  mat-typography-level(16px, 28px, 400),
   $subheading-1:  mat-typography-level(15px, 24px, 400),
-  $body-2:        mat-typography-level(14px, 24px, 500),
+  $body-2:        mat-typography-level(14px, 24px, 400),
   $body-1:        mat-typography-level(14px, 20px, 400),
   $caption:       mat-typography-level(12px, 20px, 400),
-  $button:        mat-typography-level(14px, 14px, 450),
+  $button:        mat-typography-level(14px, 14px, 400),
   // Line-height must be unit-less fraction of the font-size.
-  $input:         mat-typography-level(17px, 1.7, 400)
+  $input:         mat-typography-level(17px, 1.7, 370)
 );
 
 @include angular-material-typography($custom-typography);

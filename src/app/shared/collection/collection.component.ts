@@ -8,8 +8,6 @@ import { Collection } from '@store/model/collection.model';
 import { CreateCollectionDialog } from './dialog/create-collection/create-collection.dialog';
 import { EditCollectionDialog }   from './dialog/edit-collection/edit-collection.dialog';
 
-import { Store }        from '@ngrx/store';
-
 @Component({
   selector: 'app-collection',
   templateUrl: './collection.component.html',

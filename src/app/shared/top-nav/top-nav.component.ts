@@ -2,12 +2,11 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 import { Store, Select }        from '@ngxs/store';
 
-import { Observable }   from 'rxjs';
 import { ChangedTheme } from '@store/state/theme.state';
 
-import { Logout } from '@store/action/auth.action';
-import { AuthState } from '@store/state/auth.state';
+import { AuthService } from '@store/service/auth.service';
 
+import { Observable }   from 'rxjs';
 @Component({
   selector: 'app-top-nav',
   templateUrl: './top-nav.component.html',
@@ -15,9 +14,9 @@ import { AuthState } from '@store/state/auth.state';
 })
 export class TopNavComponent implements OnInit {
 
-  @Select(AuthState.getUser) user : Observable<any>;
+   user : Observable<any>;
   
-  constructor(private store: Store) {}
+  constructor(private store: Store, private authService: AuthService) {}
 
   changeTheme(): void {
   	this.store.dispatch( new ChangedTheme())  	
@@ -25,10 +24,10 @@ export class TopNavComponent implements OnInit {
 
 
   logout() {   
-    this.store.dispatch( new Logout());   
+    this.authService.logout()
   }
 
-  ngOnInit() {    
-    // this.store.subscribe(data => console.log(data))
+  ngOnInit() {        
+    this.user = this.authService.user;
   }
 }
