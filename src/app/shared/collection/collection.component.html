@@ -5,8 +5,8 @@
           <span *ngIf="collection.arrayNoteId.length != 0">{{ collection.arrayNoteId.length }}</span>       
         </div>
         <div class="text">
-          <p class="name">{{ collection.name }}</p>
-          <p class="time">{{ collection.edittedAt.toDate() | date:'mediumDate' }}</p>
+          <span class="name">{{ collection.name }}</span>
+          <span class="time">{{ collection.edittedAt.toDate() | date:'mediumDate' }}</span>
         </div>
       </div>
       <mat-card-actions>
@@ -22,5 +22,7 @@
           New collection
           <mat-icon style="margin-left: 20px;">edit</mat-icon>
       </button>   
+
+      <!-- matRipple -->
   </ng-template>
 

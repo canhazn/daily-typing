@@ -8,18 +8,23 @@
 	.collection-header {
 		display: flex;
 		cursor: pointer;
-		outline: none;
+		// justify-content: space-around;
+		// align-items: baseline;
+		// outline: none;
+
 		.number {
-			height: 45px;
+			// height: 45px;
 			width: 45px;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
 		.text {
-			p {
-				font-size: 14px;
-				margin: 0 0 10px 10px;
+			display: flex;
+			flex-direction: column;
+			padding-left: 16px;
+			span {
+				font-size: 17px;
 			}
 		}
 	}

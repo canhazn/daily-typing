@@ -22,6 +22,7 @@ export class NoteService {
   private getUser(): Observable<User> {
     return this.authService.user.pipe(
       filter(user => !!user),
+      take(1),
     )
   }
 
@@ -46,7 +47,8 @@ export class NoteService {
 
   // update Note return Observable
   updateNote(note: Note): Observable<any> {
-    return this.getUser().pipe(            
+    return this.getUser().pipe(      
+      tap(_ => console.log(note)),
       map(user => this.afs.doc<any>(`user/${user.uid}/note/${note.noteId}`)),
       tap(() => delete note.noteId ),
       switchMap(path => from (path.update(note)) ),

@@ -11,16 +11,13 @@ import { AuthService } from '@store/service/auth.service';
 })
 export class AuthGuard implements CanActivate {
 
-	constructor(private router: Router, private authService: AuthService) { }
+	constructor(private authService: AuthService) { }
 
-  canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {     
-    
-    return this.authService.user.pipe(
-       
-      map(u => !!u),
-      tap(u => {
-        if (!u)  this.router.navigate(['/login']) 
-      })
-    );   
-  }
+  	canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {     
+    	return this.authService.user.pipe(         		
+    		// tap(_ => console.log(_)),
+    	  	map(user => !!user),
+    	  	tap(user =>  (!user ? this.authService.navigateToLogin() : console.log("[Auth Guard] accepted!")))
+    	);   
+  	}
 }

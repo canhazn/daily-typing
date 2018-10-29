@@ -23,6 +23,7 @@ export class CollectionService {
   private getUser(): Observable<User> {
     return this.authService.user.pipe(
       filter(user => !!user),
+      take(1),
     )
   }
   // create a collection and return a observable

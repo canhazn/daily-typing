@@ -13,8 +13,8 @@
   
   // all of these variables contain many additional variables
 
-  .footer .footer-content {
-    // background-color:  mat-color($primary) !important;         
+  .footer a {
+    color: mat-color($foreground, text);    
   }
 
 }

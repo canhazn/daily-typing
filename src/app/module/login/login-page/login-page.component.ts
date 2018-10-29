@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { AuthService } from '@store/service/auth.service';
 
 import { Observable }   from 'rxjs';
-import { map, take, tap, filter } from 'rxjs/operators';
-
+import { map, take, tap, filter, debounceTime } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-login',
@@ -14,29 +12,29 @@ import { map, take, tap, filter } from 'rxjs/operators';
 })
 export class LoginPageComponent implements OnInit {
 	
-	showSpinner: boolean = false;
 
-	constructor(private authService: AuthService) {
-
-	}
+	usedEmail;
+	constructor(private authService: AuthService) {}
 
 	ngOnInit() {	
 		this.authService.user.pipe(
 			filter( user => !!user),
-			tap(_ => console.log('route from login page')),
-			tap(logged => this.authService.loggedinRedirect())
-		).subscribe()	
+			take(1),			
+			tap(logged => this.authService.navigateToHome())
+		).subscribe();
+
+		// can't bind this.usedEmail = this.authService.usedEmail bacause temple parse "error"
+		this.authService.usedEmail.pipe(
+			take(1),
+			tap(usedEmail => this.usedEmail = usedEmail)
+		).subscribe();		
 	}
 
-	googleLogin() {
-		this.authService.googleLogin();
+	login(method: 'google.com'| 'facebook.com' | 'twitter.com') {
+		this.authService.login(method);
 	}
 
-	facebookLogin() {
-		
+	link() {
+	    this.authService.linkAuthProvider();	 
 	}
-
-	tiwtterLogin() {
-	}
-
 }

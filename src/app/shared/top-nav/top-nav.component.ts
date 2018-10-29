@@ -14,12 +14,14 @@ import { Observable }   from 'rxjs';
 })
 export class TopNavComponent implements OnInit {
 
-   user : Observable<any>;
+  // @Output() changedTheme = new EventEmitter<string>();
+  user : Observable<any>;
   
   constructor(private store: Store, private authService: AuthService) {}
 
   changeTheme(): void {
-  	this.store.dispatch( new ChangedTheme())  	
+  	this.store.dispatch( new ChangedTheme());
+    // this.changedTheme.emit();    
   }
 
 

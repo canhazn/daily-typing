@@ -1,10 +1,10 @@
 <mat-dialog-content>	
 	<mat-form-field style="width: 100%;">
-	    <input #name matInput cdkFocusInitial placeholder="Collection's name:" (keyup.enter)="createCollection(name.value)">
+	    <input #newName matInput cdkFocusInitial placeholder="Collection's name:" (keyup.enter)="createCollection(newName.value)">
 	</mat-form-field>
 </mat-dialog-content>
 
 <mat-dialog-actions>  	  	
 	<span style="flex: 1 1 auto"></span>
-	<button mat-button (click)="createCollection(name.value)" >Ok</button>
+	<button mat-button (click)="createCollection(newName.value)" >Ok</button>
 </mat-dialog-actions>

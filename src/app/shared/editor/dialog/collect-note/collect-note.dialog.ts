@@ -47,36 +47,7 @@ export class CollectNoteDialog implements OnInit {
   }
 
   ngOnInit() {    
-    // this.store.selectOnce( CollectionState.getInitialized ).pipe(
-    //   filter(initialized => !initialized),
-    //   tap(() => this.store.dispatch(new FetchCollection()))
-    // ).subscribe()
-
     this.collections = this.collectionService.getCollection();
-
-    // this.store.select( CollectionState.getCollection ).pipe(
-    //     tap(curr => {
-    //         console.log(curr);
-    //         if (this.collections.length < curr.length) {
-    //           let index = curr.length -1;                                     
-    //           for( index; index >= 0; index--) 
-    //               if (!this.collections.includes(curr[index]) ) this.collections.unshift(curr[index]);                
-    //         }
-
-    //         if (this.collections.length > curr.length) {
-    //           for ( let index = 0; index <= this.collections.length -1; index++) {
-    //             if (!curr.includes(this.collections[index])) this.collections.splice(index, 1);
-    //           }
-    //         }
-
-    //         if (this.collections.length == curr.length) {
-    //           for(let i = 0; i <= this.collections.length - 1; i++) 
-    //             if (this.collections[i] == curr[i]) this.collections[i] = curr[i];                              
-    //         }
-
-    //         this.collections.sort( (a : Collection, b : Collection) => b.edittedAt.seconds - a.edittedAt.seconds);
-    //     })
-    // ).subscribe();
   }
 
 

@@ -1,30 +1,36 @@
 .mat-dialog-content {
 	max-height: 95vh !important;
-	padding-top: 0; 
+	box-sizing: border-box;	
+	margin: 0;
 	.mat-list {
 		padding-top: 0; 
+		.clear-like {
+			cursor: pointer;
+			margin-left: 10px;
+		}
+	}
+	
+	/deep/ .collection-wrap {	
+		height: auto !important;
+		min-height: 48px !important;
 	}
 }
 
-.clear-like {
-	cursor: pointer;
-	margin-left: 10px;
+.mat-dialog-actions {
+	padding: 8px 16px;
 }
 
-:host /deep/ .collection-wrap {	
-	height: auto !important;
-	min-height: 48px !important;
-}
 
 @media (max-width: 600px) {
 	.mat-dialog-content {
-		// max-height: 95vh !important;
-		padding: 0 8px 8px 8px;
-	}
-	.mat-dialog-actions {
-		padding-top: 0; 
-		.mat-button {
-			padding: 0;
+		padding: 0;
+		/deep/ .mat-list-item-content {
+			padding: 0 4px !important;
 		}
 	}
+
+	.mat-dialog-actions {
+		padding: 8px 0px;
+	}
+
 }

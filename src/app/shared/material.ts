@@ -11,10 +11,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatRippleModule } from '@angular/material/core';
 
 
 @NgModule({
-  imports: [MatButtonModule, MatToolbarModule, MatIconModule, MatTooltipModule, MatMenuModule, MatGridListModule, MatInputModule, MatCardModule, MatChipsModule, MatDialogModule, MatBadgeModule, MatListModule],
-  exports: [MatButtonModule, MatToolbarModule, MatIconModule, MatTooltipModule, MatMenuModule, MatGridListModule, MatInputModule, MatCardModule, MatChipsModule, MatDialogModule, MatBadgeModule, MatListModule],
+  imports: [ MatRippleModule, MatButtonModule, MatToolbarModule, MatIconModule, MatTooltipModule, MatMenuModule, MatGridListModule, MatInputModule, MatCardModule, MatChipsModule, MatDialogModule, MatBadgeModule, MatListModule],
+  exports: [ MatRippleModule, MatButtonModule, MatToolbarModule, MatIconModule, MatTooltipModule, MatMenuModule, MatGridListModule, MatInputModule, MatCardModule, MatChipsModule, MatDialogModule, MatBadgeModule, MatListModule],
 })
 export class MaterialModule { }

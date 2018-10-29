@@ -16,7 +16,7 @@ import { MaterialModule } from '@shared/material';
   	// LoginPageComponent,  	
   ],
   declarations: [
-  	LoginPageComponent
-  ]
+  	LoginPageComponent,    
+  ],
 })
 export class LoginModule { }

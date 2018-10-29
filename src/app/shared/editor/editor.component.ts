@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Inject, NgZone, ViewChild } from '@angular/core';
 import {MatDialog } from '@angular/material';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 
@@ -20,22 +20,22 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take } from
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, OnDestroy {
   @Input() note : Note;
   @Input() timeAgo: boolean;
-  // @Input() collections: Observable<Collection[]>;
-  private _contentChanged  = new Subject<string | null>();
-  private _state = new Subject<string | null>();
 
-  contentChanged = this._contentChanged.asObservable();
+  private _contentChanged  = new Subject<string | null>();
+  private _state = new Subject<"typing" | "saved" | null>();
+  private _like  = new Subject<null>();
+  
   state = this._state.asObservable();
 
-  constructor(private noteService: NoteService, public dialog: MatDialog, private ngZone: NgZone) {
+  constructor(private noteService: NoteService, public dialog: MatDialog) {
 
   }
 
 
-  typing() :void {    
+  typing() :void {        
     this._contentChanged.next(this.note.content);    
   }
 
@@ -45,44 +45,56 @@ export class EditorComponent implements OnInit {
     if (this.note.like >= 50) return;
     this.note.like ++;
 
-    let update : Note = {
-      noteId: this.note.noteId,
-      like: this.note.like,
-    }
-
-    this.noteService.updateNote(update).subscribe();
+    this._like.next()
   }
 
   ngOnInit() {   
     this._contentChanged.pipe(
       distinctUntilChanged(),      
-      tap(() => this._state.next("typing")),
-      debounceTime(1000),
+      tap(_ => this._state.next("typing")),
+      debounceTime(2000),
       switchMap(() => {
         let update: Note = {
           noteId: this.note.noteId,
           content: this.note.content,
           edittedAt: firestore.Timestamp.now(),      
-        }
-        return this.noteService.updateNote(update)
+        } 
+        console.log("can't understand");               
+        return this.noteService.updateNote(update);
       }),
-    ).subscribe(() => {      
-      this._state.next("saved");         
-    })
+      tap(),
+      tap(_ => this._state.next("saved"))
+    ).subscribe()
 
     this._state.pipe(
       distinctUntilChanged(),
       filter(state => state == 'saved'),
       debounceTime(3000),
-      tap(() => this._state.next(""))
+      tap(_ => this._state.next())
     ).subscribe();
+
+    this._like.pipe(      
+      debounceTime(2000),
+      switchMap(() => {
+        let update : Note = {
+          noteId: this.note.noteId,
+          like: this.note.like,
+        }
+        return this.noteService.updateNote(update)
+      }),     
+    ).subscribe()
+  }
+
+  ngOnDestroy() {
+    // this._contentChanged.unsubscribe();
+    // this._state.unsubscribe();
+    // this._like.unsubscribe();
   }
 
   openNoteInforDialog(): void {
     const dialogRef = this.dialog.open(NoteInforDialog, {
       width: '95%',
       maxWidth: '900px',
-      // maxHeight: '100vh',      
       data: this.note,
     });
 
@@ -97,8 +109,6 @@ export class EditorComponent implements OnInit {
     const dialogRef = this.dialog.open(CollectNoteDialog, {
       width: '95%',  
       maxWidth: '900px',
-      // autoFocus: false,    
-      // maxHeight: '100vh',
       data: this.note,
     });
 

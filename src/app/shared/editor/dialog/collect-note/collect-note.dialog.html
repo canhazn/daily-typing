@@ -1,8 +1,8 @@
 <mat-dialog-content>	
-  	<mat-form-field color="accent" floatLabel="never" class="new-collection">
+  	<mat-form-field floatLabel="never" class="new-collection">
 		<input #name matInput (keyup.enter)="createCollection($event)" [(ngModel)]="collectionName" placeholder="New collection ...">
 	</mat-form-field>
-  	<mat-selection-list checkboxPosition="after" >
+  	<mat-selection-list >
 	  	<mat-list-option 
 	  		*ngFor="let collection of collections | async" 
 	  		[selected]="collection.arrayNoteId.includes(note.noteId)" 

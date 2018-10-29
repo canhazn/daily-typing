@@ -21,7 +21,9 @@ export class CreateCollectionDialog implements OnInit {
   ngOnInit() {    
   }
 
-  createCollection(name: string) {
+  createCollection(name: string) {    
+    if (name == '') return;
+
     this.collectionService.setNewCollection(name).subscribe();
     this.dialogRef.close();
   }

@@ -37,16 +37,19 @@ export class NoteInforDialog implements OnInit {
 
   }
   
+  clearLike() {
+    if (!Number.isInteger(this.note.like)) return;
+    if(this.note.like == 0) return;
+    let update : Note = {
+      noteId: this.note.noteId,
+      like: 0,
+    }
 
-  ngOnInit() {    
-    
-
-    this.collections = this.collectionService.getCollection();
-
-
-
+    this.noteService.updateNote(update).subscribe(_ => this.note.like = 0);
   }
 
-
-
+  ngOnInit() {        
+    if(this.note.arrayCollectionId && this.note.arrayCollectionId.length != 0) 
+      this.collections = this.collectionService.getCollection();
+  }
 }

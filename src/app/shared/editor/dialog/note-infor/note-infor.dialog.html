@@ -1,5 +1,5 @@
 
-<div mat-dialog-content>	
+<div mat-dialog-content>
 	<mat-list>
 		<mat-list-item>
 			<span>Created time:</span>
@@ -17,7 +17,7 @@
 			<span>Number of likes:</span>
 			<span style="flex: 1 1 auto"></span>
 			<span> {{ note.like }}</span>
-			<mat-chip class="clear-like">Clear</mat-chip>
+			<mat-chip (click)="clearLike()" class="clear-like">Clear</mat-chip>
 		</mat-list-item>
 		<mat-divider></mat-divider>
 		<mat-list-item class="collection-wrap">
@@ -26,7 +26,7 @@
 			<div style="min-height: 48px; line-height: 48px;">
 				<div *ngFor="let collection of collections | async" >
 					<!-- {{ collection.name }} -->					
-					<span *ngIf="note.arrayCollectionId && note.arrayCollectionId.includes(collection.collectionId)">{{ collection.name }}</span> 
+					<span *ngIf="collection.arrayNoteId.includes(note.noteId)">{{ collection.name }}</span> 
 				</div>
 			</div>
 		</mat-list-item>
