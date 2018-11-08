@@ -13,9 +13,9 @@
   
   // all of these variables contain many additional variables
 
-  .mat-chip, .set-new-note-btn {    
+  .set-new-note-btn {    
       // retrieve particular color from variable, rg: text, base, divider, ...      
-      background-color: mat-color($foreground, divider) !important;         
+      // background-color: mat-color($foreground, divider) !important;         
   }
 
   // .like {

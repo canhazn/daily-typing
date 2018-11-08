@@ -1,8 +1,9 @@
-<app-editor *ngFor="let note of yesterdayNotes | async; trackBy: trackNote" [note]="note" [timeAgo]="true"></app-editor>	
+<app-editor *ngFor="let note of yesterdayNotes | async; trackBy: trackNote" [note]="note"></app-editor>	
 
 <div *ngIf="randomNote | async as randomNote">
-	<mat-chip-list>		
-		<mat-chip>This is random day you liked!</mat-chip>		
-	</mat-chip-list>	
+	<div style="display: flex; justify-content: flex-end; margin-bottom: 1.6em;">
+		<span>This is random day you liked!</span>				
+	</div>
+	
 	<app-editor [note]="randomNote"></app-editor>
 </div>

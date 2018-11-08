@@ -43,9 +43,11 @@ export class TimeAgoPipe implements PipeTransform, OnDestroy {
         else if (hours <= 36) {
             return 'yesterday';
         }
-        else if (days <= 25) {
+        // <= 30 => days
+        else if (days <= 30) {
             return days + ' days';
         }
+
         else if (days <= 45) {
             return '1 month';
         }

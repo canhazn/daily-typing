@@ -33,8 +33,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.todayNote = this.noteService.getTodayNote();
-        this.collections = this.collectionService.getCollection();
+        this.todayNote = this.noteService.todayNote;
+        this.collections = this.collectionService.collections;
     }
 
     ngOnDestroy() {

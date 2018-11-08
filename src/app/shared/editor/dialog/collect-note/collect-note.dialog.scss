@@ -1,8 +1,6 @@
-.mat-dialog-content {
-	max-height: 95vh !important;
+.mat-dialog-content {	
 	box-sizing: border-box;	
-	margin: 0;
-
+	margin: 0;	
 	/deep/ .mat-form-field {	
 		width: 100%;
 		box-sizing: border-box;
@@ -25,10 +23,15 @@
 		}
 	}
 
-	/deep/ .mat-list-text {
-		flex-direction: row !important;
-		justify-content: space-between;
-	
+	/deep/ .mat-list-item {
+		height: auto;
+		.mat-list-item-content {
+			padding: 16px 16px;
+			.mat-list-text {
+				flex-direction: row !important;
+				justify-content: space-between;	
+			}
+		}
 	}
 }
 

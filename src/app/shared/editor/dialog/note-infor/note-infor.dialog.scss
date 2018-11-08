@@ -1,12 +1,12 @@
-.mat-dialog-content {
-	max-height: 95vh !important;
+.mat-dialog-content {	
 	box-sizing: border-box;	
 	margin: 0;
 	.mat-list {
 		padding-top: 0; 
 		.clear-like {
 			cursor: pointer;
-			margin-left: 10px;
+			margin-left: 20px;
+			// border-radius: 20px;
 		}
 	}
 	

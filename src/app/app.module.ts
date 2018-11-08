@@ -34,16 +34,18 @@ const ngxs = [
 // import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
+// import { TimeAgoPipe } from '@store/pipe/time-ago/time-ago.pipe';
 
-import { EditorModule } from '@shared/editor/editor.module';
-import { CollectionModule } from '@shared/collection/collection.module';
+// import { EditorModule } from '@shared/editor/editor.module';
+// import { CollectionModule } from '@shared/collection/collection.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { tap, pairwise, startWith } from 'rxjs/operators';
 
 @NgModule({
   declarations: [
-    AppComponent,    
+    AppComponent,
+    // TimeAgoPipe,  
   ],
   imports: [
     BrowserModule,
@@ -51,13 +53,13 @@ import { tap, pairwise, startWith } from 'rxjs/operators';
     ...angularFirebase,
     ...ngxs,
     SharedModule,
-    EditorModule,
-    CollectionModule,
+    // EditorModule,
+    // CollectionModule,
     BrowserAnimationsModule,
     // MaterialModule,   
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [ ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { 
   constructor(overlayContainer: OverlayContainer, private store: Store) {

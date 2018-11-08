@@ -1,13 +1,13 @@
 <mat-dialog-content>	
   	<mat-form-field floatLabel="never" class="new-collection">
-		<input #name matInput (keyup.enter)="createCollection($event)" [(ngModel)]="collectionName" placeholder="New collection ...">
+		<input #name matInput (keyup.enter)="createCollection($event)"  placeholder="New collection ...">
 	</mat-form-field>
   	<mat-selection-list >
 	  	<mat-list-option 
 	  		*ngFor="let collection of collections | async" 
 	  		[selected]="collection.arrayNoteId.includes(note.noteId)" 
 	  		(click)="collect(collection)">
-	  		<span>{{ collection.name }}</span>
+	  		<span class="mat-body-1">{{ collection.name }}</span>
 	    	<span *ngIf="collection.arrayNoteId.length != 0">{{ collection.arrayNoteId.length }}</span>
 	  	</mat-list-option>
 	</mat-selection-list>	

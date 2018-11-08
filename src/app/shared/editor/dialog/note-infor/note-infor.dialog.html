@@ -17,16 +17,18 @@
 			<span>Number of likes:</span>
 			<span style="flex: 1 1 auto"></span>
 			<span> {{ note.like }}</span>
-			<mat-chip (click)="clearLike()" class="clear-like">Clear</mat-chip>
+			<mat-chip-list>
+				<mat-chip (click)="clearLike()" class="clear-like">Clear</mat-chip>
+			</mat-chip-list>
 		</mat-list-item>
 		<mat-divider></mat-divider>
 		<mat-list-item class="collection-wrap">
 			<span>On Collections:</span>
 			<span style="flex: 1 1 auto"></span>
-			<div style="min-height: 48px; line-height: 48px;">
+			<div style="min-height: 48px; margin-left: 16px">
 				<div *ngFor="let collection of collections | async" >
 					<!-- {{ collection.name }} -->					
-					<span *ngIf="collection.arrayNoteId.includes(note.noteId)">{{ collection.name }}</span> 
+					<span class="mat-body-1" *ngIf="collection.arrayNoteId.includes(note.noteId)">{{ collection.name }}</span> 
 				</div>
 			</div>
 		</mat-list-item>

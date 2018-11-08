@@ -7,10 +7,6 @@ import { NoteService } from '@store/service/note.service';
 import { Observable, Subject, of } from 'rxjs';
 import { finalize, take, tap, filter, map, switchMap, scan } from 'rxjs/operators';
 
-export interface Array<T> {
-   update(o: T): Array<T>;
-}
-
 @Component({
   selector: 'app-this-week',
   templateUrl: './this-week.component.html',

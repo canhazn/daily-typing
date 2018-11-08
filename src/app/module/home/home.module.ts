@@ -5,26 +5,23 @@ import { RouterModule } from '@angular/router';
 
 import { HomePageComponent } from './home-page/home-page.component';
 import { HomeRoutingModule } from './home-routing.module';
-// import { SharedModule }      from '@shared/shared.module';
+import { SharedModule }      from '@shared/shared.module';
 
 import { EditorModule } from '../../shared/editor/editor.module';
 import { CollectionModule } from '../../shared/collection/collection.module';
-import { MaterialModule } from '@shared/material';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     HomeRoutingModule,
-    // SharedModule,
+
     EditorModule,
     CollectionModule,
-    MaterialModule,
+
+    SharedModule,    
   ],
-  exports: [ 
-    // HomePageComponent,
-    // HomeRoutingModule
-  ],
+  exports: [ ],
   declarations: [HomePageComponent]
 })
 export class HomeModule { }

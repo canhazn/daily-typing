@@ -1,9 +1,20 @@
-<mat-chip-list>
+<!-- <mat-chip-list>
 	<mat-chip (click)="goBack()"> <mat-icon>navigate_before</mat-icon>	 </mat-chip>
-	<mat-chip *ngIf="url == 'yesterday'" >Your 	Yesterday</mat-chip>
-	<mat-chip *ngIf="url == 'this-week'" >Review this week</mat-chip>
+	<mat-chip *ngIf="url == 'yesterday'"  >Your 	Yesterday</mat-chip>
+	<mat-chip *ngIf="url == 'this-week'"  >Review this week</mat-chip>
 	<mat-chip *ngIf="url == 'this-month'" >This month</mat-chip>
-	<!-- <div></div> -->
-</mat-chip-list>	
+	<div></div>
+</mat-chip-list>	 -->
+
+<div class="review">
+	<button mat-raised-button (click)="goBack()" class="btn">	
+		<mat-icon>navigate_before</mat-icon>
+	</button>
+
+	<span *ngIf="url == 'yesterday'"  >Your 	Yesterday</span>
+	<span *ngIf="url == 'this-week'"  >Review this weak</span>
+	<span *ngIf="url == 'this-month'" >This month</span>		
+	
+</div>	
 
 <router-outlet></router-outlet>    

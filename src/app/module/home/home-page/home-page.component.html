@@ -1,31 +1,31 @@
 
 <div class="greet-bar">
-	<p class="clock">{{ today | date:'EEEE, MMMM d'}}</p>
-	<button mat-icon-button (click)="setNewNote()" class="set-new-note-btn">
+	<p class="mat-title">{{ today | date:'EEEE, MMMM d'}}</p>
+	<button mat-raised-button mat-icon-button (click)="setNewNote()" class="set-new-note-btn">
 			<mat-icon>add</mat-icon>			
 	</button>
 </div>
 
 <!-- <div *></div> -->
-<app-editor *ngFor="let note of todayNote | async; trackBy: trackNote" [note]="note" [timeAgo]="true"></app-editor>	
+<app-editor *ngFor="let note of todayNote | async; trackBy: trackNote" [note]="note"></app-editor>	
 
 
-<mat-chip-list>
-	<mat-chip routerLink="/review/yesterday" class="memorize">
+<div class="review">
+	<button mat-raised-button routerLink="/review/yesterday" class="btn memorize">
 		<span>Memorize</span>		
 		<mat-icon>restore</mat-icon>
-	</mat-chip>
+	</button>
 	
-	<mat-chip routerLink="/review/this-week" class="week">
+	<button mat-raised-button routerLink="/review/this-week" class="btn week">
 		<mat-icon>notes</mat-icon>
 		<span>Review this weak</span>		
-	</mat-chip>
+	</button>
 
-	<mat-chip routerLink="/review/this-month" class="month">
+	<button mat-raised-button routerLink="/review/this-month" class="btn month">
 		<mat-icon>import_contacts</mat-icon>
 		<span>This month</span>		
-	</mat-chip>
-</mat-chip-list>	
+	</button>
+</div>	
 
 <div class="collections">
 	<app-collection *ngFor="let collection of collections | async" [collection]="collection"></app-collection>

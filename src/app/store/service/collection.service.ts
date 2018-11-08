@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { firestore } from 'firebase';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import { firestore } from 'firebase/app';
 
 
 import { AuthService } from '@store/service/auth.service';
@@ -10,7 +10,7 @@ import { Collection } from '@store/model/collection.model';
 import { Note } from '@store/model/note.model';
 
 import { Observable, Subject, of, from, forkJoin } from 'rxjs';
-import { take, map, tap, switchMap, catchError, filter, share } from 'rxjs/operators';
+import { take, map, tap, switchMap, shareReplay, catchError, filter, share, publish } from 'rxjs/operators';
 
 
 @Injectable({
@@ -18,14 +18,16 @@ import { take, map, tap, switchMap, catchError, filter, share } from 'rxjs/opera
 })
 export class CollectionService {
 
-  constructor( private afs: AngularFirestore, private authService: AuthService ) { }
+  collections: Observable<Collection[]>;  
+
+  constructor( private afs: AngularFirestore, private authService: AuthService ) {
+    this.collections = this.fetchCollection().pipe(shareReplay(1));    
+  }
 
   private getUser(): Observable<User> {
-    return this.authService.user.pipe(
-      filter(user => !!user),
-      take(1),
-    )
+    return this.authService.user.pipe(take(1))
   }
+
   // create a collection and return a observable
   setNewCollection(name: string):Observable<any> {
     let collection : Collection = {               
@@ -37,9 +39,10 @@ export class CollectionService {
       numberOfNote: 0,
     };
 
-    return this.getUser().pipe(      
+    return this.getUser().pipe(
       map(user => this.afs.collection(`/user/${user.uid}/collection`)),
       switchMap(path => from (path.doc(collection.collectionId).set(collection)) ),      
+      map(_ => collection),
     )  
   }
 
@@ -51,60 +54,65 @@ export class CollectionService {
     )
   }
 
+  private reduceData(actions: DocumentChangeAction<{}>[]) {
+    return actions.map(a => {
+        const data = a.payload.doc.data() as Collection;
+        console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
+        return data;
+    })
+  }
 
-  getCollection() {
-     return this.getUser().pipe(      
-      map(user => this.afs.collection(`user/${user.uid}/collection`, ref => ref.orderBy("createdAt", "desc"))),
-      switchMap(collection => collection.snapshotChanges().pipe(        
-        map(actions => actions.map(a => {
-            const data = a.payload.doc.data() as Collection;
-            console.log(a.payload.doc.metadata.fromCache, data)
-            return data;
-        })),        
-      )),
-    )
+  private fetchCollection(): Observable<any> {
+    return this.authService.user.pipe( switchMap(user => {
+      if (user) {
+        let path = `user/${user.uid}/collection`;
+        let collection = this.afs.collection(path, ref => ref.orderBy("createdAt", "desc"))
+        return collection.snapshotChanges().pipe(map(actions => this.reduceData(actions)))
+      } else {
+        return of(null);  
+      }      
+    }))
   }
   
-
   updateCollection(collection: Collection):Observable<any> {
-    return this.getUser().pipe(      
+    return this.getUser().pipe(
       map(user => this.afs.doc<any>(`user/${user.uid}/collection/${collection.collectionId}`)),
       tap(() => {
         collection.edittedAt = firestore.Timestamp.now();
-        delete collection.collectionId
+        delete collection.collectionId;
       }),
       switchMap(path => from (path.update(collection))),
     )   
   }
 
   collectNote(note: Note, collection: Collection) {
-    return this.getUser().pipe(      
-      map(user => [ 
-          this.afs.doc<any>(`user/${user.uid}/collection/${collection.collectionId}`),
-          this.afs.doc<any>(`user/${user.uid}/note/${note.noteId}`),
-        ]
-      ),  
-      switchMap(([path1, path2]) => forkJoin (
-        path1.update({ "arrayNoteId": firestore.FieldValue.arrayUnion(note.noteId) } ),
-        path2.update({ "arrayCollectionId": firestore.FieldValue.arrayUnion(collection.collectionId) } ),
+    collection.arrayNoteId.push(note.noteId);
+    return this.getUser().pipe(            
+      map(user => this.afs.doc<any>(`user/${user.uid}/note/${note.noteId}`)),  
+      switchMap(path => forkJoin (        
+        path.update({ "arrayCollectionId": firestore.FieldValue.arrayUnion(collection.collectionId) } ),        
+        this.updateCollection({ 
+          collectionId: collection.collectionId, 
+          arrayNoteId: collection.arrayNoteId
+        })
       )),
     )   
   }
 
-  removeNote(note: Note, collection: Collection) {
+  removeNote(note: Note, collection: Collection) {    
     return this.getUser().pipe(      
-      map(user => [ 
-          this.afs.doc<any>(`user/${user.uid}/collection/${collection.collectionId}`),
-          this.afs.doc<any>(`user/${user.uid}/note/${note.noteId}`),
-        ]
-      ),  
-      switchMap(([path1, path2]) => forkJoin (
-        path1.update({ "arrayNoteId": firestore.FieldValue.arrayRemove(note.noteId) } ),
-        path2.update({ "arrayCollectionId": firestore.FieldValue.arrayRemove(collection.collectionId) } ),
+      map(user => this.afs.doc<any>(`user/${user.uid}/note/${note.noteId}`)),  
+      switchMap(path => forkJoin (        
+        path.update({ "arrayCollectionId": firestore.FieldValue.arrayRemove(collection.collectionId) } ),
+        this.updateCollection({ 
+          collectionId: collection.collectionId, 
+          arrayNoteId: collection.arrayNoteId.filter(noteId => noteId != note.noteId)
+        })
       )),
     )   
   }
 
+  // if delete Note when use on collected page
   deleteNote(note: Note, collectionId: string) {
     return this.getUser().pipe(      
       map(user => this.afs.doc<any>(`user/${user.uid}/collection/${collectionId}`)),  
@@ -112,30 +120,15 @@ export class CollectionService {
     )   
   }
 
-
-  fetchCollection() {
-     return this.getUser().pipe(      
-      map(user => this.afs.collection(`user/${user.uid}/collection`, ref => ref.orderBy("createdAt", "asc"))),
-      switchMap(collection => collection.stateChanges()),
-    )
-  }
-
-  fetchCollect() {
-     return this.getUser().pipe(      
-      map(user => this.afs.collection(`user/${user.uid}/collection`, ref => ref.orderBy("createdAt", "asc"))),
-      switchMap(collection => collection.valueChanges()),
-    )
-  }
-
+  // ??? used for collected page
   getCollectionById(collectionId: string) : Observable<Collection> {
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/collection/${collectionId}`),
       map(path => this.afs.doc<Collection>(path)),
       switchMap(collection => collection.snapshotChanges().pipe(        
-        map(a => {
-          // console.l
+        map(a => {          
             const data = a.payload.data() as Collection;
-            console.log(a.payload.metadata.fromCache, data)
+            console.log(a.payload.metadata.fromCache ,"collectionId: " + a.payload.id)
             return data;
         }),        
       )),

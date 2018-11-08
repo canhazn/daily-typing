@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 })
 export class ReviewPageComponent implements OnInit {
 	
-	showSpinner: boolean = false;
 	url: string;
 
 	constructor(private location: Location, private route: Router) {
@@ -21,7 +20,7 @@ export class ReviewPageComponent implements OnInit {
 
 	ngOnInit() {
     	this.url = this.route.url.split('/')[2];
-    	console.log(this.url)		
+    	// console.log(this.url)		
 	}
 
 }

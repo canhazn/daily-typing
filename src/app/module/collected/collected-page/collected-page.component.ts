@@ -40,7 +40,7 @@ export class CollectedPageComponent implements OnInit {
       tap(collecion => this.collectionName = collecion.name),
       distinctUntilChanged(),
       switchMap(collection => of(collection.arrayNoteId)),
-      tap(_ => console.log("------------------", _)),
+      // tap(_ => console.log("------------------", _)),
       map(arrayNoteId => arrayNoteId.map( noteId => this.noteService.getNoteById(noteId)))
     )
 

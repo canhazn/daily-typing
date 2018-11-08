@@ -1,8 +1,8 @@
-<mat-chip-list>
-	<mat-chip (click)="goBack()"> <mat-icon>navigate_before</mat-icon>	 </mat-chip>
-	
-	<mat-chip *ngIf="collectionName" >{{ collectionName }}</mat-chip>
-	
-</mat-chip-list>	
+<div class="bar">
+	<button mat-raised-button (click)="goBack()" class="btn">	
+		<mat-icon>navigate_before</mat-icon>
+	</button>
+	<span>{{ collectionName }}</span>	
+</div>	
 
-<app-editor *ngFor="let note of notes | async" [note]="note | async" [timeAgo]='true'></app-editor>	
+<app-editor *ngFor="let note of notes | async" [note]="note | async" [weekday]='false'></app-editor>	

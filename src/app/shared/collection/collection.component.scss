@@ -1,40 +1,25 @@
-.collection {
-	width: 600px;	
-	height: 140px;
+.mat-card {
+	width: 600px;		
 	box-sizing: border-box;
 	display: inline-table;
 	margin-bottom: 1.5em;
 	cursor: pointer;
-	.collection-header {
-		display: flex;
-		cursor: pointer;
-		// justify-content: space-around;
-		// align-items: baseline;
-		// outline: none;
 
-		.number {
-			// height: 45px;
-			width: 45px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-		.text {
-			display: flex;
-			flex-direction: column;
-			padding-left: 16px;
-			span {
-				font-size: 17px;
-			}
-		}
+	.mat-card-avatar {
+		height: auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
+
 	.mat-card-actions {
+		padding-top: 0;
 		display: flex;
 	}
 }
 
 @media (max-width: 1280px) {
-	.collection {
+	.mat-card {
 		width: 100%;
 	}
 }

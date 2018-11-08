@@ -4,28 +4,19 @@
 	</mat-form-field>
 
 	<div class="bar">
-		<button mat-icon-button disabled *ngIf="state | async as state; else elseDay">				
+		<button mat-icon-button *ngIf="state | async as state; else elseDay" class="btn">				
 			<mat-icon *ngIf="state == 'typing'" class="typing">autorenew</mat-icon>
 			<mat-icon *ngIf="state == 'saved'">cloud_done</mat-icon>			
 		</button>
-		
-		<ng-template #elseDay>
-			<button *ngIf="timeAgo" mat-icon-button disabled>{{ note.createdAt.toDate() | timeAgo}}</button>	
-			<button *ngIf="!timeAgo" mat-icon-button disabled>{{ note.createdAt.toDate() | date:'EEEEEE'}}</button>	
-		</ng-template>
 
-		<div [ngClass]="{'liked': note.like >= 1}" class="like">
-			<button mat-icon-button class="like-btn"
-					#tooltip="matTooltip"  
-					[matTooltip]="'+' + note.like"
-			        matTooltipPosition="right"			        
-			        matTooltipShowDelay="0"
-			        (click)="tooltip.show();like(note);">
+		<div [ngClass]="{'liked': note.like >= 1}" class="like btn">
+			<button mat-icon-button class="like-btn" (click)="like(note);">
 			        <mat-icon>favorite</mat-icon>
-			</button>						
+			</button>
+			<span *ngIf="note.like >= 1">{{ note.like }}</span>			        
 		</div>
-		<button mat-icon-button (click)="openCollectNoteDialog()"><mat-icon>playlist_add</mat-icon></button>
-		<button mat-icon-button (click)="openNoteInforDialog()"><mat-icon>more_horiz</mat-icon></button>
+		<button mat-icon-button class="btn" (click)="openCollectNoteDialog()"><mat-icon>playlist_add</mat-icon></button>
+		<button mat-icon-button class="btn" (click)="openNoteInforDialog()"><mat-icon>more_horiz</mat-icon></button>
 	</div>
 	
 </mat-card>
@@ -34,3 +25,7 @@
 
 
 
+<ng-template #elseDay>
+	<span *ngIf="!weekday" class="btn">{{ note.createdAt.toDate() | timeAgo}}</span>	
+	<span *ngIf="weekday"  class="btn">{{ note.createdAt.toDate() | date:'EEEEEE'}}</span>	
+</ng-template>

@@ -1,28 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material';
-// import { TimeAgoPipe } from 'time-ago-pipe';
-import { TimeAgoPipe } from '@shared/pipe/time-ago.pipe';
+
 import { EditorComponent } from './editor.component';
 
 import { NoteInforDialog } from './dialog/note-infor/note-infor.dialog';
 import { CollectNoteDialog } from './dialog/collect-note/collect-note.dialog';
 
-import { MaterialModule } from '../material';
+import { SharedModule }      from '@shared/shared.module';
 
 @NgModule({
   declarations: [ 
-    NoteInforDialog,
-    TimeAgoPipe, 
+    NoteInforDialog,    
     CollectNoteDialog, 
-    EditorComponent 
+    EditorComponent,    
   ],
   imports: [
-    CommonModule,
-    MatButtonModule,
-    MaterialModule,
+    CommonModule,    
     FormsModule,
+    SharedModule,
   ],
   entryComponents: [ NoteInforDialog, CollectNoteDialog ],
   exports: [ EditorComponent ]

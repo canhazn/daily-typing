@@ -45,7 +45,7 @@ export class CollectionComponent implements OnInit {
   openCreateCollectionDialog(): void {
     const dialogRef = this.dialog.open(CreateCollectionDialog, {
       width: '90%',
-      maxWidth: '800px',            
+      maxWidth: '800px',      
     });    
   }
 }

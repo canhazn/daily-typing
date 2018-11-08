@@ -1,11 +1,11 @@
-:host /deep/ .mat-chip-list-wrapper {
+.review {
 	margin: 0;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
     margin-bottom: 1.5em;
 
-    .mat-chip {
-    	cursor: pointer;
+    .btn {
+    	border-radius: 20px;
     }
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase';
+import { auth } from 'firebase/app';
+
 
 import { Router } from '@angular/router';
 // import { NotifyService } from './notify.service';
@@ -20,7 +21,6 @@ export class AuthService {
   private pendingCred : auth.AuthCredential;
 
   constructor( private afAuth: AngularFireAuth, private router: Router ) {
-    // console.log(this.user);
     this.user = this.afAuth.user
   }
 

@@ -22,24 +22,21 @@
 	}
 
 	.mat-form-field-infix {
-		border: 0;
-		padding: 0;
+		border-top: 0;
+		// padding: 0;
 	}
-	
 }
 
-.bar {
-	// padding: 0px 12px 0px 12px;
+.bar {	
 	display: flex;
 	justify-content: space-between;
-	
+	align-items: baseline;
 	.typing {
 		animation: spin 1.2s linear infinite;
 	}
-	
-	.count-like {
-		vertical-align: middle;			
-	}	
+	.btn {
+		opacity: 0.6;
+	}
 }
 
 @keyframes spin {

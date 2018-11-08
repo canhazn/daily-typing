@@ -23,6 +23,7 @@
     color: mat-color($foreground, text);    
   }
   .liked {
-    color: mat-color($primary);    
+    color: mat-color($primary);
+    opacity: 1 !important;   
   }
 }

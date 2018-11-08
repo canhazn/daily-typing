@@ -1,20 +1,19 @@
-.greet-bar {
-	// background-color: inherit !important;
+.greet-bar {	
 	margin: 0 4px 16px 4px;
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
 }
 
-:host /deep/ .mat-chip-list-wrapper {
+.review {
 	margin: 0;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
     margin-bottom: 1.5em;
 
-    .mat-chip {
-    	cursor: pointer;
+    .btn {
+    	border-radius: 20px;
     }
 
    	.memorize {

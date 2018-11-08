@@ -7,18 +7,20 @@ import { Note } from '@store/model/note.model';
 import { CollectionService } from '@store/service/collection.service';
 import { Collection } from '@store/model/collection.model';
 
-import { Observable, Subject, of, forkJoin } from 'rxjs';
-import { finalize, take, tap, filter } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { skip, take, tap, switchMap, startWith, pairwise } from 'rxjs/operators';
 
 @Component({
   selector: 'collect-note',
   templateUrl: './collect-note.dialog.html',
   styleUrls: ['./collect-note.dialog.scss']
 })
-export class CollectNoteDialog implements OnInit {
+export class CollectNoteDialog implements OnInit, OnDestroy {
 
   collections :Observable<any>;
   collectionName : string = '';
+  sub: Subscription;
+
   constructor( public dialogRef: MatDialogRef<CollectNoteDialog>,                 
                private noteService : NoteService,                 
                private collectionService : CollectionService,  
@@ -28,27 +30,35 @@ export class CollectNoteDialog implements OnInit {
     let name = $event.target.value;
 
     if (name == '') return;
-    this.collectionService.setNewCollection(name).subscribe();        
+    this.collectionService.setNewCollection(name).pipe(
+      switchMap(collection => this.collectionService.collectNote(this.note, collection))
+    ).subscribe();        
     $event.target.value = "";
     $event.target.blur();
   }
 
-  collect(collection: Collection) {    
-    if (collection.arrayNoteId.includes(this.note.noteId)) {           
-      this.collectionService.removeNote(this.note, collection).subscribe(_ => {        
-        this.dialogRef.close();
-      });
-    }
-    else {      
-      this.collectionService.collectNote(this.note, collection).subscribe(_ => {
-        this.dialogRef.close();
-      });
-    }
+  collect(collection: Collection) {
+    if (collection.arrayNoteId.includes(this.note.noteId) )
+      this.collectionService.removeNote(this.note, collection).subscribe();
+    else
+      this.collectionService.collectNote(this.note, collection).subscribe();
   }
 
-  ngOnInit() {    
-    this.collections = this.collectionService.getCollection();
+  ngOnInit() {
+    this.collections = this.collectionService.collections;
+    this.sub = this.collectionService.collections.pipe(
+      startWith(null),
+      pairwise(),      
+      skip(1),      
+      tap(([old, curr]) => {
+        console.log(curr);
+        if (old.length < curr.length) return;
+        this.dialogRef.close()
+      })
+    ).subscribe()
   }
 
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 }

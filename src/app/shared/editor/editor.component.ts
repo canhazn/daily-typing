@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, Input, Inject, NgZone, ViewChild } from '@angular/core';
 import {MatDialog } from '@angular/material';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import { firestore } from 'firebase/app';
 
 
-import { firestore } from 'firebase';
 import { NoteService } from '@store/service/note.service';
 import { Note } from '@store/model/note.model';
 import { Collection } from '@store/model/collection.model';
@@ -22,7 +22,7 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take } from
 })
 export class EditorComponent implements OnInit, OnDestroy {
   @Input() note : Note;
-  @Input() timeAgo: boolean;
+  @Input() weekday: boolean;
 
   private _contentChanged  = new Subject<string | null>();
   private _state = new Subject<"typing" | "saved" | null>();
@@ -59,7 +59,6 @@ export class EditorComponent implements OnInit, OnDestroy {
           content: this.note.content,
           edittedAt: firestore.Timestamp.now(),      
         } 
-        console.log("can't understand");               
         return this.noteService.updateNote(update);
       }),
       tap(),
@@ -108,7 +107,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   openCollectNoteDialog(): void {
     const dialogRef = this.dialog.open(CollectNoteDialog, {
       width: '95%',  
-      maxWidth: '900px',
+      maxWidth: '900px',      
       data: this.note,
     });
 

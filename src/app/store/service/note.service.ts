@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { firestore } from 'firebase';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import { firestore } from 'firebase/app';
 
 import { AuthService } from '@store/service/auth.service';
 
@@ -9,21 +9,22 @@ import { Note } from '@store/model/note.model';
 import { Collection } from '@store/model/collection.model';
 
 
-import { Observable, Subject, of, from } from 'rxjs';
-import { take, map, tap, switchMap, catchError, filter } from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
+import { take, map, tap, switchMap, catchError, filter, shareReplay, skipWhile, takeWhile } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NoteService {
 	
-  constructor(private afs: AngularFirestore, private authService: AuthService ) {}
+  todayNote: Observable<any>;
+
+  constructor(private afs: AngularFirestore, private authService: AuthService ) {
+    this.todayNote = this.getTodayNote().pipe(shareReplay(1));
+  }
 
   private getUser(): Observable<User> {
-    return this.authService.user.pipe(
-      filter(user => !!user),
-      take(1),
-    )
+    return this.authService.user.pipe(take(1))
   }
 
   // set a new Note and return ....
@@ -37,7 +38,7 @@ export class NoteService {
       like: 0
     };
 
-    return this.getUser().pipe(      
+    return this.getUser().pipe(            
       map(user => this.afs.collection(`/user/${user.uid}/note`)),
       switchMap(path => from (path.doc(note.noteId).set(note)) ),
       map( success => of(note.noteId)),
@@ -46,9 +47,9 @@ export class NoteService {
   }
 
   // update Note return Observable
-  updateNote(note: Note): Observable<any> {
-    return this.getUser().pipe(      
-      tap(_ => console.log(note)),
+  updateNote(note: Note): Observable<any> {    
+    return this.getUser().pipe(            
+      // tap(_ => console.log(note)),
       map(user => this.afs.doc<any>(`user/${user.uid}/note/${note.noteId}`)),
       tap(() => delete note.noteId ),
       switchMap(path => from (path.update(note)) ),
@@ -57,7 +58,7 @@ export class NoteService {
 
   // Delete note
   deleteNote(note: Note): Observable<any>{
-    return this.getUser().pipe(         
+    return this.getUser().pipe(               
       map(user => `user/${user.uid}/note/${note.noteId}`),         
       map(path => this.afs.doc<any>(path)),
       // tap(() => console.log("delete")),
@@ -65,21 +66,19 @@ export class NoteService {
     )
   }
   
-
-
   getYesterdayNote() {
     let today = new Date();       
     let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);    
     let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/note`),
-      map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).where("createdAt", "<=", endTime).limit(1))),
+      map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).where("createdAt", "<=", endTime))),
       switchMap(noteCollection => noteCollection.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
             const data = a.payload.doc.data() as Collection;
             console.log(a.payload.doc.metadata.fromCache, data)
             return data;
-        })),                
+        })),
       )),      
     )
   }
@@ -92,42 +91,32 @@ export class NoteService {
     )
   }
 
-  getCollected(arrayNoteId: string[]) {
-    return this.getUser().pipe(      
-      map(user => `user/${user.uid}/note`),
-      map(path => this.afs.collection(path, ref => {
-        let query : firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-        arrayNoteId.forEach(noteId => {
-          query = query.where("noteId",  "==", noteId);
-          console.log(query);
-        })
-        return query;
-      })),
-      switchMap(collection => collection.valueChanges()),
-    )
+  private reduceData(actions: DocumentChangeAction<{}>[]) {
+    return actions.map(a => {
+        const data = a.payload.doc.data() as Collection;
+        console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
+        return data;
+    })
   }
 
-  getTodayNote() {
-
-    let today = new Date();       
-    let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
-    
-    return this.getUser().pipe(      
-      map(user => `/user/${user.uid}/note`),
-      map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc"))),
-      switchMap(noteCollection => noteCollection.snapshotChanges().pipe(        
-        map(actions => actions.map(a => {
-            const data = a.payload.doc.data() as Collection;
-            // console.log(a.payload.doc.metadata.fromCache, data)
-            return data;
-        })),        
-      )),
-      tap(arrayNote => (arrayNote.length == 0 ? this.setNewNote().subscribe() : "nothing") )
-    )
+  private getTodayNote() {    
+    return this.authService.user.pipe( switchMap(user => {
+      if (user) {
+        let today = new Date();       
+        let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
+        let path = `/user/${user.uid}/note`;
+        let noteCollection = this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")); 
+        return noteCollection.snapshotChanges().pipe(
+          map(actions => this.reduceData(actions)),
+          tap(arrayNote => (arrayNote.length == 0 ? this.setNewNote().subscribe() : "nothing") )        
+        )
+      } else {
+        return of(null);  
+      }
+    }))
   }
 
   getThisWeek() {
-
     let today =  new Date();
     let day = today.getDay();
     let monday = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (day == 0?-6:1)-day );
@@ -142,7 +131,7 @@ export class NoteService {
       switchMap(collectionNote => collectionNote.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
             const data = a.payload.doc.data() as Collection;
-            console.log(a.payload.doc.metadata.fromCache, data)
+            console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
             return data;
         })),        
       )),
