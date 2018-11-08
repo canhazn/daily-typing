@@ -14,9 +14,9 @@ $custom-typography: mat-typography-config(
   $body-2:        mat-typography-level(14px, 24px, 400),
   $body-1:        mat-typography-level(17px, 1.7, 400),
   $caption:       mat-typography-level(12px, 20px, 400),
-  $button:        mat-typography-level(14px, 17px, 400),
+  $button:        mat-typography-level(15px, 17px, 400),
   // Line-height must be unit-less fraction of the font-size.
-  $input:         mat-typography-level(16px, 1.125, 400)
+  $input:         mat-typography-level(17px, 1.7, 400)
 
   // $font-family: 'Roboto, sans-serif',
   // $display-4:     mat-typography-level(112px, 112px, 300),

@@ -1,10 +1,8 @@
-.review {
-	margin: 0;
-	width: 100%;
+.bar {
+	margin: 0 4px 16px 4px;	
 	display: flex;
-	justify-content: space-between;
-    margin-bottom: 1.5em;
-
+	justify-content: space-between;   
+	align-items: baseline;
     .btn {
     	border-radius: 20px;
     }

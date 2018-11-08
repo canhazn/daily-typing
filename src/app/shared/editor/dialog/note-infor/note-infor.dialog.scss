@@ -11,8 +11,16 @@
 	}
 	
 	/deep/ .collection-wrap {	
+		align-items: baseline;
+		// background-color: red;
 		height: auto !important;
-		min-height: 48px !important;
+		padding: 12px 0;
+		// min-height: 48px !important;
+		flex-wrap: wrap;
+		.collection {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 }
 

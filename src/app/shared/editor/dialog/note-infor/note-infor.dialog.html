@@ -4,13 +4,13 @@
 		<mat-list-item>
 			<span>Created time:</span>
 			<span style="flex: 1 1 auto"></span>
-			<span style="text-align: right"> {{ note.createdAt.toDate() | date:'MMMM d, y, h:mm:ss a'}}</span>
+			<span style="text-align: right"> {{ note.createdAt.toDate() | date:'M/d/yy, h:mm:ss a'}}</span>
 		</mat-list-item>
 		<mat-divider></mat-divider>
 		<mat-list-item>
 			<span>Last edited time:</span>
 			<span style="flex: 1 1 auto"></span>
-			<span style="text-align: right"> {{ note.edittedAt.toDate() | date:'MMMM d, y, h:mm:ss a'}}</span>
+			<span style="text-align: right"> {{ note.edittedAt.toDate() | date:'M/d/yy, h:mm:ss a'}}</span>
 		</mat-list-item>
 		<mat-divider></mat-divider>
 		<mat-list-item>
@@ -25,9 +25,8 @@
 		<mat-list-item class="collection-wrap">
 			<span>On Collections:</span>
 			<span style="flex: 1 1 auto"></span>
-			<div style="min-height: 48px; margin-left: 16px">
-				<div *ngFor="let collection of collections | async" >
-					<!-- {{ collection.name }} -->					
+			<div class="collection">
+				<div *ngFor="let collection of collections | async" >	
 					<span class="mat-body-1" *ngIf="collection.arrayNoteId.includes(note.noteId)">{{ collection.name }}</span> 
 				</div>
 			</div>
