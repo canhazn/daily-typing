@@ -1,34 +1,22 @@
-<div class="prompt">
-	<h1>Begin with small thing every day.</h1>
-	<p>Typing everyday was a great way to improve my life. So I made this site to store my words. </p>
-	<p>If you are interested with typing every day, everywhere, you can sign in with a Google account or a Facebook account to use this website.
-	</p>
-</div>
-
 <div *ngIf="!usedEmail; else linkUser" class="login">
 	<p class="">Sign in with:</p>
-	<button (click)="login('google.com')" mat-stroked-button>Google</button>
-	<button (click)="login('facebook.com')" mat-stroked-button>Facebook</button>
+	<div class="btn">		
+		<button (click)="login('google.com')" mat-flat-button>Google</button>
+		<button (click)="login('facebook.com')" mat-flat-button>Facebook</button>
+	</div>
 </div>
-
 <ng-template #linkUser>
-	<mat-card  style="max-width: 600px; margin: 0 auto;">
-		<mat-card-content>
-			<h1 class="mat-body-1">You already have an account</h1>
-		  	<p class="mat-body-2">You’ve already used {{ usedEmail }}. Sign in with Google to continue.</p>
-	  	</mat-card-content>
+	<mat-card class="link-user" style=" ">		
+		<mat-card-content>You already have an account with this email: canhazn@gmail.com {{ usedEmail }}</mat-card-content>
 	  	<mat-card-actions style="display: flex;">
 			  <span style="flex: 1 1 auto"></span>
-			  <button mat-flat-button color="primary" (click)="link()" cdkFocusInitial>Log in with Google</button>
+			  <button mat-flat-button color="primary" (click)="link()" cdkFocusInitial>
+			  	<span>Login in with Google to continue!</span>			  	
+			  	<mat-icon>navigate_next</mat-icon> 
+			  </button>
 	  	</mat-card-actions>
 	</mat-card>
 </ng-template>
-
-<div class="security">
-	<h1>Security?</h1>
-	<p>You are worried about your personal data? Don’t have to, because this website use Firebase database - powered by Google.</p>
-	<p>This website doesn’t collect any your data for any reason.</p>	
-</div>
 
 
 <div class="footer">
@@ -41,5 +29,4 @@
 		<p>Powered by Anh Nguyen </p>
 		<p>Contact: canhazn@gmail.com</p>
 	</div>
-
 </div>

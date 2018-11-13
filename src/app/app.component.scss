@@ -1,22 +1,28 @@
 :host {
 	display: block;
-	overflow-x: hidden;
 	width: 100%;
 	min-height: 100vh;
-	// box-sizing: border-box;
+	background-color: blue;	
 	overflow-y: auto;	
+	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
 }
 
+.mat-app-background {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
 // parent display flex colunm 
 // .mat-app-background: flex: auto --> full height, width: 100%;
 
-.mat-app-background {
+.out {	
+	flex: auto;	
 	padding: 20px 24px;	
 }
 
 @media (max-width: 1280px) {
-	.mat-app-background {
+	.out {
 		padding: 16px 4px;
 	}
 }

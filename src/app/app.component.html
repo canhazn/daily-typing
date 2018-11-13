@@ -1,6 +1,8 @@
-<div class="mat-typography" [ngClass]="{'dark': (theme | async) == 'dark', 'light': (theme | async) == 'light'}">
+<div class="mat-app-background mat-typography" [ngClass]="{'dark': (theme | async) == 'dark', 'light': (theme | async) == 'light'}">
+
   <app-top-nav></app-top-nav>  
-  <div class="mat-app-background">
+  <div class="out">
     <router-outlet></router-outlet>    
   </div>
+  
 </div>
