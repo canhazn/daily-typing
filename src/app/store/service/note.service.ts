@@ -107,10 +107,10 @@ export class NoteService {
         let path = `/user/${user.uid}/note`;
         let noteCollection = this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")); 
         return noteCollection.snapshotChanges().pipe(
-          map(actions => this.reduceData(actions)),
+          map(actions => this.reduceData(actions)),          
           tap(arrayNote => (arrayNote.length == 0 ? this.setNewNote().subscribe() : "nothing") )        
         )
-      } else {
+      } else {        
         return of(null);  
       }
     }))

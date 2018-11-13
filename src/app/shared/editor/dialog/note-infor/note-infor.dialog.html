@@ -22,7 +22,7 @@
 			</mat-chip-list>
 		</mat-list-item>
 		<mat-divider></mat-divider>
-		<mat-list-item class="collection-wrap">
+		<mat-list-item *ngIf="note.arrayCollectionId && note.arrayCollectionId.length != 0" class="collection-wrap">
 			<span>On Collections:</span>
 			<span style="flex: 1 1 auto"></span>
 			<div class="collection">
@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		</mat-list-item>
-		<mat-divider></mat-divider>
+		<mat-divider *ngIf="note.arrayCollectionId && note.arrayCollectionId.length != 0"></mat-divider>
 	</mat-list>
 </div>
 

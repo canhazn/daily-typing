@@ -5,6 +5,7 @@ import { CollectedPageComponent } from './collected-page/collected-page.componen
 
 
 const routes: Routes = [
+  { path: '', component: CollectedPageComponent, pathMatch: 'full'},
   { path: ':id', component: CollectedPageComponent },  
 ];
 

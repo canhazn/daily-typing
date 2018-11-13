@@ -35,7 +35,8 @@ export class CollectedPageComponent implements OnInit {
 
   ngOnInit() {
   	let collectionId = this.route.snapshot.params.id;
-
+    if (!collectionId) this.goBack();
+    // console.log(collectionId);
     this.notes = this.collectionService.getCollectionById(collectionId).pipe(
       tap(collecion => this.collectionName = collecion.name),
       distinctUntilChanged(),

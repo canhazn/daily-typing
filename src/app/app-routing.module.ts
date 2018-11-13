@@ -20,15 +20,18 @@ const routes: Routes = [
   },
   { 
   	path: 'review', 
-	loadChildren: './module/review/review.module#ReviewModule', 
-	pathMatch: 'prefix', 
-	canActivate: [AuthGuard] 
+  	loadChildren: './module/review/review.module#ReviewModule', 
+  	pathMatch: 'prefix', 
+  	canActivate: [AuthGuard] 
   },
   {
    	path: 'collected', 
    	loadChildren: './module/collected/collected.module#CollectedModule', 
    	canActivate: [AuthGuard] 
   },  
+  { path: '**',
+    redirectTo: '',    
+  },
 ];
 
 @NgModule({

@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 // import { NotifyService } from './notify.service';
 
 import { Observable, of, Subject } from 'rxjs';
-import { switchMap, filter, tap, take } from 'rxjs/operators';
+import { switchMap, startWith, filter, tap, take, skipWhile } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

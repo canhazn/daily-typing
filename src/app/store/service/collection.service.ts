@@ -57,7 +57,7 @@ export class CollectionService {
   private reduceData(actions: DocumentChangeAction<{}>[]) {
     return actions.map(a => {
         const data = a.payload.doc.data() as Collection;
-        console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
+        console.log(a.payload.doc.metadata.fromCache, 'collectionId: ' + a.payload.doc.id)
         return data;
     })
   }

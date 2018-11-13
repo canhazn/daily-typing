@@ -1,15 +1,10 @@
 .prompt {
+  margin-top: 64px;
   text-align: center;
-  margin: 40px 20px;
-  h1 {
-    font-size: 32px;
-    padding: 24px 0;
-    // line-height: 3.2;
-  }
 }
 
 .login {
-  margin-top: 80px;
+  margin: 80px auto;
   display: flex; 
   justify-content: space-around;
   align-items: baseline;
@@ -20,13 +15,32 @@
 
 .security {
   text-align: center;
-  margin: 40px 20px;
-  h1 {
-    font-size: 32px;
-    padding: 24px 0;
-  }
 }
 
 .footer {
-  margin: 10px;
+  margin-top: 64px;
+}
+
+
+@media (max-width: 1280px) {
+  .prompt {
+    margin: 0;
+  }
+  .login {
+    margin: 30px auto;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .login {    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .mat-stroked-button {
+      width: 100%;
+      max-width: 300px;
+      margin-top: 16px;
+    }
+  }
 }
