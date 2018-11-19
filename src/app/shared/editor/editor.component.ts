@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy, Input, Inject, NgZone, ViewChild } from '@angular/core';
-import {MatDialog } from '@angular/material';
+import { Component, OnInit, Input, Inject, NgZone, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import { firestore } from 'firebase/app';
 
@@ -12,7 +12,7 @@ import { NoteInforDialog }   from './dialog/note-infor/note-infor.dialog';
 import { CollectNoteDialog } from './dialog/collect-note/collect-note.dialog';
 
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take, delay } from 'rxjs/operators';
 
 
 @Component({
@@ -20,7 +20,7 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take } from
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
-export class EditorComponent implements OnInit, OnDestroy {
+export class EditorComponent implements OnInit {
   @Input() note : Note;
   @Input() weekday: boolean;
 
@@ -30,10 +30,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   
   state = this._state.asObservable();
 
-  constructor(private noteService: NoteService, public dialog: MatDialog) {
-
-  }
-
+  constructor(private noteService: NoteService, public dialog: MatDialog) {}
 
   typing() :void {        
     this._contentChanged.next(this.note.content);    
@@ -50,7 +47,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {   
     this._contentChanged.pipe(
-      distinctUntilChanged(),      
+      // distinctUntilChanged(),      
       tap(_ => this._state.next("typing")),
       debounceTime(2000),
       switchMap(() => {
@@ -60,16 +57,13 @@ export class EditorComponent implements OnInit, OnDestroy {
           edittedAt: firestore.Timestamp.now(),      
         } 
         return this.noteService.updateNote(update);
-      }),
-      tap(),
+      }),      
       tap(_ => this._state.next("saved"))
     ).subscribe()
 
-    this._state.pipe(
-      distinctUntilChanged(),
-      filter(state => state == 'saved'),
+    this._state.pipe(      
       debounceTime(3000),
-      tap(_ => this._state.next())
+      tap(state => state == 'saved' ? this._state.next() : null)
     ).subscribe();
 
     this._like.pipe(      
@@ -84,24 +78,12 @@ export class EditorComponent implements OnInit, OnDestroy {
     ).subscribe()
   }
 
-  ngOnDestroy() {
-    // this._contentChanged.unsubscribe();
-    // this._state.unsubscribe();
-    // this._like.unsubscribe();
-  }
-
   openNoteInforDialog(): void {
     const dialogRef = this.dialog.open(NoteInforDialog, {
       width: '95%',
       maxWidth: '900px',
       data: this.note,
-    });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log(result, typeof(result));
-    //   // if (result = "deleted") this.note = {};
-    //   // this.note = result;
-    // });
+    });    
   }
 
   openCollectNoteDialog(): void {
@@ -110,10 +92,5 @@ export class EditorComponent implements OnInit, OnDestroy {
       maxWidth: '900px',      
       data: this.note,
     });
-
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (!result) return;
-    //   this.note = result;
-    // });
   }
 }

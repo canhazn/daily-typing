@@ -18,11 +18,11 @@
 
 .out {	
 	flex: auto;	
-	padding: 20px 24px;	
+	padding: 20px 24px 0 24px;	
 }
 
 @media (max-width: 1280px) {
 	.out {
-		padding: 16px 4px;
+		padding: 16px 4px 0 4px;
 	}
 }

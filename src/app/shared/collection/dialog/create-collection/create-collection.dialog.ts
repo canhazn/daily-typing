@@ -22,6 +22,7 @@ export class CreateCollectionDialog implements OnInit {
   }
 
   createCollection(name: string) {    
+    name = name.trim();
     if (name == '') return;
 
     this.collectionService.setNewCollection(name).subscribe();

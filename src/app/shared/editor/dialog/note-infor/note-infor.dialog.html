@@ -1,4 +1,3 @@
-
 <div mat-dialog-content>
 	<mat-list>
 		<mat-list-item>
@@ -17,7 +16,7 @@
 			<span>Number of likes:</span>
 			<span style="flex: 1 1 auto"></span>
 			<span> {{ note.like }}</span>
-			<mat-chip-list>
+			<mat-chip-list *ngIf="note.like > 0">
 				<mat-chip (click)="clearLike()" class="clear-like">Clear</mat-chip>
 			</mat-chip-list>
 		</mat-list-item>
@@ -36,7 +35,7 @@
 </div>
 
 <div mat-dialog-actions>
-  <button (click)="deleteNote()" mat-icon-button matTooltip="delete this day" matTooltipPosition="right"><mat-icon>delete_sweep</mat-icon></button>
+  <button (click)="deleteNote()" mat-icon-button matTooltip="delete this note" matTooltipPosition="right"><mat-icon>delete_sweep</mat-icon></button>
   <span style="flex: 1 1 auto"></span>
   <button mat-button mat-dialog-close cdkFocusInitial>
   	<mat-icon style="transform: rotate(-90deg);">navigate_before</mat-icon> 

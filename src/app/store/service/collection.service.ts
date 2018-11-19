@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { firestore } from 'firebase/app';
 
-
 import { AuthService } from '@store/service/auth.service';
 
 import { User }  from '@store/model/auth.model';

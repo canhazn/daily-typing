@@ -1,0 +1,15 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /user/{userId} {
+      allow get, create: if request.auth.uid != null;
+      
+      match /note/{noteId} {
+      	allow read, write: if request.auth.uid != null;
+      }
+      
+      match /collection/{collectionId} {
+      	allow read, write: if request.auth.uid != null;
+      }
+    }
+  }
+}

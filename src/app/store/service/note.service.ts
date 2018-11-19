@@ -180,7 +180,6 @@ export class NoteService {
 
   getRandomLikedNote() {
     let like = Math.floor(Math.random() * 50) + 1;
-
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/note`),
       map(path => this.afs.collection(path, ref => ref.where("like", ">=", like).limit(1))),
