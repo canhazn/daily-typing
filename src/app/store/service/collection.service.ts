@@ -53,6 +53,7 @@ export class CollectionService {
     )
   }
 
+  // convert DocumentChangeAction into array of Collection or array of Note
   private reduceData(actions: DocumentChangeAction<{}>[]) {
     return actions.map(a => {
         const data = a.payload.doc.data() as Collection;
@@ -119,7 +120,7 @@ export class CollectionService {
     )   
   }
 
-  // ??? used for collected page
+  // used for collected page
   getCollectionById(collectionId: string) : Observable<Collection> {
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/collection/${collectionId}`),
