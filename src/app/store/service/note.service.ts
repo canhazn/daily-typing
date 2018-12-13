@@ -16,6 +16,14 @@ import { take, map, tap, switchMap, catchError, filter, shareReplay, skipWhile, 
   providedIn: 'root'
 })
 export class NoteService {
+
+  /**
+   * Get today note
+   * Create/Delete/Update note
+   * Get note by noteId
+   * 
+   * 
+  */
 	
   todayNote: Observable<any>;
 
@@ -27,9 +35,22 @@ export class NoteService {
     return this.authService.user.pipe(take(1))
   }
 
+  private getTodayNote() {    
+    return this.getUser().pipe( 
+      map(user => `/user/${user.uid}/note`),
+      switchMap(path => {
+        let today = new Date();       
+        let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
+        return this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")).snapshotChanges(); 
+        
+      }),
+      map(actions => this.reduceData(actions)),          
+      tap(arrayNote => arrayNote.length == 0 ? this.createNote().subscribe() : "nothing") 
+    )
+  }
+
   // set a new Note and return ....
-  setNewNote() {  
-    // console.log("new note")   ;
+  createNote() {      
     let note: Note = {
       noteId: this.afs.createId(),
       createdAt: firestore.Timestamp.now(),
@@ -99,22 +120,7 @@ export class NoteService {
     })
   }
 
-  private getTodayNote() {    
-    return this.authService.user.pipe( switchMap(user => {
-      if (user) {
-        let today = new Date();       
-        let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
-        let path = `/user/${user.uid}/note`;
-        let noteCollection = this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")); 
-        return noteCollection.snapshotChanges().pipe(
-          map(actions => this.reduceData(actions)),          
-          tap(arrayNote => (arrayNote.length == 0 ? this.setNewNote().subscribe() : "nothing") )        
-        )
-      } else {        
-        return of(null);  
-      }
-    }))
-  }
+  
 
   getThisWeek() {
     let today =  new Date();
@@ -179,7 +185,7 @@ export class NoteService {
   } 
 
   getRandomLikedNote() {
-    let like = Math.floor(Math.random() * 50) + 1;
+    let like = Math.floor(Math.random() * 5) + 1;
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/note`),
       map(path => this.afs.collection(path, ref => ref.where("like", ">=", like).limit(1))),

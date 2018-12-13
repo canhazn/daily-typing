@@ -39,7 +39,7 @@ export class EditorComponent implements OnInit {
   like():void {
     if (!Number.isInteger(this.note.like)) this.note.like = 0;
     
-    if (this.note.like >= 50) return;
+    if (this.note.like >= 5) return;
     this.note.like ++;
 
     this._like.next()

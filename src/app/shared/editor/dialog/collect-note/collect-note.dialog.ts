@@ -2,11 +2,11 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { NoteService } from '@store/service/note.service';
+import { CollectionNoteService } from '@store/service/collection-note.service';
 import { Note } from '@store/model/note.model';
 
 import { CollectionService } from '@store/service/collection.service';
 import { Collection } from '@store/model/collection.model';
-
 import { Observable, Subscription } from 'rxjs';
 import { skip, take, tap, switchMap, startWith, pairwise } from 'rxjs/operators';
 
@@ -21,17 +21,17 @@ export class CollectNoteDialog implements OnInit, OnDestroy {
   collectionName : string = '';
   sub: Subscription;
 
-  constructor( public dialogRef: MatDialogRef<CollectNoteDialog>,                 
-               private noteService : NoteService,                 
-               private collectionService : CollectionService,  
+  constructor( public dialogRef: MatDialogRef<CollectNoteDialog>,
+               private collectionService : CollectionService,
+               private collectionNoteService : CollectionNoteService,
                @Inject(MAT_DIALOG_DATA) public note: Note) {}
 
   createCollection($event: any) {    
     let name = $event.target.value;
 
     if (name == '') return;
-    this.collectionService.setNewCollection(name).pipe(
-      switchMap(collection => this.collectionService.collectNote(this.note, collection))
+    this.collectionService.createCollection(name).pipe(
+      switchMap(collection => this.collectionNoteService.collectNote(this.note, collection))
     ).subscribe();        
     $event.target.value = "";
     $event.target.blur();
@@ -39,9 +39,9 @@ export class CollectNoteDialog implements OnInit, OnDestroy {
 
   collect(collection: Collection) {
     if (collection.arrayNoteId.includes(this.note.noteId) )
-      this.collectionService.removeNote(this.note, collection).subscribe();
+      this.collectionNoteService.removeNote(this.note, collection).subscribe();
     else
-      this.collectionService.collectNote(this.note, collection).subscribe();
+      this.collectionNoteService.collectNote(this.note, collection).subscribe();      
   }
 
   ngOnInit() {

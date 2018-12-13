@@ -24,8 +24,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
     
     constructor(private noteService: NoteService, private collectionService: CollectionService) { }
     
-    setNewNote() {
-        this.noteService.setNewNote().subscribe();
+    createNote() {
+        this.noteService.createNote().subscribe();
     }
 
     trackNote(index: number, element: Note) {
