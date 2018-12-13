@@ -42,10 +42,17 @@ export class NoteService {
         let today = new Date();       
         let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
         return this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")).snapshotChanges(); 
-        
       }),
       map(actions => this.reduceData(actions)),          
       tap(arrayNote => arrayNote.length == 0 ? this.createNote().subscribe() : "nothing") 
+    )
+  }
+
+  getNoteById(noteId: string): Observable<Note> {
+    return this.getUser().pipe(      
+      map(user => `/user/${user.uid}/note/${noteId}`),
+      map(path => this.afs.doc<Note>(path)),
+      switchMap(note => note.valueChanges()),
     )
   }
 
@@ -81,8 +88,7 @@ export class NoteService {
   deleteNote(note: Note): Observable<any>{
     return this.getUser().pipe(               
       map(user => `user/${user.uid}/note/${note.noteId}`),         
-      map(path => this.afs.doc<any>(path)),
-      // tap(() => console.log("delete")),
+      map(path => this.afs.doc<any>(path)),      
       switchMap(path => from (path.delete()) ),
     )
   }
@@ -101,14 +107,6 @@ export class NoteService {
             return data;
         })),
       )),      
-    )
-  }
-
-  getNoteById(noteId: string): Observable<Note> {
-    return this.getUser().pipe(      
-      map(user => `/user/${user.uid}/note/${noteId}`),
-      map(path => this.afs.doc<Note>(path)),
-      switchMap(note => note.valueChanges()),
     )
   }
 

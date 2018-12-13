@@ -5,6 +5,12 @@
 /tmp
 /out-tsc
 
+# firebase
+/.firebase
+.firebaserc
+firestore.indexes.json
+firebase.json
+
 # dependencies
 /node_modules
 

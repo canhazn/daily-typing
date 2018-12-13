@@ -57,13 +57,11 @@ export class CollectionNoteService {
     )
   }
 
-  removeDeletedNote(note: Note, collectionId: string) {
-    return this.collectionService.getCollectionById(collectionId).pipe(      
-      switchMap(collection => this.collectionService.updateCollection({
-        collectionId: collection.collectionId, 
-        arrayNoteId: collection.arrayNoteId.filter(noteId => noteId != note.noteId)
-      }))
-    )
+  removeDeletedNote(note: Note, collection: Collection) {
+    return this.collectionService.updateCollection({
+      collectionId: collection.collectionId, 
+      arrayNoteId: collection.arrayNoteId.filter(noteId => noteId != note.noteId)
+    })    
   }
 
 }
