@@ -50,8 +50,7 @@ export class CollectNoteDialog implements OnInit, OnDestroy {
       startWith(null),
       pairwise(),      
       skip(1),      
-      tap(([old, curr]) => {
-        console.log(curr);
+      tap(([old, curr]) => {        
         if (old.length < curr.length) return;
         this.dialogRef.close()
       })

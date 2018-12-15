@@ -16,4 +16,4 @@
 	</div> -->
 </div>
 
-<app-editor *ngFor="let note of notes | async; trackBy:(note | async)?.noteId" [note]="note | async" [weekday]='false'></app-editor>
+<app-editor *ngFor="let note of notes | async;" [note]="note | async" [weekday]='false'></app-editor>
