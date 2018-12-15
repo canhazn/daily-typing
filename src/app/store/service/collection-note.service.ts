@@ -33,12 +33,12 @@ export class CollectionNoteService {
     return forkJoin(
       this.noteService.updateNote({ 
         noteId: note.noteId, 
-        arrayCollectionId: [...note.arrayCollectionId, collection.collectionId]
+        arrayCollectionId: [collection.collectionId, ...note.arrayCollectionId]
       }),
       //-----
       this.collectionService.updateCollection({ 
         collectionId: collection.collectionId, 
-        arrayNoteId: [...collection.arrayNoteId, note.noteId]
+        arrayNoteId: [ note.noteId, ...collection.arrayNoteId]
       })
     )
   }

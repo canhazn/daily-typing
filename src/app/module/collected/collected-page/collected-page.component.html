@@ -1,8 +1,19 @@
-<div class="bar">
-	<button mat-raised-button (click)="goBack()" class="btn">	
-		<mat-icon>navigate_before</mat-icon>
-	</button>
-	<span>{{ collectionName }}</span>	
-</div>	
+<div *ngIf="collection | async as collection">
+	<div class="bar">
+		<button mat-raised-button (click)="goBack()" class="btn">	
+			<mat-icon>navigate_before</mat-icon>
+		</button>
+		<span>{{ collection.name }}</span>	
+	</div>	
+	<!-- <div class="bar">
+		<span style="display: flex; flex: auto"></span>
+		<button mat-raised-button mat-icon-button>	
+			<mat-icon>call_merge</mat-icon>		
+		</button>
+		<button mat-raised-button mat-icon-button matTooltip="Add a note" matTooltipPosition="left" (click)="addNote(collection)">	
+			<mat-icon>add</mat-icon>
+		</button>
+	</div> -->
+</div>
 
-<app-editor *ngFor="let note of notes | async" [note]="note | async" [weekday]='false'></app-editor>	
+<app-editor *ngFor="let note of notes | async; trackBy:(note | async)?.noteId" [note]="note | async" [weekday]='false'></app-editor>

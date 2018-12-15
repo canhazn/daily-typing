@@ -1,9 +1,7 @@
 
 <div class="greet-bar">
 	<p class="mat-title">{{ today | date:'EEEE, MMMM d'}}</p>
-	<button mat-raised-button mat-icon-button (click)="createNote()" class="set-new-note-btn">
-			<mat-icon>add</mat-icon>			
-	</button>
+	<app-add-note-btn></app-add-note-btn>
 </div>
 
 <!-- <div *></div> -->

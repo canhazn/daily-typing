@@ -1,6 +1,4 @@
 import { Action, Selector, State, StateContext, Store, NgxsOnInit } from '@ngxs/store';
-
-
 import { of, from } from 'rxjs';
 import { take, tap, map, timeout, switchMap } from 'rxjs/operators';
 

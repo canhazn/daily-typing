@@ -57,7 +57,7 @@ export class NoteService {
   }
 
   // set a new Note and return ....
-  createNote() {      
+  createNote(): Observable<Note> {      
     let note: Note = {
       noteId: this.afs.createId(),
       createdAt: firestore.Timestamp.now(),
@@ -66,10 +66,10 @@ export class NoteService {
       like: 0
     };
 
-    return this.getUser().pipe(            
+    return this.getUser().pipe(      
       map(user => this.afs.collection(`/user/${user.uid}/note`)),
       switchMap(path => from (path.doc(note.noteId).set(note)) ),
-      map( success => of(note.noteId)),
+      map( success => note),
       catchError(err => of(err))
     )
   }
@@ -113,12 +113,10 @@ export class NoteService {
   private reduceData(actions: DocumentChangeAction<{}>[]) {
     return actions.map(a => {
         const data = a.payload.doc.data() as Collection;
-        console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
+        // console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
         return data;
     })
   }
-
-  
 
   getThisWeek() {
     let today =  new Date();

@@ -1,0 +1,23 @@
+<ng-container *ngIf="(state | async) as state">
+
+  <button *ngIf="state == 'init'"
+    mat-raised-button mat-icon-button 
+    (click)="createNote()" 
+    matTooltip="Create new note" 
+    matTooltipPosition="left"> <mat-icon>add</mat-icon>			
+  </button>
+  
+  <button *ngIf="state == 'running'" mat-icon-button disabled class="running"> 
+    <mat-icon>autorenew</mat-icon>			
+  </button>
+
+  <button *ngIf="state == 'done'" mat-icon-button disabled> 
+    <mat-icon>done</mat-icon>			
+  </button>
+
+</ng-container>
+
+
+
+
+
