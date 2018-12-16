@@ -7,7 +7,7 @@ export interface ThemeStateModel {
 }
 
 export class ChangedTheme {
-	static readonly type = "[ Theme ] Changed theme" ;	
+	static readonly type = "[ Theme ] Changed theme" ;		
 }
 
 @State<ThemeStateModel> ({
@@ -25,11 +25,11 @@ export class ThemeState {
 
 	@Action(ChangedTheme)
 	changedTheme(ctx: StateContext<ThemeStateModel>) {
-
-		let state = ctx.getState();
-		state.theme = state.theme == "dark" ? "light" : "dark";    
-
-		ctx.patchState({});
-		localStorage.setItem("theme", state.theme);
+		let state = ctx.getState();		
+		let curentTheme = state.theme == "dark" ? "light" : "dark";
+		localStorage.setItem("theme", curentTheme);
+		ctx.patchState({
+			theme: curentTheme
+		});
 	}
 }

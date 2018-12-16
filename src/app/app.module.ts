@@ -16,47 +16,37 @@ const angularFirebase = [
 
 // Start -------------Store-------------------------
 import { NgxsModule, Store } from '@ngxs/store';
-import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+// import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 // import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 
 import { ThemeState } from '@store/state/theme.state';
 // import { CollectedState } from '@store/state/collected.state';
-
 // End -------------Store-------------------------
 
 const ngxs = [
-   NgxsModule.forRoot([ ThemeState ]),
-   NgxsReduxDevtoolsPluginModule.forRoot(),
+   NgxsModule.forRoot([ ThemeState ], { developmentMode: !environment.production }),
+   //  NgxsReduxDevtoolsPluginModule.forRoot(),    
    // NgxsLoggerPluginModule.forRoot(),
    // NgxsRouterPluginModule.forRoot()
 ]
 
-// import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-// import { TimeAgoPipe } from '@store/pipe/time-ago/time-ago.pipe';
-
-// import { EditorModule } from '@shared/editor/editor.module';
-// import { CollectionModule } from '@shared/collection/collection.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { tap, pairwise, startWith } from 'rxjs/operators';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    // TimeAgoPipe,  
+    AppComponent,    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ...angularFirebase,
     ...ngxs,
-    SharedModule,
-    // EditorModule,
-    // CollectionModule,
-    BrowserAnimationsModule,
-    // MaterialModule,   
+    SharedModule,    
+    BrowserAnimationsModule,    
   ],
   providers: [ ],
   bootstrap: [ AppComponent ]

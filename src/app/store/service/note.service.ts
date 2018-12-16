@@ -8,7 +8,6 @@ import { User }  from '@store/model/auth.model';
 import { Note } from '@store/model/note.model';
 import { Collection } from '@store/model/collection.model';
 
-
 import { Observable, of, from } from 'rxjs';
 import { take, map, tap, switchMap, catchError, filter, shareReplay, skipWhile, takeWhile } from 'rxjs/operators';
 
@@ -24,7 +23,7 @@ export class NoteService {
    * 
    * 
   */
-	
+
   todayNote: Observable<any>;
 
   constructor(private afs: AngularFirestore, private authService: AuthService ) {
@@ -36,14 +35,13 @@ export class NoteService {
   }
 
   private getTodayNote() {    
+    let today = new Date();       
+    let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
+    // let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
     return this.getUser().pipe( 
       map(user => `/user/${user.uid}/note`),
-      switchMap(path => {
-        let today = new Date();       
-        let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
-        return this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")).snapshotChanges(); 
-      }),
-      map(actions => this.reduceData(actions)),          
+      switchMap(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")).snapshotChanges()),
+      map(actions => this.reduceData(actions)),
       tap(arrayNote => arrayNote.length == 0 ? this.createNote().subscribe() : "nothing") 
     )
   }
