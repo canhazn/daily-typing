@@ -54,6 +54,20 @@ export class NoteInforDialog implements OnInit {
 
   ngOnInit() {        
     if(this.note.arrayCollectionId && this.note.arrayCollectionId.length != 0) 
+    {      
       this.collections = this.collectionService.collections;
+      
+      // When collection of this note was deleted
+      // This note need to update arrayCollection: delete note included collectionId
+
+      this.collections.pipe(
+        take(1),        
+        map(collections => collections.map(collection => collection.collectionId)),
+        map(array => {
+          this.note.arrayCollectionId = this.note.arrayCollectionId.filter(collectionId => array.includes(collectionId));
+          return this.noteService.updateNote(this.note);
+        })
+      ).subscribe();
+    }
   }
 }

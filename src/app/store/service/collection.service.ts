@@ -54,7 +54,7 @@ export class CollectionService {
     )
   }   
 
-  createCollection(name: string):Observable<any> {
+  createCollection(name: string):Observable<Collection> {
     let collection : Collection = {               
       name: name,      
       collectionId: this.afs.createId(),
@@ -65,7 +65,8 @@ export class CollectionService {
 
     return this.getUser().pipe(
       map(user => this.afs.collection(`/user/${user.uid}/collection`)),
-      switchMap(path => from (path.doc(collection.collectionId).set(collection)) )      
+      switchMap(path => from (path.doc(collection.collectionId).set(collection)) ),
+      map(_ => collection) 
     )  
   }
 
