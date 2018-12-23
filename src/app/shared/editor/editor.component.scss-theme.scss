@@ -13,17 +13,11 @@
   
   // all of these variables contain many additional variables
 
-  .editor {    
-      // retrieve particular color from variable, rg: text, base, divider, ...
-      // color: mat-color($foreground, text);
-      // background-color: mat-color($background, card);         
-  }
-
-  .like {
-    color: mat-color($foreground, text);    
-  }
-  .liked {
-    color: mat-color($primary);
-    opacity: 1 !important;   
-  }
+  // .like {
+  //   color: mat-color($foreground, text);    
+  // }
+  // .liked {
+  //   color: mat-color($primary);
+  //   opacity: 1 !important;   
+  // }
 }

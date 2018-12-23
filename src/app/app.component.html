@@ -1,8 +1,10 @@
-<div class="mat-app-background mat-typography" [ngClass]="{'dark': (theme | async) == 'dark', 'light': (theme | async) == 'light'}">
+<div class="mat-app-background mat-typography" 
+     [ngClass]="{'dark': (theme | async) == 'dark', 'light': (theme | async) == 'light'}">
 
   <app-top-nav></app-top-nav>  
-  <div class="out">
-    <router-outlet></router-outlet>    
+  <div class="router-outlet">
+    <router-outlet (activate)="showLoadding = false"></router-outlet>    
+    <app-loading-spinner *ngIf="showLoadding"></app-loading-spinner>
   </div>
   
 </div>

@@ -15,22 +15,26 @@ import { finalize, take, tap, filter, distinctUntilChanged, map } from 'rxjs/ope
 })
 export class HomePageComponent implements OnInit {
 
+    showLoadding: boolean = true;
+    name = "anh";
+
     today = new Date();
     todayNote: Observable<any>;          
     collections: Observable<any>;
     
     constructor(private noteService: NoteService, private collectionService: CollectionService) { }
-    
-    createNote() {
-        this.noteService.createNote().subscribe();
-    }
 
     trackNote(index: number, element: Note) {
         return element ? element.noteId : null;
     }
 
     ngOnInit() {
+        console.log("start");
         this.todayNote = this.noteService.todayNote;
-        this.collections = this.collectionService.collections;
+        this.collections = this.collectionService.collections;     
+        this.todayNote.pipe(
+            take(1),
+            tap(_ => this.showLoadding = false),
+        ).subscribe();
     }
 }

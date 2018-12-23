@@ -5,11 +5,13 @@ import { RouterModule } from '@angular/router';
 
 import { MaterialModule } from './material';
 import { TopNavComponent } from './top-nav/top-nav.component';
+import { LoadingSpinerComponent } from './loading-spinner/loading-spinner.component';
 import { TimeAgoPipe } from './pipe/time-ago.pipe';
 
 @NgModule({
 	declarations: [ 
-		TopNavComponent, 
+		TopNavComponent,
+		LoadingSpinerComponent,
 		TimeAgoPipe 
 	],
 
@@ -20,6 +22,6 @@ import { TimeAgoPipe } from './pipe/time-ago.pipe';
 		FormsModule,  
 		MaterialModule, 
 	],
-	exports: [TopNavComponent, TimeAgoPipe, MaterialModule ]
+	exports: [TopNavComponent, TimeAgoPipe, MaterialModule, LoadingSpinerComponent ]
 })
 export class SharedModule { }

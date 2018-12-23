@@ -16,13 +16,14 @@
 // parent display flex colunm 
 // .mat-app-background: flex: auto --> full height, width: 100%;
 
-.out {	
+.router-outlet {	
 	flex: auto;	
 	padding: 20px 24px 0 24px;	
-}
+} 
+ 
 
 @media (max-width: 1280px) {
-	.out {
+	.router-outlet {
 		padding: 16px 4px 0 4px;
 	}
 }
