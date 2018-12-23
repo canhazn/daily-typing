@@ -14,9 +14,7 @@ import { finalize, take, tap, filter, distinctUntilChanged, map } from 'rxjs/ope
     styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-
-    showLoadding: boolean = true;
-    name = "anh";
+    
 
     today = new Date();
     todayNote: Observable<any>;          
@@ -31,10 +29,6 @@ export class HomePageComponent implements OnInit {
     ngOnInit() {
         console.log("start");
         this.todayNote = this.noteService.todayNote;
-        this.collections = this.collectionService.collections;     
-        this.todayNote.pipe(
-            take(1),
-            tap(_ => this.showLoadding = false),
-        ).subscribe();
+        this.collections = this.collectionService.collections;
     }
 }
