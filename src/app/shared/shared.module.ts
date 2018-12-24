@@ -26,6 +26,7 @@ import { TimeAgoPipe } from './pipe/time-ago.pipe';
 		LoadingSpinerComponent, 
 		TimeAgoPipe, 
 		MaterialModule, 
+		FormsModule
 	]
 })
 export class SharedModule { }

@@ -1,7 +1,7 @@
 .mat-card {
 	padding: 24px 24px 8px 24px;	 		
 	margin-bottom: 1.5em;
-	animation: zoomIn 0.1s linear;
+	// animation: zoomIn 0.1s linear;
 }
 
 :host /deep/ .mat-form-field {	
@@ -78,7 +78,7 @@
 @keyframes zoomIn {
   from {
     opacity: 0;    
-    transform: scale3d(0.95, 0.95, 0.95);
+    transform: scale3d(0.93, 0.93, 0.93);
   }
 
   50% {

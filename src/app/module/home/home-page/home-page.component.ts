@@ -28,10 +28,9 @@ import { finalize, take, tap, filter, distinctUntilChanged, map } from 'rxjs/ope
 })
 export class HomePageComponent implements OnInit {
 
-
-    today = new Date();
-    todayNote: Observable<any>;
-    collections: Observable<any>;
+    nowTime = new Date();
+    todayNote: Observable<Note[]>;
+    collections: Observable<Collection[]>;
 
     constructor(private noteService: NoteService, private collectionService: CollectionService) { }
 
