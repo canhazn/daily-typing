@@ -1,6 +1,7 @@
 .mat-card {
 	padding: 24px 24px 8px 24px;	 		
 	margin-bottom: 1.5em;
+	animation: zoomIn 0.1s linear;
 }
 
 :host /deep/ .mat-form-field {	
@@ -54,4 +55,33 @@
 	.mat-card {
 		padding: 16px 12px 8px 12px;	 
 	}
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translateY(-2px);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;    
+    transform: scale3d(0.95, 0.95, 0.95);
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
