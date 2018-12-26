@@ -17,23 +17,6 @@ $custom-typography: mat-typography-config(
   $button:        mat-typography-level(15px, 17px, 400),
   // Line-height must be unit-less fraction of the font-size.
   $input:         mat-typography-level(17px, 1.7, 400)
-
-  // $font-family: 'Roboto, sans-serif',
-  // $display-4:     mat-typography-level(112px, 112px, 300),
-  // $display-3:     mat-typography-level(56px, 56px, 400),
-  // $display-2:     mat-typography-level(45px, 48px, 400),
-  // $display-1:     mat-typography-level(34px, 40px, 400),
-
-  // $headline:      mat-typography-level(24px, 32px, 400),
-  // $title:         mat-typography-level(17px, 17px, 400), // mat-card-title 
-  // $subheading-2:  mat-typography-level(14px, 14px, 400),
-  // $subheading-1:  mat-typography-level(16px, 16px, 400),
-  // $body-2:        mat-typography-level(16px, 16px, 400), // mat-icon
-  // $body-1:        mat-typography-level(14px, 1.7, 400), // <p> mat-card-subtitle
-  // $caption:       mat-typography-level(14px, 14px, 400),
-  // $button:        mat-typography-level(16px, 16px, 400),
-  // // Line-height must be unit-less fraction of the font-size.
-  // $input:         mat-typography-level(17px, 1.7, 400)
 );
 
 @include angular-material-typography($custom-typography);
