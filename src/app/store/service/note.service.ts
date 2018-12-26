@@ -129,7 +129,7 @@ export class NoteService {
       switchMap(collectionNote => collectionNote.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
             const data = a.payload.doc.data() as Note;
-            console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
+            // console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
             return data;
         })),        
       )),
@@ -152,7 +152,7 @@ export class NoteService {
       switchMap(collectionNote => collectionNote.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
             const data = a.payload.doc.data() as Note;
-            console.log(a.payload.doc.metadata.fromCache, data)
+            // console.log(a.payload.doc.metadata.fromCache, data)
             return data;
         })),        
       )),
