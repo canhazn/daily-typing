@@ -1,4 +1,6 @@
-<app-editor *ngFor="let note of yesterdayNotes | async; trackBy: trackNote" [note]="note"></app-editor>	
+<div *ngIf="yesterdayNotes | async as yesterdayNotes">
+	<app-editor *ngFor="let note of yesterdayNotes; trackBy: trackNote" [note]="note"></app-editor>
+</div>
 
 <div *ngIf="randomNote | async as randomNote">
 	<div style="display: flex; justify-content: flex-end; margin-bottom: 1.6em;">

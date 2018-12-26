@@ -1,1 +1,3 @@
-<app-editor *ngFor="let note of notes | async; trackBy: trackNote" [note]="note" [weekday]="true"></app-editor>	
+<div *ngIf="notes | async as notes">
+	<app-editor *ngFor="let note of notes; trackBy: trackNote" [note]="note" [weekday]="true"></app-editor>
+</div>
