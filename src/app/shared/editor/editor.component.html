@@ -1,6 +1,7 @@
-<mat-card>
+<!-- using *ngIf because sometimes note is async -->
+<mat-card *ngIf="note"> 
 	<mat-form-field floatLabel="never">		
-		<mat-label>What's need to be typed?</mat-label>
+		<mat-label>Just type some characters! 😁</mat-label>
 		<textarea [(ngModel)]="note.content" (ngModelChange)="typing()" matInput cdkTextareaAutosize cdkAutosizeMinRows="2"></textarea>
 	</mat-form-field>
 
