@@ -31,6 +31,10 @@
 		padding: 0;				
 		box-sizing: border-box;
 	}
+	.mat-form-field-label{
+		// fix mobile web browser problem( cursor over placeholder)
+		left: 5px;
+	}
 }
 
 .bar {	
