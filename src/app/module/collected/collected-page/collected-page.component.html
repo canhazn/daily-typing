@@ -5,15 +5,16 @@
 		</button>
 		<span>{{ collection.name }}</span>	
 	</div>	
-	<!-- <div class="bar">
+	<div class="bar">
+		<span>{{ collection.createdAt.toDate() | timeAgo }}&nbsp;|&nbsp;</span>
+		<span *ngIf="collection.arrayNoteId.length > 1">{{ collection.arrayNoteId.length }} notes</span>
+		<span *ngIf="collection.arrayNoteId.length <= 1">{{ collection.arrayNoteId.length }} note</span>
 		<span style="display: flex; flex: auto"></span>
-		<button mat-raised-button mat-icon-button>	
+		<!-- <button mat-raised-button mat-icon-button style="margin-right: 20px;">	
 			<mat-icon>call_merge</mat-icon>		
-		</button>
-		<button mat-raised-button mat-icon-button matTooltip="Add a note" matTooltipPosition="left" (click)="addNote(collection)">	
-			<mat-icon>add</mat-icon>
-		</button>
-	</div> -->
+		</button> -->
+		<app-add-note-btn [collection]="collection"></app-add-note-btn>
+	</div>
 </div>
 
 <div *ngIf="notes | async as notes">

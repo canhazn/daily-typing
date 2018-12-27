@@ -32,30 +32,28 @@ export class CollectedPageComponent implements OnInit {
               ) { }
 
   goBack(): void {
-      this.location.back();
+    // this function isn't good enough
+    // maybe it should be redirect to /home
+    this.location.back();
   }
 
   trackObservableNote(index: number, element: Observable<Note>) {   
     return index;
   }
 
-  addNote(collection: Collection) {
-    this.noteService.createNote().pipe(
-      tap(console.log),
-      switchMap(note => this.collectionNoteService.collectNote(note, collection))      
-    ).subscribe();
-  }
-
   ngOnInit() {
   	let collectionId = this.route.snapshot.params.id;
     if (!collectionId) this.goBack();
     
-    this.collection = this.collectionService.getCollectionById(collectionId);    
+    this.collection = this.collectionService.getCollectionById(collectionId);
+
+    // in case collectionId is not true;
+    this.collection.pipe(take(1)).subscribe(rs => !rs ? this.goBack() : null );
+
     this.notes = this.collection.pipe(
       map(collection => collection.arrayNoteId),
       distinctUntilChanged(),
-      map(arrayNoteId => arrayNoteId.map(noteId => this.noteService.getNoteById(noteId))),
-      tap(console.log),
+      map(arrayNoteId => arrayNoteId.map(noteId => this.noteService.getNoteById(noteId))),      
     )    
   }
 
