@@ -10,18 +10,23 @@ import { TimeAgoPipe } from './pipe/time-ago.pipe';
 
 @NgModule({
 	declarations: [ 
-		TopNavComponent,
-		LoadingSpinerComponent,
-		TimeAgoPipe 
+		TopNavComponent,  // app.component.html
+		LoadingSpinerComponent, // app.component.html
+		TimeAgoPipe // editer.componet.html
 	],
 
 	imports: [
 		CommonModule, 
-		RouterModule,
-		MaterialModule, 
+		RouterModule,		
 		FormsModule,  
-		MaterialModule, 
+		MaterialModule, // every conponent need it
 	],
-	exports: [TopNavComponent, TimeAgoPipe, MaterialModule, LoadingSpinerComponent ]
+	exports: [
+		TopNavComponent, 
+		LoadingSpinerComponent, 
+		TimeAgoPipe, 
+		MaterialModule, 
+		FormsModule
+	]
 })
 export class SharedModule { }

@@ -16,8 +16,7 @@ export class AppComponent {
   showLoadding = true;
   @Select(ThemeState.getTheme)  theme: Observable<string>;
   
-  constructor(private store: Store) {
-    console.log("home");
+  constructor(private store: Store) {    
   }
 
 }

@@ -6,7 +6,6 @@ import { AuthService } from '@store/service/auth.service';
 
 import { User }  from '@store/model/auth.model';
 import { Note } from '@store/model/note.model';
-import { Collection } from '@store/model/collection.model';
 
 import { Observable, of, from } from 'rxjs';
 import { take, map, tap, switchMap, catchError, filter, shareReplay, skipWhile, takeWhile } from 'rxjs/operators';
@@ -24,7 +23,7 @@ export class NoteService {
    * 
   */
 
-  todayNote: Observable<any>;
+  todayNote: Observable<Note[]>;
 
   constructor(private afs: AngularFirestore, private authService: AuthService ) {
     this.todayNote = this.getTodayNote().pipe(shareReplay(1));
@@ -34,15 +33,15 @@ export class NoteService {
     return this.authService.user.pipe(take(1))
   }
 
-  private getTodayNote() {    
-    let today = new Date();       
-    let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());    
+  private getTodayNote(): Observable<Note[]> {
+    let today = new Date();
+    let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     // let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-    return this.getUser().pipe( 
+    return this.getUser().pipe(
       map(user => `/user/${user.uid}/note`),
       switchMap(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).orderBy("createdAt",  "desc")).snapshotChanges()),
       map(actions => this.reduceData(actions)),
-      tap(arrayNote => arrayNote.length == 0 ? this.createNote().subscribe() : "nothing") 
+      tap(arrayNote => arrayNote.length == 0 ? this.createNote().subscribe() : "nothing")
     )
   }
 
@@ -64,7 +63,7 @@ export class NoteService {
       like: 0
     };
 
-    return this.getUser().pipe(      
+    return this.getUser().pipe(
       map(user => this.afs.collection(`/user/${user.uid}/note`)),
       switchMap(path => from (path.doc(note.noteId).set(note)) ),
       map( success => note),
@@ -100,7 +99,7 @@ export class NoteService {
       map(path => this.afs.collection(path, ref => ref.where("createdAt", ">=", startTime).where("createdAt", "<=", endTime))),
       switchMap(noteCollection => noteCollection.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
-            const data = a.payload.doc.data() as Collection;
+            const data = a.payload.doc.data() as Note;
             console.log(a.payload.doc.metadata.fromCache, data)
             return data;
         })),
@@ -108,10 +107,9 @@ export class NoteService {
     )
   }
 
-  private reduceData(actions: DocumentChangeAction<{}>[]) {
+  private reduceData(actions: DocumentChangeAction<{}>[]): Note[] {
     return actions.map(a => {
-        const data = a.payload.doc.data() as Collection;
-        // console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
+        const data = a.payload.doc.data() as Note;        
         return data;
     })
   }
@@ -130,8 +128,8 @@ export class NoteService {
       })),
       switchMap(collectionNote => collectionNote.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
-            const data = a.payload.doc.data() as Collection;
-            console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
+            const data = a.payload.doc.data() as Note;
+            // console.log(a.payload.doc.metadata.fromCache, 'noteId: ' + a.payload.doc.id)
             return data;
         })),        
       )),
@@ -153,8 +151,8 @@ export class NoteService {
       })),
       switchMap(collectionNote => collectionNote.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
-            const data = a.payload.doc.data() as Collection;
-            console.log(a.payload.doc.metadata.fromCache, data)
+            const data = a.payload.doc.data() as Note;
+            // console.log(a.payload.doc.metadata.fromCache, data)
             return data;
         })),        
       )),

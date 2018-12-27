@@ -8,11 +8,8 @@
   align-items: center;
 }
 .spiner-icon {
-	animation: fadeIn 1.2s, spin 1.2s linear infinite;
-}
-
-.fadeIn {
-  animation: fadeIn 1.2s linear;
+  opacity: 0;
+	animation: fadeIn 1s linear 4s infinite, spin 1.2s linear 3s infinite;
 }
 
 @keyframes spin {
@@ -25,10 +22,10 @@
 }
 
 @keyframes fadeIn {
-  0% {    
-    opacity: 0;
+  from {    
+    opacity: 0.6;
   }
-  100% {    
+  to {
     opacity: 0.6;
   }
 }

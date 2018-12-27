@@ -1,10 +1,11 @@
 <div class="greet-bar">
-	<p class="mat-title">{{ today | date:'EEEE, MMMM d'}}</p>
+	<p class="mat-title">{{ nowTime | date:'EEEE, MMMM d'}}</p>
 	<app-add-note-btn></app-add-note-btn>
 </div>
 
-<app-editor *ngFor="let note of todayNote | async; trackBy: trackNote" [note]="note"></app-editor>	
-
+<div *ngIf="todayNote | async as todayNote">
+	<app-editor *ngFor="let note of todayNote; trackBy: trackNote" [note]="note"></app-editor>
+</div>
 
 <div class="review">
 	<button mat-raised-button routerLink="/review/yesterday" class="btn memorize">

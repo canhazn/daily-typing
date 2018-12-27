@@ -23,7 +23,7 @@ import { ThemeState } from '@store/state/theme.state';
 // import { CollectedState } from '@store/state/collected.state';
 // End -------------Store-------------------------
 
-const ngxs = [
+const ngxs = [ 
    NgxsModule.forRoot([ ThemeState ], { developmentMode: !environment.production }),
    //  NgxsReduxDevtoolsPluginModule.forRoot(),    
    // NgxsLoggerPluginModule.forRoot(),

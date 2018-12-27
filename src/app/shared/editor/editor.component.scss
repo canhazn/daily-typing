@@ -1,29 +1,35 @@
 .mat-card {
 	padding: 24px 24px 8px 24px;	 		
 	margin-bottom: 1.5em;
+	// animation: zoomIn 0.1s linear;
 }
 
 :host /deep/ .mat-form-field {	
 	width: 100%;	
+
 	.mat-form-field-wrapper {
 		padding-bottom: 0 !important;
 	}
-	textarea {		
-		padding: 0;				
-		box-sizing: border-box;
-	}
-	.mat-input-element {
-		overflow: hidden !important;
+
+	.mat-form-field-infix {
+		border-top: 0;		
 	}
 
 	.mat-form-field-underline, .mat-form-field-subscript-wrapper {
+		// remove bottom border (when focus it can change color)
 	  display: none !important;
 	  height: 0 !important;
 	}
 
-	.mat-form-field-infix {
-		border-top: 0;
-		// padding: 0;
+	/* 
+	 *sometimes it has scroll bar
+	*/
+	.mat-input-element {
+		overflow: hidden !important;
+	}
+	textarea {		
+		padding: 0;				
+		box-sizing: border-box;
 	}
 }
 
@@ -54,4 +60,33 @@
 	.mat-card {
 		padding: 16px 12px 8px 12px;	 
 	}
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translateY(-2px);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;    
+    transform: scale3d(0.93, 0.93, 0.93);
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
