@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { HomePageComponent } from './home-page/home-page.component';
-import { AddNoteBtnComponent } from '@shared/add-note-btn/add-note-btn.component';
 import { HomeRoutingModule } from './home-routing.module';
 
 import { EditorModule } from '../../shared/editor/editor.module';
@@ -22,6 +21,6 @@ import { SharedModule }      from '@shared/shared.module';
     SharedModule,    
   ],
   exports: [ ],
-  declarations: [ HomePageComponent, AddNoteBtnComponent ]
+  declarations: [ HomePageComponent ]
 })
 export class HomeModule { }

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { CollectedPageComponent } from './collected-page/collected-page.component';
 import { CollectedRoutingModule } from './collected-routing.module';
-// import { SharedModule }      from '@shared/shared.module';
+import { SharedModule }      from '@shared/shared.module';
 
 import { EditorModule } from '../../shared/editor/editor.module';
 import { CollectionModule } from '../../shared/collection/collection.module';
@@ -15,10 +15,12 @@ import { MaterialModule } from '../../shared/material';
   imports: [
     CommonModule,
     RouterModule,
+    SharedModule,
     CollectedRoutingModule,    
     MaterialModule,
     EditorModule,
-    CollectionModule
+    CollectionModule,
+    
   ],
   exports: [ CollectedPageComponent ],
   declarations: [ CollectedPageComponent ]
