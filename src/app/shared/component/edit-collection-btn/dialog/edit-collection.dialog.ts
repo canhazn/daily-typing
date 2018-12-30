@@ -25,6 +25,11 @@ export class EditCollectionDialog implements OnInit {
   }
 
   changeName(name: string) {
+    name = name.trim();
+    if (name == '') {
+      this.dialogRef.close();
+      return;
+    }
     let update : Collection = {
        collectionId: this.collection.collectionId,
        name: name, 

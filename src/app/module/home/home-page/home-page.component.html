@@ -1,4 +1,4 @@
-<div class="greet-bar">
+<div class="bar">
 	<p class="mat-title">{{ nowTime | date:'EEEE, MMMM d'}}</p>
 	<app-add-note-btn></app-add-note-btn>
 </div>
@@ -25,7 +25,8 @@
 	</button>
 </div>	
 
-<div style="margin-bottom: 1em; display: flex;">
+<div *ngIf="collections | async as collections" class="bar">
+	<span *ngIf="collections.length == 0">Let create a collection by hitting that button!</span>
 	<span style="flex: 1 auto"></span>
 	<app-create-collection-btn></app-create-collection-btn>
 </div>
