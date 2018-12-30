@@ -1,5 +1,5 @@
 <div *ngIf="yesterdayNotes | async as yesterdayNotes">
-	<app-editor *ngFor="let note of yesterdayNotes; trackBy: trackNote" [note]="note"></app-editor>
+	<app-editor *ngFor="let note of yesterdayNotes; trackBy: trackNote" [note]="note" [timeFormat]="'timeAgo'"></app-editor>
 </div>
 
 <div *ngIf="randomNote | async as randomNote">
@@ -7,5 +7,5 @@
 		<span>This is random day you liked!</span>				
 	</div>
 	
-	<app-editor [note]="randomNote"></app-editor>
+	<app-editor [note]="randomNote" [timeFormat]="'timeAgo'"></app-editor>
 </div>

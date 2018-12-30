@@ -18,5 +18,5 @@
 </div>
 
 <div *ngIf="notes | async as notes">
-	<app-editor *ngFor="let note of notes" [note]="note | async" [weekday]='false'></app-editor>
+	<app-editor *ngFor="let note of notes" [note]="note | async" [timeFormat]="'timeAgo'"></app-editor>
 </div>

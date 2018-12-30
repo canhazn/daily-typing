@@ -22,7 +22,7 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take, delay
 })
 export class EditorComponent implements OnInit {
   @Input() note : Note;
-  @Input() weekday: boolean;
+  @Input() timeFormat: "dayOfWeek" | "dayOfMonth" | "timeAgo";
 
   private _contentChanged  = new Subject<string | null>();
   private _state = new Subject<"typing" | "saved" | null>();

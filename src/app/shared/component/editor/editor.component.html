@@ -28,6 +28,7 @@
 
 
 <ng-template #elseDay>
-	<span *ngIf="!weekday" class="btn">{{ note.createdAt.toDate() | timeAgo}}</span>	
-	<span *ngIf="weekday"  class="btn">{{ note.createdAt.toDate() | date:'EEEEEE'}}</span>	
+	<span *ngIf="!timeFormat || timeFormat =='timeAgo'" class="btn">{{ note.createdAt.toDate() | timeAgo}}</span>	
+	<span *ngIf="timeFormat == 'dayOfWeek'"  class="btn">{{ note.createdAt.toDate() | date:'EEEEEE'}}</span>	
+	<span *ngIf="timeFormat == 'dayOfMonth'"  class="btn">{{ note.createdAt.toDate() | date:'dd'}}</span>	
 </ng-template>

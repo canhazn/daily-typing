@@ -5,7 +5,7 @@
 
 
 <div *ngIf="todayNote | async as todayNote">
-	<app-editor *ngFor="let note of todayNote; trackBy: trackNote" [note]="note"></app-editor>
+	<app-editor *ngFor="let note of todayNote; trackBy: trackNote" [note]="note" [timeFormat]='timeAgo'></app-editor>
 </div>
 
 <div class="review">
