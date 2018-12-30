@@ -24,7 +24,7 @@ $custom-typography: mat-typography-config(
 // @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import 'app/module/login/login-page/login-page.component.scss-theme.scss';
 @import 'app/module/home/home-page/home-page.component.scss-theme.scss';
-@import 'app/shared/editor/editor.component.scss-theme';
+@import 'app/shared/component/editor/editor.component.scss-theme';
 
 @mixin custom-components-theme($theme) {
   @include home-page-theme($theme);

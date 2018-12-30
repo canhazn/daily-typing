@@ -17,7 +17,7 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take, delay
 export class AddNoteBtnComponent implements OnInit {
   // when add-note-button in collected;
   @Input() collection : Collection;
-  
+  toolTip : string;
   private _state = new BehaviorSubject<"init" | "running" | "done" | null>('init');
   state = this._state.asObservable();
 
@@ -28,6 +28,7 @@ export class AddNoteBtnComponent implements OnInit {
   }
   
   ngOnInit() {
+    this.toolTip = this.collection ? "Add note" : "Create new note";
     this._state.pipe(      
       filter(state => state == 'running'),      
       switchMap(_ => this.noteService.createNote()),

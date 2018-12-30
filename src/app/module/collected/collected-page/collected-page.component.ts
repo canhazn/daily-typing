@@ -11,7 +11,7 @@ import { Note } from '@store/model/note.model';
 import { CollectionNoteService } from '@store/service/collection-note.service';
 
 import { Observable, Subject, of, Subscription } from 'rxjs';
-import { finalize, take, tap, filter, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { finalize, take, tap, filter, distinctUntilChanged, map, distinct, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-collected-page',
@@ -21,7 +21,7 @@ import { finalize, take, tap, filter, distinctUntilChanged, map, switchMap } fro
 export class CollectedPageComponent implements OnInit {
 
 	collection: Observable<Collection>;  
-  private _notes = new Subject<Observable<Note> | null>();
+  // private _notes = new Subject<Observable<Note> | null>();
 	notes: Observable<Observable<Note>[]>;
 
   constructor( private location: Location, 
@@ -51,8 +51,13 @@ export class CollectedPageComponent implements OnInit {
     this.collection.pipe(take(1)).subscribe(rs => !rs ? this.goBack() : null );
 
     this.notes = this.collection.pipe(
+      // first when collection deleted by edit button -> redirect
+      tap(collection => !collection ? this.goBack() : "nothing"),
+      filter(collection => !!collection),
       map(collection => collection.arrayNoteId),
+      // tap(_ => console.log("change ", _)),
       distinctUntilChanged(),
+      // tap(_ => console.log("cnahge ", _)),
       map(arrayNoteId => arrayNoteId.map(noteId => this.noteService.getNoteById(noteId))),      
     )    
   }

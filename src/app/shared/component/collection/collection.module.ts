@@ -7,7 +7,7 @@ import { CollectionComponent } from './collection.component';
 import { CreateCollectionDialog } from './dialog/create-collection/create-collection.dialog';
 import { EditCollectionDialog } from './dialog/edit-collection/edit-collection.dialog';
 
-import { SharedModule }      from '@shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [  
