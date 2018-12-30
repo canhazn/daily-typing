@@ -1,12 +1,6 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-
-// import { CollectionService } from '../collection.service';
 import { Collection } from '@store/model/collection.model';
-
-import { CreateCollectionDialog } from './dialog/create-collection/create-collection.dialog';
-import { EditCollectionDialog }   from './dialog/edit-collection/edit-collection.dialog';
 
 @Component({
   selector: 'app-collection',
@@ -17,8 +11,7 @@ export class CollectionComponent implements OnInit {
 
 	@Input() collection : Collection;
 
-  constructor(public dialog: MatDialog, private router: Router) { }
-
+  constructor(private router: Router) { }
 
   navigate($event) {
     // console.log($event.target.tagName);
@@ -28,24 +21,5 @@ export class CollectionComponent implements OnInit {
 
   ngOnInit() {
 
-  }
-
-  openEditCollectionDialog(): void {
-    const dialogRef = this.dialog.open(EditCollectionDialog, {
-      width: '90%',
-      maxWidth: '800px',      
-      data: Object.assign({}, this.collection),
-    });
-
-    // dialogRef.beforeClose().subscribe((result: Collection) => {      
-    //   if (!result || !result.name) return;
-    // });
-  }
-
-  openCreateCollectionDialog(): void {
-    const dialogRef = this.dialog.open(CreateCollectionDialog, {
-      width: '90%',
-      maxWidth: '800px',      
-    });    
   }
 }

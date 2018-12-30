@@ -3,6 +3,7 @@
 	<app-add-note-btn></app-add-note-btn>
 </div>
 
+
 <div *ngIf="todayNote | async as todayNote">
 	<app-editor *ngFor="let note of todayNote; trackBy: trackNote" [note]="note"></app-editor>
 </div>
@@ -24,7 +25,13 @@
 	</button>
 </div>	
 
+<div style="margin-bottom: 1em; display: flex;">
+	<span style="flex: 1 auto"></span>
+	<app-create-collection-btn></app-create-collection-btn>
+</div>
+
 <div class="collections">
 	<app-collection *ngFor="let collection of collections | async" [collection]="collection"></app-collection>
-	<app-collection [collection]="{}"></app-collection>		
+	<!-- <app-collection [collection]="{}"></app-collection>		 -->
 </div>
+

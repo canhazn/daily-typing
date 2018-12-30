@@ -3,9 +3,10 @@ import { SharedModule }      from '@shared/shared.module';
 
 import { EditorModule } from './editor/editor.module';
 import { CollectionModule } from './collection/collection.module';
-import { EditCollectionBtnModule } from './edit-collection-btn/edit-collection-btn.module';
-
 import { AddNoteBtnComponent } from './add-note-btn/add-note-btn.component';
+
+import { EditCollectionBtnModule } from './edit-collection-btn/edit-collection-btn.module';
+import { CreateCollectionBtnModule } from './create-collection-btn/create-collection-btn.module';
 
 @NgModule({
 	declarations: [ 				
@@ -15,11 +16,13 @@ import { AddNoteBtnComponent } from './add-note-btn/add-note-btn.component';
 		SharedModule,
 		EditorModule,
 		CollectionModule,
+		CreateCollectionBtnModule,
 		EditCollectionBtnModule,
 	],
 	exports: [
 		EditorModule,
 		CollectionModule,
+		CreateCollectionBtnModule,
 		EditCollectionBtnModule,
 		AddNoteBtnComponent
 	]

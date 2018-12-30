@@ -1,26 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { SharedModule } from '@shared/shared.module';
 
 import { CollectionComponent } from './collection.component';
-
-import { CreateCollectionDialog } from './dialog/create-collection/create-collection.dialog';
-import { EditCollectionDialog } from './dialog/edit-collection/edit-collection.dialog';
-
-import { SharedModule } from '@shared/shared.module';
+import { EditCollectionBtnModule } from '@shared/component/edit-collection-btn/edit-collection-btn.module';
 
 @NgModule({
   declarations: [  
-    CreateCollectionDialog,   
-    EditCollectionDialog, 
     CollectionComponent,    
   ],
   imports: [
-    CommonModule,    
-    SharedModule,    
-    FormsModule,
-  ],  
-  entryComponents: [ CreateCollectionDialog, EditCollectionDialog ],
+    SharedModule,
+    EditCollectionBtnModule
+  ],    
   exports: [ CollectionComponent ]
 })
 export class CollectionModule { }

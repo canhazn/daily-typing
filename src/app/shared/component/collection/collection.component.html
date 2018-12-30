@@ -1,4 +1,4 @@
-<mat-card *ngIf="collection && collection.collectionId; else newCollection" (click)="navigate($event)">
+<mat-card *ngIf="collection" (click)="navigate($event)">
     <mat-card-header>
         <div mat-card-avatar class="example-header-image">
             <span *ngIf="collection.arrayNoteId.length != 0">{{ collection.arrayNoteId.length }}</span>
@@ -8,15 +8,7 @@
     </mat-card-header>      
     <mat-card-actions>
         <span style="flex: 1 1 auto"></span>
-        <button (click)="openEditCollectionDialog()" mat-button mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
+        <app-edit-collection-btn [collection]="collection"></app-edit-collection-btn>
     </mat-card-actions>
 </mat-card>
   
-<ng-template #newCollection>  
-     <button (click)="openCreateCollectionDialog()" mat-raised-button style="margin-bottom: 32px;">
-        <span>New collection</span>         
-        <mat-icon style="margin-left: 20px;">library_add</mat-icon>
-     </button>        
-</ng-template>
