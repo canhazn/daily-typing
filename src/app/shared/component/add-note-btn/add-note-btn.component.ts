@@ -28,6 +28,8 @@ export class AddNoteBtnComponent implements OnInit {
   }
   
   ngOnInit() {
+    // this._state.next("running");
+    
     this.toolTip = this.collection ? "Add note" : "Create new note";
     this._state.pipe(      
       filter(state => state == 'running'),      

@@ -2,7 +2,11 @@
 	margin: 0 4px 16px 4px;
 	display: flex;
 	justify-content: space-between;
-	align-items: baseline;
+	.text {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 }
 
 .review {

@@ -7,9 +7,9 @@
     matTooltipPosition="left"> <mat-icon>add</mat-icon>			
   </button>
   
-  <button *ngIf="state == 'running'" mat-icon-button disabled> 
-    <mat-icon class="running">autorenew</mat-icon>			
-  </button>
+  <div *ngIf="state == 'running'" class="wrap-mat-spinner">
+    <mat-spinner color="primary" [diameter]="20" [strokeWidth]="2"></mat-spinner>
+  </div>
 
   <button *ngIf="state == 'done'" mat-icon-button disabled> 
     <mat-icon>done</mat-icon>			

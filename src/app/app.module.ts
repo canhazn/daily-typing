@@ -32,11 +32,9 @@ const ngxs = [
 
 import { AppComponent } from './app.component';
 import { TopNavComponent } from '@shared/top-nav/top-nav.component';
-import { LoadingSpinerComponent } from '@shared/loading-spinner/loading-spinner.component';
 const component = [
   AppComponent,
-  TopNavComponent,
-  LoadingSpinerComponent
+  TopNavComponent  
 ]
 import { SharedModule } from './shared/shared.module';
 
