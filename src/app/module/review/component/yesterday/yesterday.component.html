@@ -4,7 +4,7 @@
 
 <div *ngIf="randomNote | async as randomNote">
 	<div style="display: flex; justify-content: flex-end; margin-bottom: 1.6em;">
-		<span>This is random day you liked!</span>				
+		<span>This is random note you liked!</span>				
 	</div>
 	
 	<app-editor [note]="randomNote" [timeFormat]="'timeAgo'"></app-editor>

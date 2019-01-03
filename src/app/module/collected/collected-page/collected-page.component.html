@@ -6,7 +6,7 @@
 		<span>{{ collection.name }}</span>
 	</div>
 	<div class="bar">
-		<div>
+		<div class="text">
 			<span>{{ collection.createdAt.toDate() | timeAgo }}&nbsp;|&nbsp;</span>
 			<span *ngIf="collection.arrayNoteId.length > 1">{{ collection.arrayNoteId.length }} notes</span>
 			<span *ngIf="collection.arrayNoteId.length <= 1">{{ collection.arrayNoteId.length }} note</span>
@@ -15,8 +15,6 @@
 		<app-edit-collection-btn [collection]="collection" style="margin-right: 20px;"></app-edit-collection-btn>
 		<app-add-note-btn [collection]="collection"></app-add-note-btn>
 	</div>
-</div>
 
-<div *ngIf="notes | async as notes">
-	<app-editor *ngFor="let note of notes" [note]="note | async" [timeFormat]="'timeAgo'"></app-editor>
+	<app-editor *ngFor="let noteId of collection.arrayNoteId" [noteId]="noteId" [timeFormat]="'timeAgo'"></app-editor>
 </div>

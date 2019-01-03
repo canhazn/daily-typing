@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Inject, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Inject, NgZone, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import {CdkTextareaAutosize} from '@angular/cdk/text-field';
 import { firestore } from 'firebase/app';
 
 
@@ -11,7 +10,7 @@ import { Collection } from '@store/model/collection.model';
 import { NoteInforDialog }   from './dialog/note-infor/note-infor.dialog';
 import { CollectNoteDialog } from './dialog/collect-note/collect-note.dialog';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take, delay } from 'rxjs/operators';
 
 
@@ -20,14 +19,15 @@ import { debounceTime, distinctUntilChanged, switchMap, tap, filter, take, delay
   templateUrl: './editor.component.html',
   styleUrls: ['./editor.component.scss']
 })
-export class EditorComponent implements OnInit {
+export class EditorComponent implements OnInit, OnDestroy {
   @Input() note : Note;
+  @Input() noteId : string;
   @Input() timeFormat: "dayOfWeek" | "dayOfMonth" | "timeAgo";
 
   private _contentChanged  = new Subject<string | null>();
   private _state = new Subject<"typing" | "saved" | null>();
   private _like  = new Subject<null>();
-  
+  subscription : Subscription;
   state = this._state.asObservable();
 
   constructor(private noteService: NoteService, public dialog: MatDialog) {}
@@ -45,9 +45,21 @@ export class EditorComponent implements OnInit {
     this._like.next()
   }
 
+  ngOnDestroy() {
+    if (this.noteId) this.subscription.unsubscribe();
+  }
+
   ngOnInit() {   
-    this._contentChanged.pipe(
-      // distinctUntilChanged(),      
+    // if input value is nodeId
+    // What if noteId is deleted??? --> noteService not return anything (valuechange())
+    if (this.noteId) {      
+      this.subscription = this.noteService.getNoteById(this.noteId).pipe(
+        tap(note => this.note = note),      
+      ).subscribe()
+    }
+
+    // save content algorithm
+    this._contentChanged.pipe(      
       tap(_ => this._state.next("typing")),
       debounceTime(2000),
       switchMap(() => {
@@ -65,7 +77,9 @@ export class EditorComponent implements OnInit {
       debounceTime(3000),
       tap(state => state == 'saved' ? this._state.next() : null)
     ).subscribe();
+    
 
+    // save like algorithm
     this._like.pipe(      
       debounceTime(2000),
       switchMap(() => {

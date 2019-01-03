@@ -100,7 +100,7 @@ export class NoteService {
       switchMap(noteCollection => noteCollection.snapshotChanges().pipe(        
         map(actions => actions.map(a => {
             const data = a.payload.doc.data() as Note;
-            console.log(a.payload.doc.metadata.fromCache, data)
+            // console.log(a.payload.doc.metadata.fromCache, data)
             return data;
         })),
       )),      
@@ -177,10 +177,11 @@ export class NoteService {
   } 
 
   getRandomLikedNote() {
-    let like = Math.floor(Math.random() * 5) + 1;
+    let like = Math.floor(Math.random() * 5) + 1;    
+    let id = this.afs.createId();
     return this.getUser().pipe(      
       map(user => `/user/${user.uid}/note`),
-      map(path => this.afs.collection(path, ref => ref.where("like", ">=", like).limit(1))),
+      map(path => this.afs.collection(path, ref => ref.where("like", "==", like).where("noteId", ">", id).limit(1))),
       switchMap(noteCollection => noteCollection.valueChanges().pipe(map(([note]) => note))),
     )
   }
