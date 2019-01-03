@@ -31,22 +31,29 @@ const ngxs = [
 ]
 
 import { AppComponent } from './app.component';
+import { TopNavComponent } from '@shared/top-nav/top-nav.component';
+const component = [
+  AppComponent,
+  TopNavComponent  
+]
 import { SharedModule } from './shared/shared.module';
+
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { tap, pairwise, startWith } from 'rxjs/operators';
 
 @NgModule({
   declarations: [
-    AppComponent,    
+    ...component,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ...angularFirebase,
     ...ngxs,
+    BrowserAnimationsModule,
     SharedModule,    
-    BrowserAnimationsModule,    
   ],
   providers: [ ],
   bootstrap: [ AppComponent ]

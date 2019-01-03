@@ -1,0 +1,42 @@
+.mat-dialog-content {	
+	box-sizing: border-box;	
+	margin: 0;	
+	overflow: hidden;
+	/deep/ .mat-form-field {	
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0 16px;	
+
+		.mat-input-element {
+			overflow: hidden !important;
+		}	
+		.mat-form-field-wrapper {
+		  padding: 0;
+		
+		}
+
+		// this is hidden float label - placeholder
+		// .mat-form-field-infix {
+		//   border-top: 0;
+		// }
+		
+		.mat-form-field-underline {
+		  bottom: 0 !important;
+		}
+	}
+}
+
+.mat-dialog-actions {
+	padding: 8px 16px;
+}
+
+@media (max-width: 600px) {
+	.mat-dialog-content {
+		padding: 0;		
+	}
+
+	.mat-dialog-actions {
+		padding: 8px 0px;
+	}
+
+}

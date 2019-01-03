@@ -46,7 +46,7 @@ export class NoteService {
   }
 
   getNoteById(noteId: string): Observable<Note> {
-    return this.getUser().pipe(      
+    return this.getUser().pipe(
       map(user => `/user/${user.uid}/note/${noteId}`),
       map(path => this.afs.doc<Note>(path)),
       switchMap(note => note.valueChanges()),

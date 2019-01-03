@@ -1,21 +1,22 @@
 <div *ngIf="collection | async as collection">
 	<div class="bar">
-		<button mat-raised-button (click)="goBack()" class="btn">	
+		<button mat-raised-button (click)="goBack()" class="btn">
 			<mat-icon>navigate_before</mat-icon>
 		</button>
-		<span>{{ collection.name }}</span>	
-	</div>	
-	<!-- <div class="bar">
+		<span>{{ collection.name }}</span>
+	</div>
+	<div class="bar">
+		<div>
+			<span>{{ collection.createdAt.toDate() | timeAgo }}&nbsp;|&nbsp;</span>
+			<span *ngIf="collection.arrayNoteId.length > 1">{{ collection.arrayNoteId.length }} notes</span>
+			<span *ngIf="collection.arrayNoteId.length <= 1">{{ collection.arrayNoteId.length }} note</span>
+		</div>
 		<span style="display: flex; flex: auto"></span>
-		<button mat-raised-button mat-icon-button>	
-			<mat-icon>call_merge</mat-icon>		
-		</button>
-		<button mat-raised-button mat-icon-button matTooltip="Add a note" matTooltipPosition="left" (click)="addNote(collection)">	
-			<mat-icon>add</mat-icon>
-		</button>
-	</div> -->
+		<app-edit-collection-btn [collection]="collection" style="margin-right: 20px;"></app-edit-collection-btn>
+		<app-add-note-btn [collection]="collection"></app-add-note-btn>
+	</div>
 </div>
 
 <div *ngIf="notes | async as notes">
-	<app-editor *ngFor="let note of notes" [note]="note | async" [weekday]='false'></app-editor>
+	<app-editor *ngFor="let note of notes" [note]="note | async" [timeFormat]="'timeAgo'"></app-editor>
 </div>

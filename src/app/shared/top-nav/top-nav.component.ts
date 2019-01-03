@@ -1,11 +1,7 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
-
-import { Store, Select }        from '@ngxs/store';
-
+import { Component, OnInit } from '@angular/core';
+import { Store }        from '@ngxs/store';
 import { ChangedTheme } from '@store/state/theme.state';
-
 import { AuthService } from '@store/service/auth.service';
-
 import { Observable }   from 'rxjs';
 @Component({
   selector: 'app-top-nav',

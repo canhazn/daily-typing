@@ -33,6 +33,12 @@
   margin-bottom: 0;
   position: absolute;
   left: 0;bottom: 0;
+  .content {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    padding: 16px 8px;
+  }
 }
 
 

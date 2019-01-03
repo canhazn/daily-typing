@@ -1,32 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
-import { MaterialModule } from './material';
-import { TopNavComponent } from './top-nav/top-nav.component';
-import { LoadingSpinerComponent } from './loading-spinner/loading-spinner.component';
-import { TimeAgoPipe } from './pipe/time-ago.pipe';
+import { MaterialModule } from '@shared/material';
+import { TimeAgoPipe } from '../shared/pipe/time-ago.pipe';
 
 @NgModule({
-	declarations: [ 
-		TopNavComponent,  // app.component.html
-		LoadingSpinerComponent, // app.component.html
-		TimeAgoPipe // editer.componet.html
+	declarations: [ 		
+		TimeAgoPipe, // editer.componet.html, collected.componet.html		
 	],
-
 	imports: [
-		CommonModule, 
-		RouterModule,		
-		FormsModule,  
-		MaterialModule, // every conponent need it
+		CommonModule, 		
+		FormsModule,
+		MaterialModule,		
 	],
 	exports: [
-		TopNavComponent, 
-		LoadingSpinerComponent, 
-		TimeAgoPipe, 
-		MaterialModule, 
-		FormsModule
+		CommonModule, 		
+		FormsModule,
+		MaterialModule,		
+		TimeAgoPipe,		
 	]
 })
 export class SharedModule { }

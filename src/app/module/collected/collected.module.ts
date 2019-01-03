@@ -1,26 +1,27 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+
+import { RouterModule, Routes } from '@angular/router';
 
 import { CollectedPageComponent } from './collected-page/collected-page.component';
-import { CollectedRoutingModule } from './collected-routing.module';
-// import { SharedModule }      from '@shared/shared.module';
+import { SharedModule }      from '@shared/shared.module';
+import { SharedComponent }      from '@shared/component/shared.component';
 
-import { EditorModule } from '../../shared/editor/editor.module';
-import { CollectionModule } from '../../shared/collection/collection.module';
+const routes: Routes = [
+  { path: '', component: CollectedPageComponent, pathMatch: 'full'},
+  { path: ':id', component: CollectedPageComponent },  
+];
 
-import { MaterialModule } from '../../shared/material';
 
 @NgModule({
+  declarations: [ 
+    CollectedPageComponent, 
+    
+  ],
   imports: [
-    CommonModule,
-    RouterModule,
-    CollectedRoutingModule,    
-    MaterialModule,
-    EditorModule,
-    CollectionModule
+    SharedModule,
+    SharedComponent,
+    RouterModule.forChild(routes)
   ],
   exports: [ CollectedPageComponent ],
-  declarations: [ CollectedPageComponent ]
 })
 export class CollectedModule { }

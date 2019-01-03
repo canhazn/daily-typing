@@ -48,9 +48,11 @@ export class CollectionService {
       map(user => `/user/${user.uid}/collection/${collectionId}`),
       switchMap(path => this.afs.doc<Collection>(path).snapshotChanges()),
       map(a => {        
+        // in case collectionId is not true
+        if(!a.payload.exists) return null;        
         const data = a.payload.data() as Collection;        
         return data;
-      })
+      }),      
     )
   }   
 

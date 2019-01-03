@@ -1,10 +1,13 @@
-<div class="greet-bar">
-	<p class="mat-title">{{ nowTime | date:'EEEE, MMMM d'}}</p>
+<div class="bar">
+	<div class="text">
+		<span>{{ nowTime | date:'EEEE, MMMM d'}}</span>
+	</div>
 	<app-add-note-btn></app-add-note-btn>
 </div>
 
+
 <div *ngIf="todayNote | async as todayNote">
-	<app-editor *ngFor="let note of todayNote; trackBy: trackNote" [note]="note"></app-editor>
+	<app-editor *ngFor="let note of todayNote; trackBy: trackNote" [note]="note" [timeFormat]='timeAgo'></app-editor>
 </div>
 
 <div class="review">
@@ -24,7 +27,14 @@
 	</button>
 </div>	
 
+<div *ngIf="collections | async as collections" class="bar">
+	<span *ngIf="collections.length == 0">Let create a collection by hitting that button!</span>
+	<span style="flex: 1 auto"></span>
+	<app-create-collection-btn></app-create-collection-btn>
+</div>
+
 <div class="collections">
 	<app-collection *ngFor="let collection of collections | async" [collection]="collection"></app-collection>
-	<app-collection [collection]="{}"></app-collection>		
+	<!-- <app-collection [collection]="{}"></app-collection>		 -->
 </div>
+

@@ -1,27 +1,23 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
 import { HomePageComponent } from './home-page/home-page.component';
-import { AddNoteBtnComponent } from '@shared/add-note-btn/add-note-btn.component';
-import { HomeRoutingModule } from './home-routing.module';
+import { RouterModule, Routes } from '@angular/router';
 
-import { EditorModule } from '../../shared/editor/editor.module';
-import { CollectionModule } from '../../shared/collection/collection.module';
+import { SharedComponent } from '@shared/component/shared.component';
 import { SharedModule }      from '@shared/shared.module';
 
+const routes: Routes = [
+  { path: '', component: HomePageComponent },  
+];
+
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    HomeRoutingModule,
-
-    EditorModule,
-    CollectionModule,
-
-    SharedModule,    
+  declarations: [ 
+    HomePageComponent 
   ],
-  exports: [ ],
-  declarations: [ HomePageComponent, AddNoteBtnComponent ]
+  imports: [
+    RouterModule.forChild(routes),    
+    SharedModule,    
+    SharedComponent
+  ],
+  exports: [ ]
 })
 export class HomeModule { }

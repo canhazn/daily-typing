@@ -13,11 +13,11 @@
   
   // all of these variables contain many additional variables
 
-  // .like {
-  //   color: mat-color($foreground, text);    
-  // }
-  // .liked {
-  //   color: mat-color($primary);
-  //   opacity: 1 !important;   
-  // }
+  .like {
+    color: mat-color($foreground, text);    
+  }
+  .liked {
+    color: mat-color($primary);
+    opacity: 1 !important;   
+  }
 }

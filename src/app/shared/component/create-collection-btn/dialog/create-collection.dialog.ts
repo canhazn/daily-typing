@@ -23,8 +23,10 @@ export class CreateCollectionDialog implements OnInit {
 
   createCollection(name: string) {    
     name = name.trim();
-    if (name == '') return;
-
+    if (name == '') {
+      this.dialogRef.close();
+      return;
+    }
     this.collectionService.createCollection(name).subscribe();
     this.dialogRef.close();
   }

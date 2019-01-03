@@ -1,0 +1,14 @@
+<mat-card *ngIf="collection" (click)="navigate($event)">
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image">
+            <span *ngIf="collection.arrayNoteId.length != 0">{{ collection.arrayNoteId.length }}</span>
+        </div>
+        <mat-card-title>{{ collection.name }}</mat-card-title>
+        <mat-card-subtitle>{{ collection.createdAt.toDate() | date:'shortDate' }}</mat-card-subtitle>
+    </mat-card-header>      
+    <mat-card-actions>
+        <span style="flex: 1 1 auto"></span>
+        <app-edit-collection-btn [collection]="collection"></app-edit-collection-btn>
+    </mat-card-actions>
+</mat-card>
+  

@@ -5,15 +5,15 @@
 		<textarea [(ngModel)]="note.content" (ngModelChange)="typing()" matInput cdkTextareaAutosize cdkAutosizeMinRows="2"></textarea>
 	</mat-form-field>
 
-	<div class="bar">
-		<button mat-icon-button *ngIf="state | async as state; else elseDay" class="btn">				
-			<mat-icon *ngIf="state == 'typing'" class="typing">autorenew</mat-icon>
+	<div class="bar">		
+		<button mat-icon-button *ngIf="state | async as state; else elseDay" class="btn">							
+			<mat-spinner *ngIf="state == 'typing'" color="primary" [diameter]="20" [strokeWidth]="2"></mat-spinner>			
 			<mat-icon *ngIf="state == 'saved'">cloud_done</mat-icon>			
 		</button>
 
 		<div [ngClass]="{'liked': note.like >= 1}" class="like btn">
 			<button mat-icon-button class="like-btn" (click)="like();">
-			        <mat-icon>favorite</mat-icon>
+			    <mat-icon>favorite</mat-icon>
 			</button>
 			<span *ngIf="note.like >= 1">{{ note.like }}</span>			        
 		</div>
@@ -23,11 +23,8 @@
 	
 </mat-card>
 
-
-
-
-
 <ng-template #elseDay>
-	<span *ngIf="!weekday" class="btn">{{ note.createdAt.toDate() | timeAgo}}</span>	
-	<span *ngIf="weekday"  class="btn">{{ note.createdAt.toDate() | date:'EEEEEE'}}</span>	
+	<span *ngIf="!timeFormat || timeFormat =='timeAgo'" class="btn">{{ note.createdAt.toDate() | timeAgo}}</span>	
+	<span *ngIf="timeFormat == 'dayOfWeek'"  class="btn">{{ note.createdAt.toDate() | date:'EEEEEE'}}</span>	
+	<span *ngIf="timeFormat == 'dayOfMonth'"  class="btn">{{ note.createdAt.toDate() | date:'d'}}</span>	
 </ng-template>
