@@ -3,9 +3,25 @@
 </div>
 
 <div *ngIf="randomNote | async as randomNote">
-	<div style="display: flex; justify-content: flex-end; margin-bottom: 1.6em;">
-		<span>This is random note you liked!</span>				
+	<div class="bar">
+		<div *ngIf="(state | async) as state">
+			<button *ngIf="state == 'init'" mat-icon-button (click)="getRandomLikedNote()" matTooltip="Try to get another!"
+			 matTooltipPosition="left">
+				<mat-icon>refresh</mat-icon>
+			</button>
+
+			<div *ngIf="state == 'running'" class="wrap-mat-spinner">
+				<mat-spinner color="primary" [diameter]="20" [strokeWidth]="2"></mat-spinner>
+			</div>
+
+			<button *ngIf="state == 'done'" mat-icon-button disabled>
+				<mat-icon>done</mat-icon>
+			</button>
+
+		</div>
+
+		<span>This is random note you liked!</span>
 	</div>
-	
+
 	<app-editor [note]="randomNote" [timeFormat]="'timeAgo'"></app-editor>
 </div>
