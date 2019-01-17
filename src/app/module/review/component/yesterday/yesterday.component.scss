@@ -1,12 +1,12 @@
 .bar {
 	margin: 0 4px 16px 4px;	
 	display: flex;
-	justify-content: space-between;   
-	// align-items: baseline;
-    // .btn {
-    // 	border-radius: 20px;
-	// 	overflow: hidden;
-    // }
+	justify-content: space-between;   	
+    .text {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 }
 
 .wrap-mat-spinner {
