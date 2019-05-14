@@ -1,8 +1,5 @@
 import { Component } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Store } from '@ngxs/store';
-import { ThemeState } from '@store/state/theme.state';
-
+import { ThemeService } from '@store/service/theme.service';
 import { Observable } from 'rxjs';
 
 
@@ -14,9 +11,11 @@ import { Observable } from 'rxjs';
 export class AppComponent {
   
   showLoadding = true;
-  @Select(ThemeState.getTheme)  theme: Observable<string>;
+  theme: Observable<string> = this.themeService.theme;
   
-  constructor(private store: Store) {    
+  constructor(private themeService: ThemeService) {    
   }
+
+
 
 }

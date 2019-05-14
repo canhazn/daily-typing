@@ -74,7 +74,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     ).subscribe()
 
     this._state.pipe(      
-      debounceTime(3000),
+      debounceTime(1000),
       tap(state => state == 'saved' ? this._state.next() : null)
     ).subscribe();
     

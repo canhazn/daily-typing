@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Store }        from '@ngxs/store';
-import { ChangedTheme } from '@store/state/theme.state';
+import { ThemeService } from '@store/service/theme.service';
 import { AuthService } from '@store/service/auth.service';
 import { Observable }   from 'rxjs';
 @Component({
@@ -13,10 +12,10 @@ export class TopNavComponent implements OnInit {
   // @Output() changedTheme = new EventEmitter<string>();
   user : Observable<any>;
   
-  constructor(private store: Store, private authService: AuthService) {}
+  constructor( private themeService: ThemeService, private authService: AuthService) {}
 
-  changeTheme(): void {
-  	this.store.dispatch( new ChangedTheme());
+  changeTheme(): void {    
+    this.themeService.switchTheme();
     // this.changedTheme.emit();    
   }
 

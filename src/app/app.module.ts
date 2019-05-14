@@ -8,39 +8,24 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 
 const angularFirebase = [
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule.enablePersistence(),
-    AngularFireAuthModule,    
-    AngularFirestoreModule,
+  AngularFireModule.initializeApp(environment.firebase),
+  AngularFirestoreModule.enablePersistence(),
+  AngularFireAuthModule,
+  AngularFirestoreModule,
 ]
 
-// Start -------------Store-------------------------
-import { NgxsModule, Store } from '@ngxs/store';
-// import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-// import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-
-import { ThemeState } from '@store/state/theme.state';
-// import { CollectedState } from '@store/state/collected.state';
-// End -------------Store-------------------------
-
-const ngxs = [ 
-   NgxsModule.forRoot([ ThemeState ], { developmentMode: !environment.production }),
-   //  NgxsReduxDevtoolsPluginModule.forRoot(),    
-   // NgxsLoggerPluginModule.forRoot(),
-   // NgxsRouterPluginModule.forRoot()
-]
 
 import { AppComponent } from './app.component';
 import { TopNavComponent } from '@shared/top-nav/top-nav.component';
 const component = [
   AppComponent,
-  TopNavComponent  
+  TopNavComponent
 ]
 import { SharedModule } from './shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ThemeService } from '@store/service/theme.service';
 import { tap, pairwise, startWith } from 'rxjs/operators';
 
 @NgModule({
@@ -51,21 +36,20 @@ import { tap, pairwise, startWith } from 'rxjs/operators';
     BrowserModule,
     AppRoutingModule,
     ...angularFirebase,
-    ...ngxs,
     BrowserAnimationsModule,
-    SharedModule,    
+    SharedModule,
   ],
-  providers: [ ],
-  bootstrap: [ AppComponent ]
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule { 
-  constructor(overlayContainer: OverlayContainer, private store: Store) {
+export class AppModule {
+  constructor(overlayContainer: OverlayContainer, private themeService: ThemeService) {
 
-    store.select(ThemeState.getTheme).pipe(
+    themeService.theme.pipe(
       startWith(null),
       pairwise(),
-      tap(([pre, curr]) => {
-        if (!pre) 
+      tap(([pre, curr]) => { 
+        if (!pre)
           overlayContainer.getContainerElement().classList.add(curr)
         else
           overlayContainer.getContainerElement().classList.replace(pre, curr)
